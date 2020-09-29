@@ -107,9 +107,9 @@ get_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = F,bg_g
   
   
   # 统计检验
-  test_pavlue <- function(genes,bg_genelist,PFP_score,num_loop,PFPRefnet,coeff1,coeff2,get_graph_score){
-    genes <- intersect(genes,bg_genelist)
-    genes_list <- replicate(num_loop, sample(x = bg_genelist,size = length(genes),replace = F))
+  test_pavlue <- function(num_genes,bg_genelist,PFP_score,num_loop,PFPRefnet,coeff1,coeff2,get_graph_score){
+ 
+    genes_list <- replicate(num_loop, sample(x = bg_genelist,size = num_genes,replace = F))
     genes_list <- split(genes_list,col(genes_list))
     
     test_once <- function(genes,PFPRefnet,coeff1,coeff2){
@@ -159,8 +159,8 @@ get_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = F,bg_g
       num_genes <- length(genes)
       }
     }
-    genes <- intersect(genes,bg_genelist)
-    random_tests <- test_pavlue(genes,bg_genelist,PFP_score,num_loop,PFPRefnet,coeff1,coeff2,get_graph_score)
+    
+    random_tests <- test_pavlue(num_genes,bg_genelist,PFP_score,num_loop,PFPRefnet,coeff1,coeff2,get_graph_score)
     random_score <- random_tests[["random_score"]]
     p_value <- random_tests[["p_value"]]
   }else{
