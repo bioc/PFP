@@ -51,7 +51,7 @@
 #' \code{\link{group-methods}}, \code{\link{subnet-methods}}
 #'
 setOldClass('igraph')
-setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
+setClass("PFPRefnet", slot = list(network = "list", net_info = "data.frame"),
          prototype = list(network = NULL, net_info = NULL),
          validity = .check.PFPRefnet)
 
@@ -68,16 +68,30 @@ setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a igraph list of all basic networks
 
-setGeneric("net",
-           function(object){standardGeneric("net")})
-#' @rdname net-methods
-#' @aliases net net-methods
-setMethod("net",signature="PFPRefnet",
+setGeneric("network",
+           function(object){standardGeneric("network")})
+#' @rdname network-methods
+#' @aliases network network-methods
+setMethod("network",signature="PFPRefnet",
           function(object){
-            net <- object@network
-            return(net)
+            network <- object@network
           }
 )
+
+
+setGeneric("net_info",
+           function(object){standardGeneric("net_info")})
+#' @rdname net_info-methods
+#' @aliases net_info net_info-methods
+setMethod("net_info",signature="PFPRefnet",
+          function(object){
+            net_info <- object@net_info
+          }
+)
+
+
+
+
 
 #' group information of \emph{PFPRefnet}
 #'
@@ -119,11 +133,11 @@ setMethod("group",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a data.frame
 
-setGeneric("refnet_name",
-           function(object){standardGeneric("refnet_name")})
+setGeneric("refnet_names",
+           function(object){standardGeneric("refnet_names")})
 #' @rdname refnet_name-methods
 #' @aliases refnet_name refnet_name-methods
-setMethod("refnet_name",signature="PFPRefnet",
+setMethod("refnet_names",signature="PFPRefnet",
           function(object){
             object@net_info[c("id","name","group")]
           }
@@ -156,11 +170,12 @@ setMethod("refnet_name",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 
 setGeneric("subnet",
-           function(object, group_name, index_type = c("pathway_id","pathway_name"),index = NULL){standardGeneric("subnet")})
+           function(object, group_name = NULL, index = NULL, index_type = c("slice","pathway_id","pathway_name")){standardGeneric("subnet")})
 #' @rdname subnet-methods
 #' @aliases subnet subnet-methods
 setMethod("subnet",signature="PFPRefnet",
-          function(object, group_name, index = NULL, index_type = c("slice","pathway_id","pathway_name")){
+          function(object, group_name = NULL, index = NULL, index_type = c("slice","pathway_id","pathway_name")){
+            index_type <- match.arg(index_type, c("slice","pathway_id","pathway_name"))
             if (is.null(group_name)){
               group_name <- group(object)$name
             }
@@ -170,7 +185,7 @@ setMethod("subnet",signature="PFPRefnet",
             group_select_info <- lapply(X = group_name,function(x)net_info[x==group_vec,])
             
             all_group_names <- unique(group_vec)
-            tf <- match(group_name,all_group_names,nomatch = 0) == 0
+            tf <- match(group_name,all_group_names,nomatch = 0) != 0
             if (sum(tf) < length(group_name)){
               stop("Please input right group name(s)! You should choose one or more in the following names.","\n",
                    paste0("\"",all_group_names,collapse = "\","),"\"")
@@ -186,7 +201,7 @@ setMethod("subnet",signature="PFPRefnet",
                 if(!is.list(index))
                   stop('When the index_type is slice, index must be a list with the same length with group_name')
                 max_slice <- vapply(index,max,0)
-                max_group_select <- group(object)$size[,group_name]
+                max_group_select <- group(object)$size[group_name]
                 group_if <- max_slice > max_group_select
                 if (sum(group_if) > 0){
                   stop("You input oversize slice!\n",
@@ -196,18 +211,27 @@ setMethod("subnet",signature="PFPRefnet",
                 }
                 net_select <- lapply(seq_len(length(group_name)),function(i)group_select_info[[i]][index[[i]],])
                 net_select <- do.call('rbind',net_select)
-              }else if(index_type == "pathway_id"|index_type == "pathway_name"){
+              }else{
                 group_select_info <- do.call("rbind",group_select_info)
-                ids_vec <- unlist(index)
                 if (index_type == "pathway_id"){
                   match_tf <- match(unlist(index),group_select_info$id,nomatch = 0)
+                  if (length(match_tf[match_tf==0])>0){
+                    print("The following pathways can't be found!")
+                    print(setdiff(unlist(index),unlist(group_select_info[match_tf[match_tf!=0],"id"])))
+                  }
                 }else if (index_type == "pathway_name"){
                   match_tf <- match(unlist(index),group_select_info$name,nomatch = 0)
+                  if (length(match_tf[match_tf==0])>0){
+                    print("The following pathways can't be found!")
+                    print(setdiff(unlist(index),unlist(group_select_info[match_tf[match_tf!=0],"name"])))
+                  }
+                }
+                if (length(match_tf[match_tf==0])>0){
+                  print("The following pathways can't be found!")
+                  print(group_select_info[match_tf[match_tf==0],])
                 }
                 match_tf <-match_tf[match_tf!=0]
                 net_select <- group_select_info[match_tf,]
-              }else{
-                stop("index_type must be one of the (\"slice\",\"pathway_id\",\"pathway_name\")")
               }
             }
             return(new(Class = "PFPRefnet",network=object@network[as.vector(net_select$id)],net_info=net_select))
@@ -234,4 +258,15 @@ setMethod("show", "PFPRefnet",
           }
 )
 
-save(list = c("net_info","graph_list"),file = "~/文档/PFP/RData/PFPRefnet_data.RData")
+# load(file = "~/文档/PFP/RData/mmu_PFPRefnet.RData")
+# PFPRefnet <- new(Class = "PFPRefnet",network = network(mmu_PFPRefnet),net_info = net_info(mmu_PFPRefnet))
+# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)])
+# 
+# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)],index = list(1:5,1:5))
+# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)],index = list(c("mmu01230","mmu01521"),c("mmu04152")),index_type = "pathway_id")
+# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)],index = list(c("RNA polymerase","Spliceosome"),c("Lysosome","Basal transcription factors")),index_type = "pathway_name")
+# net_list0 <- network(PFPRefnet)
+# gg <- group(PFPRefnet)
+# refnet_names(PFPRefnet)
+# show(PFPRefnet)
+
