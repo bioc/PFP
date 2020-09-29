@@ -1,9 +1,8 @@
 library(KEGGgraph) # trans_xml2graph
-library(graphite) # get pathway
+# library(graphite) # get pathway
 library(igraph)
-library(xlsx)
-library(BioNet) # get edgelist
-
+# library(xlsx)
+# library(BioNet) # get edgelist
 
 
 # download kgml files from https://www.kegg.jp/kegg/xml/
@@ -14,7 +13,7 @@ library(BioNet) # get edgelist
 
  
 # download kegg kgml files
-kegg_download <- function(spec,file_root){
+kegg_download <- function(spec,file_root="."){
   # create the file dir for downloading
   if (!dir.exists(paste0(file_root,"/kgml"))){
     dir.create(paste0(file_root,"/kgml"))
@@ -35,10 +34,13 @@ kegg_download <- function(spec,file_root){
   # repeat several times for complete download
   download_repeat <- function(name,download_dir){
     loaded_files <- list.files(download_dir)
-    name_undownload <- name[!sapply(X = name,FUN = function(x)(paste0(x,".xml") %in% loaded_files))]
-    error_files <- sapply(name_undownload,function(x)("try-error" %in% class(download.file(url = paste0("http://rest.kegg.jp/get/",x,"/kgml"),
+    name_undownload <- name[!vapply(X = name,FUN = function(x)(paste0(x,".xml") %in% loaded_files),TRUE)]
+    error_files <- vapply(name_undownload,
+                          function(x)("try-error" %in% class(download.file(url = paste0("http://rest.kegg.jp/get/",x,"/kgml"),
                                                                                            destfile = paste0(download_dir,"/",x,".xml"),
-                                                                                           quiet=TRUE))))
+                                                                                           quiet=TRUE))),
+                          TRUE)
+    
     if (length(name_undownload)!=0){
       name_undownload <- name_undownload[error_files]
     }
@@ -46,7 +48,7 @@ kegg_download <- function(spec,file_root){
   }
   
   print(paste0("Downloading ",spec," KEGG pathays..."))
-  print("This may take you ten minutes, depending on your internet speed.")
+  print("This may take you ten minutes, depending on your network.")
   error_file <- download_repeat(name,download_dir)
   # try 5 times for completely downloading
   repeat_num = 5
@@ -64,53 +66,61 @@ kegg_download <- function(spec,file_root){
 
 
 # translate kgml files to graphNEl
-trans_xml2graph <- function(xml_list,file_dir,save_dir="."){
+trans_xml2graph <- function(file_dir){
+  if (substr(file_dir,nchar(file_dir),nchar(file_dir)) == "/"){
+    file_dir <- substr(file_dir,1,(nchar(file_dir)-1))
+  }
+  xml_list <- list.files(file_dir)
+  xml_select <- unlist(data.frame(strsplit(x=xml_list,split = "\\."))[2,]) == "xml"
+  xml_list <- xml_list[xml_select]
+  if (length(xml_list)==0){
+    stop("Please input a file dir which contains at least one kgml file!")
+  }
   graph_list <- sapply(X = xml_list, FUN = function(file_name) try(parseKGML2Graph(paste0(file_dir,"/",file_name))))
   # remove pathways which failed to be translated
-  right_trans <- sapply(graph_list,function(x)is(x,"graphNEL"))
+  right_trans <- vapply(graph_list,function(x)is(x,"graphNEL"),TRUE)
   wrong_trans_file <- names(graph_list)[!right_trans]
   if (length(wrong_trans_file)!=0){
-    print("These files failed to translate!")
+    print("These files failed to translate! You can manually redownload them in KEGG website.")
     print(wrong_trans_file)
   }
   graph_list <- graph_list[right_trans]
   # remove pathways which have no elements in nodes or edges
-  zero_id <- sapply(X = graph_list,FUN = function(x)(length(nodes(x))==0 | length(edgeData(x))==0))
+  zero_id <- vapply(X = graph_list,FUN = function(x)(length(nodes(x))==0 | length(edgeData(x))==0),TRUE)
   graph_list <- graph_list[!zero_id]
   names(graph_list) <- t(data.frame(strsplit(x = names(graph_list),split = "\\.")))[,1]
+  spec <- substr(names(graph_list)[1],1,3)
   # remove the specices label in ENTREZID  gene id
   fun_trans <- function(id,graph_list){
     graph0 <- graph_list[[id]]
-    nodes(graph0) <- as.vector(sapply(nodes(graph0), function(x)gsub(pattern = paste0(spec,":"),replacement = "",x = x)))
-    return(graph0)
+    nodes(graph0) <- as.vector(vapply(nodes(graph0), function(x)gsub(pattern = paste0(spec,":"),replacement = "",x = x),character(1)))
+    graph1 <- new(Class = "graphNEL",nodes=nodes(graph0),edgeL=edgeL(graph0),edgemode='directed')
   }
   graph_list <- sapply(names(graph_list), FUN = fun_trans,graph_list)
-  save(list = c("graph_list"),file = paste0(save_dir,"/graph_list.RData"))
+  save(list = c("graph_list"),file = paste0(file_dir,"/graph_list.RData"))
   graph_list
 }
 
 
-# get kegg pathways' edges and nodes information
-get_kegg_info <- function(graph_list, save_dir=NULL){
-  kle <- lapply(graph_list, getEdgeList)
-  kleu <- lapply(kle,function(x)x[c("from","to")])
-  kegg_edges <- lapply(kleu, function(x)x[!duplicated(x),])
-  # kegg_edges <- do.call('rbind',kegg_edges)
-  kegg_nodes <- sapply(graph_list,function(x)nodes(x))
-  if (!is.null(save_dir)){
-    if (substr(save_dir,nchar(save_dir),nchar(save_dir)) == "/"){
-      save_dir0 <- substr(save_dir,1,(nchar(save_dir)-1))
-    }else{
-      save_dir0 <- save_dir
-    }
-    save(list = c("kegg_edges","kegg_nodes"),file = paste0(save_dir0,"/kegg_info.RData"))
-  }
-  kegg_info <- list(kegg_edges,kegg_nodes)
-}
-
-
 # translate graph_list to PFPRefnet class
-load_PFPRefnet  <- function(graph_list,dict){
-  PFPRefnet
+trans_graph2PFPRefnet  <- function(graph_list,pathway_info){
+  spec <- substr(names(graph_list)[1],1,3)
+  name_len <- nchar(names(graph_list)[1])
+  id_graphlist <- data.frame(id = substr(names(graph_list),4,name_len))
+  pathway_info <- merge(id_graphlist,pathway_info,by="id",all.x=T)
+  pathway_info[["id"]] <- paste0(rep(spec,nrow(pathway_info)),pathway_info$id)
+  pathway_info[["species"]] <- rep(spec,nrow(pathway_info))
+  pathway_info <- pathway_info[order(pathway_info$index,decreasing = FALSE),c("index","id","name","group","species")]
+  graph_list <- graph_list[pathway_info$id]
+  PFPRefnet <- new(Class = "PFPRefnet",network = graph_list, net_info = pathway_info)
 }
-  
+
+
+# test
+spec <- "mmu"
+kegg_download(spec,file_root="/home/zx/文档/test")
+file_dir <- "/home/zx/文档/test/kgml/mmu"
+graph_list <- trans_xml2graph(file_dir)
+load("/home/zx/文档/PFP/RData/pathway_info.RData")
+PFPRefnet <- trans_graph2PFPRefnet(graph_list,pathway_info)
+save(list = c("PFPRefnet"),file = "/home/zx/文档/PFP/RData/PFPRefnet.RData")
