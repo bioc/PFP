@@ -72,11 +72,11 @@ setMethod("pathways_score",signature="PFP",
 )
 
 
-setGeneric("net_info",
-           function(object){standardGeneric("net_info")})
-#' @rdname net_info-methods
-#' @aliases net_info net_info-methods
-setMethod("net_info",signature="PFP",
+setGeneric("refnet_info",
+           function(object){standardGeneric("refnet_info")})
+#' @rdname refnet_info-methods
+#' @aliases refnet_info refnet_info-methods
+setMethod("refnet_info",signature="PFP",
           function(object){
             object@net_info
           }
@@ -143,6 +143,17 @@ setMethod("genes_score",signature="PFP",
               }
             }
             return(object@pathways_score[["genes_score"]][net_select$id])
+          }
+)
+
+
+setGeneric("refnet_names",
+           function(object){standardGeneric("refnet_names")})
+#' @rdname refnet_name-methods
+#' @aliases refnet_name refnet_name-methods
+setMethod("refnet_names",signature="PFP",
+          function(object){
+            object@net_info[c("id","name","group")]
           }
 )
 
@@ -237,6 +248,11 @@ setMethod("sub_PFP",signature="PFP",
 )
 
 
+
+setGeneric("show_PFP",
+           function(object){standardGeneric("show_PFP")})
+#' @rdname show_PFP-methods
+#' @aliases show_PFP show_PFP-methods
 #' The show generic function
 #'
 #' Show a shor summary for PFP object, see \code{\link[methods]{show}}.
@@ -246,7 +262,7 @@ setMethod("sub_PFP",signature="PFP",
 #'@docType methods
 #'@rdname show-methods
 #'@aliases show show-methods
-setMethod("show", "PFP",
+setMethod("show_PFP", "PFP",
           function(object){
             group_name <- unique(object@net_info$group)
             group_size <- vapply(group_name,function(x)sum(x==object@net_info$group),0)
@@ -350,16 +366,6 @@ setMethod("rank_PFP",signature="PFP",
 
 
 
-
-setGeneric("refnet_names",
-           function(object){standardGeneric("refnet_names")})
-#' @rdname refnet_name-methods
-#' @aliases refnet_name refnet_name-methods
-setMethod("refnet_names",signature="PFP",
-          function(object){
-            object@net_info[c("id","name","group")]
-          }
-)
 
 
 # library("ggplot2")

@@ -133,11 +133,11 @@ setMethod("group",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a data.frame
 
-setGeneric("refnet_names",
-           function(object){standardGeneric("refnet_names")})
-#' @rdname refnet_name-methods
-#' @aliases refnet_name refnet_name-methods
-setMethod("refnet_names",signature="PFPRefnet",
+setGeneric("net_names",
+           function(object){standardGeneric("net_names")})
+#' @rdname net_names-methods
+#' @aliases net_names net_names-methods
+setMethod("net_names",signature="PFPRefnet",
           function(object){
             object@net_info[c("id","name","group")]
           }
