@@ -1,0 +1,41 @@
+Package: PFP
+Type: Package
+Title: Pathway Fingerprint Framework in R
+Version: 0.99.1
+Authors@R: c(
+    person("xc", "Zhang",email = "xiaochang_z@foxmail.com",role = c("aut","cre" )),
+    person("qc", "Kang", email = "850287874@qq.com", role = "aut")
+    )
+Maintainer: XC Zhang <xiaochang_z@foxmail.com>
+Description: An implementation of the pathway fingerprint framework that introduced 
+  in paper.  This method worked by making systematic comparisons to a set of 
+  well-studied "basic networks", measuring both the functional and topological 
+  similarity. It shows great potential in biological network study.
+Depends:
+    R (>= 4.0.0),
+    org.Mm.eg.db
+Imports:
+    igraph,
+    edgeR,
+    pheatmap,
+    graphite,
+    BioNet,
+    clusterProfiler,
+    ggplot2,
+    methods,
+    plyr,
+    tidyr,
+    xlsx
+Suggests:
+    knitr,
+    testthat,
+    PFPdata,
+    rmarkdown
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: yes
+NeedsCompilation: no
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+URL: https://github.com/zxcary/PFP
+BugReports: https://github.com/zxcary/PFP/issues
