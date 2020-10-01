@@ -23,62 +23,73 @@
 #'
 #'@slot network, object of graphNEL list represents the basic networks.
 #'
-#'@slot net_info, a dataframe which contains the index, id, name, group and species 
-#'information of the networks. Its row number is the same with \emph{network}.
+#'@slot net_info, a dataframe which contains the index, id, name, group and species.
+#'It contains the information of the pathway networks, whose row number is the same with \emph{network}.
 #'
-
 #' #'@section method:
 #'    \itemize{
-#'      \item{net, \code{signature(object = "PFPRefnet")}:
-#'        extract the basic networks}
+#'      \item{network, \code{signature(object = "PFPRefnet")}:
+#'        extract networks of PFPRefnet}
+#'      \item{net_info, \code{signature(object = "PFPRefnet")}:
+#'        extract net information of PFPRefnet}
 #'      \item{group, \code{signature(object = "PFPRefnet")}:
 #'        extract group information}
+#'      \item{net_names, \code{signature(object = "PFPRefnet")}:
+#'        the names of basic networks}
 #'      \item{subnet, \code{signature(object = "PFPRefnet")}:
-#'        subset basic networks, e.g. a group of a networks or same networks of
-#'        a given group}
-#'      \item{refnet_name, \code{signature(object = "PFPRefnet")}:
-#'        the  names of basic networks}
-#'      \item{show, \code{signature(object = "PFPRefnet")}:
+#'        subset basic networks, e.g. a group of a networks or some networks of
+#'        some given groups}
+#'      \item{show_net, \code{signature(object = "PFPRefnet")}:
 #'        display methods for S4 classes PFPRefnet, see also
-#'        \code{\link[methods]{show}}}
+#'        \code{\link[methods]{show_net}}}
 #'    }
 #'
 #' @name PFPRefnet-class
 #' @rdname PFPRefnet-class
 #' @exportClass PFPRefnet
-#' @seealso \code{\link{show-methods}},
-#' \code{\link{net-methods}}, \code{\link{refnet_name-methods}},
-#' \code{\link{group-methods}}, \code{\link{subnet-methods}}
-#'
-setOldClass('igraph')
-setClass("PFPRefnet", slot = list(network = "list", net_info = "data.frame"),
+#' @seealso \code{\link{network-methods}}, \code{\link{net_info-methods}},
+#' \code{\link{group-methods}}, \code{\link{net_names-methods}},
+#' \code{\link{subnet-methods}}, \code{\link{show_net-methods}},
+setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
          prototype = list(network = NULL, net_info = NULL),
          validity = .check.PFPRefnet)
 
-#' Basic networks of \emph{PFPRefnet} class
+
+#' Basic pathway networks of \emph{PFPRefnet} class
 #'
 #' This function extract the basic networks of PFPRefnet class.
 #'
-#'@exportMethod net
-#'@rdname net-methods
-#'@name net-methods
+#'@exportMethod network
+#'@rdname network-methods
+#'@name network-methods
 #'@param object, \code{PFPRefnet} class
-#'@aliases net net-methods
+#'@aliases network network-methods
 #'@docType methods
 #'@seealso \code{\link{PFPRefnet-class}}
-#'@return a igraph list of all basic networks
-
+#'@return a graphNEL list of all basic networks
 setGeneric("network",
            function(object){standardGeneric("network")})
 #' @rdname network-methods
 #' @aliases network network-methods
 setMethod("network",signature="PFPRefnet",
           function(object){
-            network <- object@network
+            object@network
           }
 )
 
 
+#' Basic pathway networks information of \emph{PFPRefnet} class
+#'
+#' This function extract the basic networks information of PFPRefnet class.
+#'
+#'@exportMethod net_info
+#'@rdname net_info-methods
+#'@name net_info-methods
+#'@param object, \code{PFPRefnet} class
+#'@aliases net_info net_info-methods
+#'@docType methods
+#'@seealso \code{\link{PFPRefnet-class}}
+#'@return a dataframe contains basic networks' information
 setGeneric("net_info",
            function(object){standardGeneric("net_info")})
 #' @rdname net_info-methods
@@ -90,12 +101,10 @@ setMethod("net_info",signature="PFPRefnet",
 )
 
 
-
-
-
 #' group information of \emph{PFPRefnet}
 #'
-#' This function extract the group information PFP basic networks.
+#' This function contains names of basic groups of the networks and group number, as
+#'well as the size of each group
 #'
 #'@exportMethod group
 #'@rdname group-methods
@@ -104,11 +113,9 @@ setMethod("net_info",signature="PFPRefnet",
 #'@aliases group group-methods
 #'@docType methods
 #'@seealso \code{\link{PFPRefnet-class}}
-#'@return a list which contains the group number and names of basic networks, as
+#'@return a list contains names of basic groups of the networks and group number, as
 #'well as the size of each group
-
-setGeneric("group",
-           function(object){standardGeneric("group")})
+setGeneric("group",function(object){standardGeneric("group")})
 #' @rdname group-methods
 #' @aliases group group-methods
 setMethod("group",signature="PFPRefnet",
@@ -120,40 +127,42 @@ setMethod("group",signature="PFPRefnet",
           }
 )
 
+
 #' Names of basic networks
 #'
-#' This function extract names of PFP basic networks.
+#' This function extract the network names of PFPRefnet.
 #'
-#'@exportMethod refnet_name
-#'@rdname refnet_name-methods
-#'@name refnet_name-methods
+#'@exportMethod net_names
+#'@rdname net_names-methods
+#'@name net_names-methods
 #'@param object, \code{PFPRefnet} class
-#'@aliases refnet_name refnet_name-methods
+#'@aliases net_names net_names-methods
 #'@docType methods
 #'@seealso \code{\link{PFPRefnet-class}}
-#'@return a data.frame
-
+#'@return a vector contains pathway names
 setGeneric("net_names",
            function(object){standardGeneric("net_names")})
 #' @rdname net_names-methods
 #' @aliases net_names net_names-methods
 setMethod("net_names",signature="PFPRefnet",
           function(object){
-            object@net_info[c("id","name","group")]
+            object@net_info$name
           }
 )
 
+
 #' Subset the basic networks
 #'
-#' Extract or Replace parts of the PFP basic networks.
+#' Extract or Replace parts of the PFPRefnet.
 #'
 #'@exportMethod subnet
 #'@rdname subnet-methods
 #'@name subnet-methods
 #'@param object, \code{PFPRefnet} class.
 #'@param group_name, character, indicating the groups to subset.
-#'@param index, numeric, character or NA, indices specifying elements to extract. This
-#'parameter only works while \code{group_name} is a length-one character.
+#'@param index_type, character, the type pf index, which could be "slice","id","name".
+#'@param index, NULL or a list contains slice/numeric, character, specifying elements to extract.
+#'This parameter' length must be the same as \code{group_name}.
 #'Default is \emph{NULL}, indicating extract all the networks of a group. See
 #'\emph{details} for more information.
 #'
@@ -161,36 +170,38 @@ setMethod("net_names",signature="PFPRefnet",
 #'customized analysis, which could be of entire group networks or some part of
 #'a specific group networks.subsequent analysis.
 #'
-#'Note, the \code{index} argument is only worked while one argument is
-#'consideration, which means group_name is a length-one character. And default
-#'is \emph{NULL}, indicating extract the entire group basic networks.
+#'Note, the \code{index} argument is only worked while the group_name argument is
+#'consideration, which means group_name is not \emph{NULL}. And the length must be
+#'the same as \code{group_name}. Default is \emph{NULL}, indicating extract the entire group basic networks.
 #'
 #'@aliases subnet subnet-methods
 #'@docType methods
 #'@seealso \code{\link{PFPRefnet-class}}
-
-setGeneric("subnet",
-           function(object, group_name = NULL, index = NULL, index_type = c("slice","pathway_id","pathway_name")){standardGeneric("subnet")})
+setGeneric("subnet",function(object, group_name = NULL,
+                             index = NULL,
+                             index_type = c("slice","pathway_id","pathway_name"))
+  {standardGeneric("subnet")})
 #' @rdname subnet-methods
 #' @aliases subnet subnet-methods
 setMethod("subnet",signature="PFPRefnet",
-          function(object, group_name = NULL, index = NULL, index_type = c("slice","pathway_id","pathway_name")){
+          function(object, group_name = NULL, index = NULL, index_type =
+                     c("slice","pathway_id","pathway_name")){
             index_type <- match.arg(index_type, c("slice","pathway_id","pathway_name"))
             if (is.null(group_name)){
               group_name <- group(object)$name
             }
-            
+
             net_info <- object@net_info
             group_vec <- as.vector(object@net_info$group)
             group_select_info <- lapply(X = group_name,function(x)net_info[x==group_vec,])
-            
+
             all_group_names <- unique(group_vec)
             tf <- match(group_name,all_group_names,nomatch = 0) != 0
             if (sum(tf) < length(group_name)){
               stop("Please input right group name(s)! You should choose one or more in the following names.","\n",
                    paste0("\"",all_group_names,collapse = "\","),"\"")
             }
-            
+
             if (is.null(index)){
               group_select_info <- do.call("rbind",group_select_info)
               net_select <- group_select_info
@@ -234,39 +245,29 @@ setMethod("subnet",signature="PFPRefnet",
                 net_select <- group_select_info[match_tf,]
               }
             }
-            return(new(Class = "PFPRefnet",network=object@network[as.vector(net_select$id)],net_info=net_select))
+            return(new(Class = "PFPRefnet",
+                       network=object@network[as.vector(net_select$id)],
+                       net_info=net_select))
           }
 )
 
+
 #' Show an Object
 #'
-#' show method short for PFPRefnet object, see \code{\link[methods]{show}}
+#' show method short for PFPRefnet object, see \code{\link[methods]{show_net}}
 #'
-#'@exportMethod show
+#'@exportMethod show_net
+#'@rdname show_net-methods
+#'@name show_net-methods
 #'@param object, \code{PFPRefnet} class
 #'@docType methods
-#'@rdname show_PFPRefnet-methods
-#'@aliases show_PFPRefnet show_PFPRefnet-methods
-#'
-setGeneric("show",
-           function(object){standardGeneric("show")})
-setMethod("show", "PFPRefnet",
+#'@aliases show_net show_net-methods
+setGeneric("show_net",
+           function(object){standardGeneric("show_net")})
+setMethod("show_net", "PFPRefnet",
           function(object){
             group_name <- unique(object@net_info$group)
             group_size <- vapply(group_name,function(x)sum(x==object@net_info$group),0)
             print(group_size)
           }
 )
-
-# load(file = "~/文档/PFP/RData/mmu_PFPRefnet.RData")
-# PFPRefnet <- new(Class = "PFPRefnet",network = network(mmu_PFPRefnet),net_info = net_info(mmu_PFPRefnet))
-# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)])
-# 
-# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)],index = list(1:5,1:5))
-# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)],index = list(c("mmu01230","mmu01521"),c("mmu04152")),index_type = "pathway_id")
-# sub_PFPRefnet <- subnet(object = PFPRefnet,group_name = unique(net_info(PFPRefnet)$group)[c(2,4)],index = list(c("RNA polymerase","Spliceosome"),c("Lysosome","Basal transcription factors")),index_type = "pathway_name")
-# net_list0 <- network(PFPRefnet)
-# gg <- group(PFPRefnet)
-# refnet_names(PFPRefnet)
-# show(PFPRefnet)
-
