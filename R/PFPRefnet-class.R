@@ -40,8 +40,7 @@
 #'        subset basic networks, e.g. a group of a networks or some networks of
 #'        some given groups}
 #'      \item{show_net, \code{signature(object = "PFPRefnet")}:
-#'        display methods for S4 classes PFPRefnet, see also
-#'        \code{\link[methods]{show_net}}}
+#'        display methods for S4 classes PFPRefnet, see also}
 #'    }
 #'
 #' @name PFPRefnet-class
@@ -254,17 +253,20 @@ setMethod("subnet",signature="PFPRefnet",
 
 #' Show an Object
 #'
-#' show method short for PFPRefnet object, see \code{\link[methods]{show_net}}
+#' show method short for PFPRefnet object
 #'
 #'@exportMethod show_net
 #'@rdname show_net-methods
 #'@name show_net-methods
 #'@param object, \code{PFPRefnet} class
-#'@docType methods
 #'@aliases show_net show_net-methods
+#'@docType methods
+#'@seealso \code{\link{PFPRefnet-class}}
 setGeneric("show_net",
            function(object){standardGeneric("show_net")})
-setMethod("show_net", "PFPRefnet",
+#' @rdname show_net-methods
+#' @aliases show_net show_net-methods
+setMethod("show_net", signature="PFPRefnet",
           function(object){
             group_name <- unique(object@net_info$group)
             group_size <- vapply(group_name,function(x)sum(x==object@net_info$group),0)

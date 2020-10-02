@@ -4,6 +4,7 @@
 #' @param gene_list, a vector of characters
 #' @param gene_id_type, a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.
 #' @param drop, a logical,whether to drop NA when translating id type
+#' @param gene_info_db, gene information database
 #' @details, translate other id type to ENTREZID,
 #' @examples
 #' \dontrun{
