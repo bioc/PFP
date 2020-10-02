@@ -16,8 +16,6 @@ Depends:
     org.Mm.eg.db
 Imports:
     igraph,
-    edgeR,
-    pheatmap,
     graphite,
     BioNet,
     clusterProfiler,
@@ -31,11 +29,16 @@ Suggests:
     testthat,
     PFPdata,
     rmarkdown
+biocViews:
+    WorkflowStep,
+    RNASeq,
+    FeatureExtraction
+VignetteBuilder: knitr
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: yes
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-URL: https://github.com/zxcary/PFP
-BugReports: https://github.com/zxcary/PFP/issues
+URL: https://github.com/aib-group/PFP
+BugReports: https://github.com/aib-group/PFP/issues
