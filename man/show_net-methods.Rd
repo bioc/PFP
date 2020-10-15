@@ -14,3 +14,6 @@ show_net(object)
 \description{
 show method short for PFPRefnet object, see \code{\link[methods]{show_net}}
 }
+\seealso{
+\code{\link{PFPRefnet-class}}
+}

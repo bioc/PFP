@@ -8,14 +8,16 @@
 \title{rank of the PFP object by the value of PFP_score.
 Function for show the rank of PFP results.}
 \usage{
-rank_PFP(object, decreasing = TRUE)
+rank_PFP(object, total_rank = FALSE, decreasing = TRUE)
 
-\S4method{rank_PFP}{PFP}(object, decreasing = TRUE)
+\S4method{rank_PFP}{PFP}(object, total_rank = FALSE, decreasing = TRUE)
 }
 \arguments{
 \item{object, }{\code{PFP} class}
 
-\item{decreasing, }{Sorting method, the default is deceasing}
+\item{total_rank, }{a logical, whether to rank in total range, the default is \emph{TRUE}}
+
+\item{decreasing, }{a logical, Sorting method, the default is \emph{TRUE}}
 }
 \value{
 a ranked PFP object.

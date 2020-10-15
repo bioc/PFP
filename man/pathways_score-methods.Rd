@@ -17,7 +17,7 @@ pathways_score(object)
 \item{object, }{\code{PFP} class}
 }
 \value{
-details in pathway fingerprint scores.
+as list, details in pathway fingerprint scores.
 }
 \description{
 Basic pathway networks scores of \emph{PFP} class

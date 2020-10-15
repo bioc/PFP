@@ -25,7 +25,7 @@ genes_score(
 
 \item{index, }{character, indicating the groups to subset.}
 
-\item{indextype, }{"pathway_id","pathway_name","slice"}
+\item{index_type, }{"pathway_id","pathway_name","slice"}
 }
 \value{
 a named vector of numeric scores

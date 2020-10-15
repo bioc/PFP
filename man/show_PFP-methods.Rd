@@ -15,5 +15,5 @@ show_PFP(object)
 \item{object, }{\code{PFP} object}
 }
 \description{
-Show a short summary for PFP object, see \code{\link[methods]{show_PFP}}.
+Show a short summary for PFP object.
 }

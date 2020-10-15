@@ -40,7 +40,8 @@
 #'        subset basic networks, e.g. a group of a networks or some networks of
 #'        some given groups}
 #'      \item{show_net, \code{signature(object = "PFPRefnet")}:
-#'        display methods for S4 classes PFPRefnet, see also}
+#'        display methods for S4 classes PFPRefnet, see also
+#'        \code{\link[methods]{show_net}}}
 #'    }
 #'
 #' @name PFPRefnet-class
@@ -167,7 +168,7 @@ setMethod("net_names",signature="PFPRefnet",
 #'
 #'@details This function help users to extract the specific networks for
 #'customized analysis, which could be of entire group networks or some part of
-#'a specific group networks.subsequent analysis.
+#'a specific group networks.
 #'
 #'Note, the \code{index} argument is only worked while the group_name argument is
 #'consideration, which means group_name is not \emph{NULL}. And the length must be
@@ -253,7 +254,7 @@ setMethod("subnet",signature="PFPRefnet",
 
 #' Show an Object
 #'
-#' show method short for PFPRefnet object
+#' show method short for PFPRefnet object, see \code{\link[methods]{show_net}}
 #'
 #'@exportMethod show_net
 #'@rdname show_net-methods
@@ -264,9 +265,7 @@ setMethod("subnet",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 setGeneric("show_net",
            function(object){standardGeneric("show_net")})
-#' @rdname show_net-methods
-#' @aliases show_net show_net-methods
-setMethod("show_net", signature="PFPRefnet",
+setMethod("show_net", "PFPRefnet",
           function(object){
             group_name <- unique(object@net_info$group)
             group_size <- vapply(group_name,function(x)sum(x==object@net_info$group),0)

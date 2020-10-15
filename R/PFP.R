@@ -5,13 +5,14 @@
 #' @name PFP
 #' @docType package
 #'
-#' @importFrom igraph igraph.from.graphNEL V get.data.frame graph.data.frame V<- rewire keeping_degseq gsize
-#' induced.subgraph as_adj set.vertex.attribute
-#' @importFrom plyr laply llply
-#' @importFrom clusterProfiler bitr enrichKEGG dotplot
+#' @importFrom graph nodes edgeL edgeData
+#' @importFrom KEGGgraph parseKGML2Graph
+#' @importFrom BioNet getEdgeList
+#' @importFrom clusterProfiler bitr
 #' @importFrom ggplot2 ggplot geom_point geom_segment labs theme aes element_text
 #' geom_line
-#' @importFrom stats shapiro.test t.test wilcox.test
+#' @importFrom plyr llply
 #' @importFrom tidyr gather
-#' @import org.Mm.eg.db
+#' @importFrom stats cor p.adjust shapiro.test t.test wilcox.test
+#' @importFrom utils download.file read.csv write.csv
 NULL

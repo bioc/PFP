@@ -3,37 +3,27 @@ Type: Package
 Title: Pathway Fingerprint Framework in R
 Version: 0.99.1
 Authors@R: c(
-    person("xc", "Zhang",email = "xiaochang_z@foxmail.com",role = c("aut","cre" )),
-    person("qc", "Kang", email = "850287874@qq.com", role = "aut")
+    person("XC", "Zhang",email = "xiaochang_z@foxmail.com",role = c("aut","cre" )),
+    person("QC", "Kang", email = "850287874@qq.com", role = "aut")
     )
 Maintainer: XC Zhang <xiaochang_z@foxmail.com>
-Description: An implementation of the pathway fingerprint framework that introduced 
-  in paper.  This method worked by making systematic comparisons to a set of 
-  well-studied "basic networks", measuring both the functional and topological 
-  similarity. It shows great potential in biological network study.
+Description: An implementation of the pathway fingerprint framework that introduced in paper "Pathway Fingerprint: a novel pathway knowledge and topology based method for biomarker discovery and characterization".  This method provides a systematic comparisons between a gene set (such as a list of differentially expressed genes) and well-studied "basic pathway networks" (KEGG pathways), measuring the importance of pathways and genes for the gene set, which is helpful for researchers to find the biomarkers and its function.
 Depends:
-    R (>= 4.0.0),
-    org.Mm.eg.db
+    R (>= 4.0.0)
 Imports:
-    igraph,
-    graphite,
+    graph,
+    KEGGgraph,
     BioNet,
     clusterProfiler,
     ggplot2,
-    methods,
     plyr,
     tidyr,
-    xlsx
+    stats,
+    utils,
 Suggests:
     knitr,
     testthat,
-    PFPdata,
     rmarkdown
-biocViews:
-    WorkflowStep,
-    RNASeq,
-    FeatureExtraction
-VignetteBuilder: knitr
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: yes

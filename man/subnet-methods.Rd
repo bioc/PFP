@@ -39,7 +39,7 @@ Extract or Replace parts of the PFPRefnet.
 \details{
 This function help users to extract the specific networks for
 customized analysis, which could be of entire group networks or some part of
-a specific group networks.subsequent analysis.
+a specific group networks.
 
 Note, the \code{index} argument is only worked while the group_name argument is
 consideration, which means group_name is not \emph{NULL}. And the length must be

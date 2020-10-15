@@ -14,13 +14,10 @@ plot_PFPlist(object, l_size = 0.5)
 \description{
 Function for visualization multiple PFPs.
 }
-\details{
-, plot a list of PFP
-}
 \examples{
 \dontrun{
-data(PFP_test)
-pfp_list <- list(a=PFP_test)
+data(PFP_test1)
+pfp_list <- list(a=PFP_test1)
 plot_PFPlist(pfp_list)
 }
 }

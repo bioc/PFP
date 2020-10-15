@@ -22,6 +22,3 @@ a vector contains pathway names
 Names of basic networks
 This function extract the reference pathway network names of PFP.
 }
-\seealso{
-\code{\link{PFPRefnet-class}}
-}

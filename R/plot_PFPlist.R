@@ -9,11 +9,10 @@
 #' @param l_size, line size of plot, default is 0.5.
 #' @aliases plot_PFPlist
 #' @seealso \code{\link{PFP-class}}
-#' @details, plot a list of PFP
 #' @examples
 #' \dontrun{
-#' data(PFP_test)
-#' pfp_list <- list(a=PFP_test)
+#' data(PFP_test1)
+#' pfp_list <- list(a=PFP_test1)
 #' plot_PFPlist(pfp_list)
 #' }
 #' @export
