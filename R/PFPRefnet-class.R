@@ -41,7 +41,7 @@
 #'        some given groups}
 #'      \item{show_net, \code{signature(object = "PFPRefnet")}:
 #'        display methods for S4 classes PFPRefnet, see also
-#'        \code{\link[methods]{show_net}}}
+#'        \code{\link{show_net}}}
 #'    }
 #'
 #' @name PFPRefnet-class
@@ -254,17 +254,20 @@ setMethod("subnet",signature="PFPRefnet",
 
 #' Show an Object
 #'
-#' show method short for PFPRefnet object, see \code{\link[methods]{show_net}}
+#' show method short for PFPRefnet object
 #'
 #'@exportMethod show_net
-#'@rdname show_net-methods
-#'@name show_net-methods
-#'@param object, \code{PFPRefnet} class
-#'@aliases show_net show_net-methods
+#'@param object, \code{PFPRefnet} object
 #'@docType methods
+#'@rdname show_net-methods
+#'@aliases show_net show_net-methods
 #'@seealso \code{\link{PFPRefnet-class}}
+
 setGeneric("show_net",
            function(object){standardGeneric("show_net")})
+#' @rdname show_net-methods
+#' @aliases show_net show_net-methods
+
 setMethod("show_net", "PFPRefnet",
           function(object){
             group_name <- unique(object@net_info$group)

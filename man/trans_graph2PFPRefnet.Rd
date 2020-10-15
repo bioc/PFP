@@ -12,10 +12,10 @@ trans_graph2PFPRefnet(graph_list, pathway_info)
 \item{pathway_info, }{a data.frame, which contains all kegg pathways "index","id","name","group","species"}
 }
 \description{
-This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
+This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
 }
 \details{
-, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
+, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
 The pathway_info can be designed by yourself, but the colnames must be "index","id","name","group" and "species".
 }
 \examples{

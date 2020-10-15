@@ -13,7 +13,7 @@ refnet_names(object)
 \S4method{refnet_names}{PFP}(object)
 }
 \arguments{
-\item{object, }{\code{PFPRefnet} class}
+\item{object, }{\code{\link{PFPRefnet-class}} class}
 }
 \value{
 a vector contains pathway names

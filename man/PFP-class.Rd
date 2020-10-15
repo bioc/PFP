@@ -17,7 +17,7 @@ random_score is used for the statistic test.
 genes_score is the detail scores of every gene in the gene_list.}
 
 \item{\code{refnet_info,}}{a data.frame, which contains the specific information of pathway networks.
-Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet}}, including the index, id, name, group and species.}
+Just be the same as \code{\link{net_info}} in \code{\link{PFP-class}}, including the index, id, name, group and species.}
 }}
 
 \section{method}{

@@ -30,7 +30,7 @@ subset basic networks, e.g. a group of a networks or some networks of
 some given groups}
 \item{show_net, \code{signature(object = "PFPRefnet")}:
 display methods for S4 classes PFPRefnet, see also
-\code{\link[methods]{show_net}}}
+\code{\link{show_net}}}
 }}
 }}
 

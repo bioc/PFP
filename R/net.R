@@ -119,7 +119,7 @@ get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
 #' @title trans_edges_id
 #' @description translate the id name in edges_data
 #' @param edges_data, the edges_data to translate, it can be the data.frame got
-#' from \code{\link{get_exp_cor_edges}} or \code{\link{get_bk_related_edges}}, or a data.frame
+#' from \code{\link{get_exp_cor_edges}} or \code{\link{get_asso_net}}, or a data.frame
 #' contains the same colnames with them.
 #' @param from_type, a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.
 #' @param to_type, a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.

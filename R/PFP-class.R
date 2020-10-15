@@ -32,7 +32,7 @@
 #' random_score is used for the statistic test.
 #' genes_score is the detail scores of every gene in the gene_list.
 #' @slot refnet_info, a data.frame, which contains the specific information of pathway networks.
-#' Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet}}, including the index, id, name, group and species.
+#' Just be the same as \code{\link{net_info}} in \code{\link{PFP-class}}, including the index, id, name, group and species.
 #' @section method:
 #'    \itemize{
 #'      \item{pathways_score, \code{signature(object = "PFP")}:
@@ -235,7 +235,7 @@ setMethod("genes_score",signature="PFP",
 #'@exportMethod refnet_names
 #'@rdname refnet_names-methods
 #'@name refnet_names-methods
-#'@param object, \code{PFPRefnet} class
+#'@param object, \code{\link{PFPRefnet-class}} class
 #'@aliases refnet_names refnet_names-methods
 #'@docType methods
 #'@return a vector contains pathway names
@@ -401,6 +401,7 @@ setGeneric("plot_PFP",
            {standardGeneric("plot_PFP")})
 #' @rdname plot_PFP-methods
 #' @aliases plot_PFP plot_PFP-methods
+
 setMethod("plot_PFP",'PFP',
           function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5){
             type <- match.arg(type, c('matchstick', 'line','point'))
@@ -445,6 +446,7 @@ setGeneric("rank_PFP",
            function(object,total_rank=FALSE,decreasing=TRUE){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods
 #' @aliases rank_PFP rank_PFP-methods
+
 setMethod("rank_PFP",signature="PFP",
           function(object,total_rank=FALSE,decreasing=TRUE){
             refnet_info <- object@refnet_info

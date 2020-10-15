@@ -39,15 +39,7 @@ similarity scoring.
 
 ### Installation
 
-*PFP* requires these packages: *magrittr*, *igraph*, *plyr*, *ggplot2*, *apcluster*, *dplyr*, *stringr*, *graph* and *KEGGgraph*. To install *PFP*, please note especially two depencies of *PFP*, *graph* and *KEGGgraph* are only available from [Bioconductor](http://bioconductor.org). Appanrantly, function `install.packages()`can not insall Biocondutor packages. There is a `biocLite()`, a wrapper around `install.packages()` provided by Bioconductor, can be used to install both CRAN and Bioconductor packages simply. More details on `biocLite()` is available from [https://www.bioconductor.org/install/](https://www.bioconductor.org/install/). Thus, users can install PFP install the latest released version using `biocLite()` directly:
-
-```{r install-pkg, eval=FALSE}
-## install release version of PFP
-source("http://bioconductor.org/biocLite.R")
-biocLite("PFP")
-```
-
-or install the  Bioconductor dependencies package first:
+*PFP* requires these packages: *magrittr*, *igraph*, *plyr*, *ggplot2*, *apcluster*, *dplyr*, *stringr*, *graph* and *KEGGgraph*. To install *PFP*, please note especially two depencies of *PFP*, *graph* and *KEGGgraph* are only available from [Bioconductor](http://bioconductor.org). Appanrantly, function `install.packages()`can not insall Biocondutor packages. There is a `biocLite()`, a wrapper around `install.packages()` provided by Bioconductor, can be used to install both CRAN and Bioconductor packages simply. 
 
 ```{r nstall-pkg2, eval=FALSE}
 ## install release version of PFP
@@ -62,7 +54,7 @@ It also allows users to install the latest development version from github, whic
 ## install PFP from github, require biocondutor dependencies package pre-installed 
 if (!require(devtools))
   install.packages("devtools")
-devtools::install_github("yiluheihei/PFP")
+devtools::install_github("AIB-KQC/PFP")
 ```
 
 After installation, the \*{PFP} is ready to load into the current workspace by the following codes to the current workspace by typing or pasting the following codes:
@@ -71,14 +63,6 @@ After installation, the \*{PFP} is ready to load into the current workspace by t
 library(PFP)
 ```
 
-
-Moreover, gene similarity data used in our *PFP* package is stored in a external data repository *PFPdata* [https://github.com/yiluheihei/datarepo](https://github.com/yiluheihei/datarepo) for the large size (about 16 MB). More details on how to construct External Data Repositories using the `Additional_repositories` field see The Coatless Professor [blog post](http://thecoatlessprofessor.com/programming/r-data-packages-in-external-data-repositories-using-the-additional_repositories-field/). Thus, users must install the *PFPdata* before the networkfinger print analyis as following code.
-
-```{r eval=FALSE}
-if (!require("PFPdata")) {
-    install_data_package()
-}
-```
 ## Analysis Pipeline: from Basic Reference Network Generation to Network
 Networkfingerprint Visualization
 
@@ -94,16 +78,6 @@ The basic idea of calculating the network fingerprint is to have the biomedical 
 
 Function `load_KEGG_refnet()` can be used to retrieve the KEGG pathway maps with KEGG API [http://www.kegg.jp/kegg/rest/keggapi.html](http://www.kegg.jp/kegg/rest/keggapi.html). In KEGG pathways, only the pathways of the map are manual drawing, and to different organisms, the map reference helps the automatic generation of organism-specific pathway for each organism. The `organism` (e.g. `organsim ="hsa"`) parameter indicate the organism name of KEGG pathway maps.
 
-```{r eval=TRUE, echo=TRUE}
-## donot run, retrive pathway maps from KEGG database may take several minutes,
-## we have pre-stored this data in our package
-## PFPRefnet <- load_KEGG_refnet(organism = 'mmu')
-data(PFPRefnet)
-PFPRefnet <- new(Class = "PFPRefnet",network = network(PFPRefnet),
-                 net_info = net_info(PFPRefnet))
-# show the kegg reference networks
-show(PFPRefnet)
-```
 
 We defined a new S4 class `PFPrefnet` to store the *PFP* reference networks. *PFP* also provides five kinds of methods for this S4 class:
 
@@ -114,17 +88,6 @@ size of each group,e.g. KEGG pathway database contains seven group pathway maps.
 networks.
 1. `show()`: Display of `PFPRefnet`.
 1. `name()`: Extract the names of reference networks.
-
-```{r keggrefnet-methods,echo=TRUE,eval=TRUE}
-## group information of kegg reference networks
-refnet_group <- group(PFPRefnet)
-show(refnet_group)
-
-## select goup 1 and 2, and subset this two groups
-selected_group <- refnet_group$name[c(1,2)]
-PFPnet <- subnet(PFPRefnet,selected_group)
-show(PFPnet)
-```
 
 Detailed instructions for this five methods refer to package function help.
 
@@ -167,48 +130,10 @@ To not affect the results of standardization and improve the efficiency of finge
 Simply, we choose the two pathway maps `g` as a query network, and a subset networks of `kegg_refnet` as the reference networks. Then the PFP
 can be calculated as following:
 
-```{r sub0, eval=FALSE, echo=TRUE}
-## set g as the query network
-
-## a subset of kegg_refnet, select the head five networks of group 1, 2
-
-sub0 <- sub_PFP(object = PFP_test,group_name = 
-                  unique(ref_net_info(PFP_test)$group)[c(2,4)],
-                index = list(1:5,1:5))
-## methods of PFP class
-refnet_names(sub0)
-head(sub0)
-```
-
-```{r sub1, eval=FALSE, echo=TRUE}
-sub1 <- sub_PFP(object = PFP_test,group_name = 
-                  unique(ref_net_info(PFP_test)$group)[c(2,4)],
-                index = list(c("mmu01230","mmu01521"),c("mmu04152")),
-                index_type = "pathway_id")
-## methods of PFP class
-refnet_names(sub1)
-head(sub1)
-```
-
-```{r sub2, eval=FALSE, echo=TRUE}
-sub2 <- sub_PFP(object = PFP_test,group_name = 
-                  unique(ref_net_info(PFP_test)$group)[c(2,4)],
-                index = list(c("MAPK signaling pathway",
-                               "Phosphatidylinositol signaling system"),
-                             c("Staphylococcus aureus infection",
-                               "Leishmaniasis")),index_type = "pathway_name")
-## methods of PFP class
-refnet_names(sub2)
-head(sub2)
-```
-
 ### Network fingerprint visualization
 
 *PFP* provides the `plot_PFP()` function to visualize the network fingerprint of a single query network.
 
-```{r plot-PFP,echo=TRUE,eval=FALSE,fig.cap='Plot a PFP object',dev='pdf',fig.show='hold',out.width='.8\\linewidth', out.height='.7\\linewidth'}
-plot_PFP(sub0)
-```
 
 ```{r}
 knitr::include_graphics("000001.png")
