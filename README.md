@@ -18,7 +18,7 @@ It also allows users to install the latest development version from github, whic
   
 ```R
 ## install PFP from github, require biocondutor dependencies package pre-installed
-if (!require(devtools) 
+if (!require(devtools)) 
   install.packages("devtools") 
 devtools::install_github("aib-group/PFP") 
 ```
