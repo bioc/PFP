@@ -128,8 +128,8 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
     }else{
       if (sum(is.na(as.numeric(bg_genelist))) > 0){
         stop("You should translate all your background genes ids into ENTREZID!")
-        num_genes <- length(genes)
       }
+      num_genes <- length(genes)
     }
     random_tests <- test_pavlue(num_genes,bg_genelist,PFP_score,num_loop,
                                 PFPRefnet,coeff1,coeff2,get_graph_score,adjust_method = adjust_method)
