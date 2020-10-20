@@ -1,7 +1,7 @@
 Package: PFP
 Type: Package
 Title: Pathway Fingerprint Framework in R
-Version: 0.99.1
+Version: 0.99.0
 Authors@R: c(
     person("XC", "Zhang",email = "xiaochang_z@foxmail.com",role = c("aut","cre" )),
     person("QC", "Kang", email = "850287874@qq.com", role = "aut")
@@ -20,6 +20,10 @@ Imports:
     tidyr,
     stats,
     utils,
+biocViews:
+    WorkflowStep,
+    RNASeq,
+    FeatureExtraction
 Suggests:
     knitr,
     testthat,
