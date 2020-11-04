@@ -443,12 +443,12 @@ setMethod("plot_PFP",'PFP',
 #'@seealso \code{\link{PFP-class}}
 #'@return a ranked PFP object.
 setGeneric("rank_PFP",
-           function(object,total_rank=FALSE,decreasing=TRUE){standardGeneric("rank_PFP")})
+           function(object,total_rank=FALSE,decreasing=TRUE,p_adj=0.05){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods
 #' @aliases rank_PFP rank_PFP-methods
 
 setMethod("rank_PFP",signature="PFP",
-          function(object,total_rank=FALSE,decreasing=TRUE){
+          function(object,total_rank=FALSE,decreasing=TRUE,p_adj=0.05){
             refnet_info <- object@refnet_info
 
             refnet_info[["PFP_score"]] <- data.frame(object@pathways_score[["PFP_score"]])
@@ -459,6 +459,9 @@ setMethod("rank_PFP",signature="PFP",
               }else{
                 refnet_info <- refnet_info[order(refnet_info[,"group"],refnet_info[,"PFP_score"],-refnet_info[,"p_value"],decreasing = decreasing),]
               }
+              refnet_info1 <- refnet_info[refnet_info[,"p_value"]<p_adj,]
+              refnet_info2 <- refnet_info[refnet_info[,"p_value"]>=p_adj,]
+              refnet_info <- rbind(refnet_info1,refnet_info2)
             }else{
               if (total_rank==TRUE){
                 refnet_info <- refnet_info[order(refnet_info[,"PFP_score"],decreasing = decreasing),]
