@@ -438,6 +438,7 @@ setMethod("plot_PFP",'PFP',
 #'@param object, \code{PFP} class
 #'@param total_rank, a logical, whether to rank in total range, the default is \emph{TRUE}
 #'@param decreasing, a logical, Sorting method, the default is \emph{TRUE}
+#'@param p_adj, a numeric, the threshold for p_adjust_value for pathway selection
 #'@aliases rank_PFP rank_PFP-methods
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
