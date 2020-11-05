@@ -114,10 +114,10 @@ trans_xml2graph <- function(file_dir){
 
 # trans_xml2graph
 #' @title translate graph_list to PFPRefnet class
-#' @description This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
+#' @description This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
 #' @param graph_list, a list of \code{\link{graphNEL}}.
 #' @param pathway_info, a data.frame, which contains all kegg pathways "index","id","name","group","species"
-#' @details, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
+#' @details, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
 #' The pathway_info can be designed by yourself, but the colnames must be "index","id","name","group" and "species".
 #' @examples
 #' \dontrun{

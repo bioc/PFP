@@ -6,7 +6,6 @@
 #' @param coeff2, a numeric, the coefficient 2 in PFP model
 #' @param statistic, a logical,whether to do the statistical test
 #' @param bg_genelist, a vector of characters, background gene set for the statistical test
-#' @param num_loop, random sampling times from bg_genelist for the statistical test
 #' @param adjust_method, statistic test method for adjust the p_value.
 #' It could be "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none".
 #' @details The main part of pathway fingerprint. PFP is used to evaluate the performance of
@@ -21,7 +20,7 @@
 #' }
 #' @export
 calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE,
-                          bg_genelist=NULL,num_loop=10,adjust_method="BH"){
+                           bg_genelist=NULL,adjust_method="BH"){
   # get graph score
   get_graph_score <- function(graph0,genes,coeff1,coeff2){
 
@@ -72,44 +71,20 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
     graph_score[is.na(graph_score)] <- 0
     return(graph_score)
   }
-  # test p.value，Auxiliary function
-  test_pavlue <- function(num_genes,bg_genelist,PFP_score,num_loop,PFPRefnet,
-                          coeff1,coeff2,get_graph_score,adjust_method){
 
-    genes_list <- replicate(num_loop, sample(x = bg_genelist,size = num_genes,replace = F))
-    genes_list <- split(genes_list,col(genes_list))
-
-    test_once <- function(genes,PFPRefnet,coeff1,coeff2){
-      genes_score_t <- lapply(network(PFPRefnet),get_graph_score,genes=genes,
-                              coeff1=coeff1,coeff2=coeff2)
-      PFP_score_t <- vapply(genes_score_t,function(x)sum(x$score),0)
-    }
-
-    test_total <- data.frame(t(data.frame(lapply(X = genes_list,test_once,
-                                                 PFPRefnet,coeff1,coeff2))))
-    # test normal distribution
-    test_once_pvalue <- function(name,mu_s,vec_s){
-      if (length(unique(vec_s[,name]))==1){
-        tt = 1
-      }else{
-        tt <- shapiro.test(vec_s[,name])$p.value
-      }
-      if (tt < 0.05){
-        # student t test
-        pvalue0 <- t.test(x = vec_s[,name], mu=mu_s[name])$p.value
-      }else{
-        # wilcox.test
-        pvalue0 <- suppressWarnings(wilcox.test(x = vec_s[,name], mu = mu_s[name])$p.value)
-        if (is.na(pvalue0)){
-          pvalue0 <- 1
-        }
-      }
-      return(pvalue0)
-    }
-    p_values_t <- vapply(X = names(PFP_score),test_once_pvalue,PFP_score,
-                         test_total,FUN.VALUE = 0)
-    p_adjust_t <- p.adjust(p = p_values_t,method = adjust_method)
-    return(list(random_score=test_total,p_value = p_values_t,p_adj_value = p_adjust_t))
+  test_pavlue <- function(genes,bg_genelist,PFPRefnet,adjust_method){
+    genes <- intersect(genes,bg_genelist)
+    sep_nodes <- lapply(X = names(network(PFPRefnet)),FUN = function(x)intersect(nodes(network(PFPRefnet)[[x]]),bg_genelist))
+    names(sep_nodes) <- names(network(PFPRefnet))
+    sep_nodes_hit <- lapply(X = names(sep_nodes),FUN = function(x)intersect(sep_nodes[[x]],genes))
+    names(sep_nodes_hit) <- names(network(PFPRefnet))
+    p_values <- vapply(X = names(sep_nodes),FUN = function(x)phyper(q = length(sep_nodes_hit[[x]])-1,
+                                                                    m = length(sep_nodes[[x]]),
+                                                                    n = length(bg_genelist)-length(sep_nodes[[x]]),
+                                                                    k = length(genes),
+                                                                    lower.tail = FALSE),FUN.VALUE = 1)
+    p_adjust <- p.adjust(p = p_values, method = adjust_method)
+    return(list(p_value = p_values,p_adj_value = p_adjust))
   }
 
 
@@ -120,26 +95,18 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
                         coeff1=coeff1,coeff2=coeff2)
   PFP_score <- vapply(genes_score,function(x)sum(x$score),0)
 
-
   if (statistic==TRUE){
     if(is.null(bg_genelist)){
       bg_genelist <- unique(unlist(lapply(X = network(PFPRefnet),nodes)))
-      num_genes <- length(unique(intersect(genes,bg_genelist)))
     }else{
       if (sum(is.na(as.numeric(bg_genelist))) > 0){
         stop("You should translate all your background genes ids into ENTREZID!")
       }
-      num_genes <- length(genes)
     }
-    random_tests <- test_pavlue(num_genes,bg_genelist,PFP_score,num_loop,
-                                PFPRefnet,coeff1,coeff2,get_graph_score,adjust_method = adjust_method)
-    random_score <- random_tests[["random_score"]]
+    random_tests <- test_pavlue(genes,bg_genelist,PFPRefnet,adjust_method = adjust_method)
     p_value <- random_tests[["p_value"]]
     p_adj_value <- random_tests[["p_adj_value"]]
   }else{
-    random_score <- data.frame(t(data.frame(rep(1,nrow(net_info(PFPRefnet))))))
-    colnames(random_score) <- PFPRefnet@net_info$id
-    random_score <- random_score[-1,]
     p_value <- numeric()
     p_adj_value <- numeric()
   }
@@ -147,9 +114,9 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
   PFP_res <- new(Class = "PFP",
                  pathways_score = list(PFP_score=PFP_score,
                                        stats_test=data.frame(p_value=p_value,p_adj_value=p_adj_value),
-                                       random_score=random_score,
                                        genes_score=genes_score),
                  refnet_info = net_info(PFPRefnet))
   return(PFP_res)
 }
+
 

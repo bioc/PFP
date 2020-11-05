@@ -8,8 +8,6 @@
     errors <- c(errors, "PFP_score must be a numeric")
   if(!is.data.frame(object@pathways_score[["stats_test"]]))
     errors <- c(errors, "stats_test must be a data.frame")
-  if(!is.data.frame(object@pathways_score[["random_score"]]))
-    errors <- c(errors, "random_score must be a data.frame")
   if(!is.list(object@pathways_score[["genes_score"]]))
     errors <- c(errors, "genes_score must be a list")
   if(!is.data.frame(object@refnet_info))
@@ -26,13 +24,12 @@
 #'
 #'An S4 object for storing pathway fingerprint scores information.
 #'
-#' @slot pathways_score, a list contains PFP_score, stats_test, random_score, genes_score.
+#' @slot pathways_score, a list contains PFP_score, stats_test,  genes_score.
 #' PFP_score is a numeric score indicating the performance of a gene_list in some pathways.
 #' stats_test is a statistic test for the PFP_score.
-#' random_score is used for the statistic test.
 #' genes_score is the detail scores of every gene in the gene_list.
 #' @slot refnet_info, a data.frame, which contains the specific information of pathway networks.
-#' Just be the same as \code{\link{net_info}} in \code{\link{PFP-class}}, including the index, id, name, group and species.
+#' Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet}}, including the index, id, name, group and species.
 #' @section method:
 #'    \itemize{
 #'      \item{pathways_score, \code{signature(object = "PFP")}:
@@ -43,8 +40,6 @@
 #'        extract the PFP score}
 #'      \item{stats_test, \code{signature(object = "PFP")}:
 #'        extract  p_value & p_adj_value}
-#'      \item{random_score, \code{signature(object = "PFP")}:
-#'        extract the random score}
 #'      \item{genes_score, \code{signature(object = "PFP", index=NULL,
 #'      index_type = c("pathway_id","pathway_name","slice"))}:
 #'        extract the genes score}
@@ -67,7 +62,7 @@
 #' @exportClass PFP
 #' @seealso \code{\link{pathways_score-methods}},
 #' \code{\link{refnet_info-methods}},\code{\link{PFP_score-methods}},
-#' \code{\link{stats_test-methods}}, \code{\link{random_score-methods}},
+#' \code{\link{stats_test-methods}},
 #' \code{\link{genes_score-methods}}, \code{\link{refnet_names-methods}},
 #' \code{\link{sub_PFP-methods}}, \code{\link{show_PFP-methods}},
 #' \code{\link{plot_PFP-methods}}, \code{\link{rank_PFP-methods}},
@@ -162,26 +157,6 @@ setMethod("stats_test",signature="PFP",
 )
 
 
-#' Extract the randomized similarity score of \emph{PFP}
-#' This function extract the randomized similarity score for statistical test.
-#'@exportMethod random_score
-#'@rdname random_score-methods
-#'@name random_score-methods
-#'@param object, \code{PFP} class
-#'@aliases random_score random_score-methods
-#'@docType methods
-#'@seealso \code{\link{PFP}}
-#'@return a data.frame, each row represents one random test result with the same number of gene_list.
-setGeneric("random_score",
-           function(object){standardGeneric("random_score")})
-#' @rdname random_score-methods
-#' @aliases random_score random_score-methods
-setMethod("random_score",signature="PFP",
-          function(object){
-            object@pathways_score[["random_score"]]
-          }
-)
-
 
 #' The score of genes in \emph{PFP} class
 #' This function extract the detail scores of every gene in the gene_list by specific condition.
@@ -235,7 +210,7 @@ setMethod("genes_score",signature="PFP",
 #'@exportMethod refnet_names
 #'@rdname refnet_names-methods
 #'@name refnet_names-methods
-#'@param object, \code{\link{PFPRefnet-class}} class
+#'@param object, \code{PFPRefnet} class
 #'@aliases refnet_names refnet_names-methods
 #'@docType methods
 #'@return a vector contains pathway names
@@ -344,10 +319,9 @@ setMethod("sub_PFP",signature="PFP",
             pathway_select_ids <- as.vector(net_select$id)
             PFP_score <- object@pathways_score[["PFP_score"]][pathway_select_ids]
             stats_test <- object@pathways_score[["stats_test"]][pathway_select_ids,]
-            random_score <- object@pathways_score[["random_score"]][,pathway_select_ids]
             genes_score <- object@pathways_score[["genes_score"]][pathway_select_ids]
             return(new(Class = "PFP",
-                       pathways_score=list(PFP_score=PFP_score,stats_test=stats_test,random_score=random_score,genes_score=genes_score),
+                       pathways_score=list(PFP_score=PFP_score,stats_test=stats_test,genes_score=genes_score),
                        refnet_info=net_select))
           }
 )
@@ -383,6 +357,7 @@ setMethod("show_PFP", "PFP",
 )
 
 
+globalVariables("refnet_index")
 #' Plot PFP results
 #' Function for visualization PFP results.
 #'@exportMethod plot_PFP
@@ -401,7 +376,6 @@ setGeneric("plot_PFP",
            {standardGeneric("plot_PFP")})
 #' @rdname plot_PFP-methods
 #' @aliases plot_PFP plot_PFP-methods
-
 setMethod("plot_PFP",'PFP',
           function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5){
             type <- match.arg(type, c('matchstick', 'line','point'))
@@ -445,14 +419,12 @@ setMethod("plot_PFP",'PFP',
 #'@seealso \code{\link{PFP-class}}
 #'@return a ranked PFP object.
 setGeneric("rank_PFP",
-           function(object,total_rank=FALSE,decreasing=TRUE,seperate = TRUE,p_adj=0.05){standardGeneric("rank_PFP")})
+           function(object,total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods
 #' @aliases rank_PFP rank_PFP-methods
-
 setMethod("rank_PFP",signature="PFP",
-          function(object,total_rank=FALSE,decreasing=TRUE,seperate = TRUE,p_adj=0.05){
+          function(object,total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05){
             refnet_info <- object@refnet_info
-
             refnet_info[["PFP_score"]] <- data.frame(object@pathways_score[["PFP_score"]])
             if (nrow(object@pathways_score[["stats_test"]])==nrow(object@refnet_info)){
               refnet_info[["p_value"]] <- data.frame(object@pathways_score[["stats_test"]][,"p_adj_value"])
@@ -461,7 +433,7 @@ setMethod("rank_PFP",signature="PFP",
               }else{
                 refnet_info <- refnet_info[order(refnet_info[,"group"],refnet_info[,"PFP_score"],-refnet_info[,"p_value"],decreasing = decreasing),]
               }
-              if (seperate == TRUE){
+              if (separate == TRUE){
                 refnet_info1 <- refnet_info[refnet_info[,"p_value"]<p_adj,]
                 refnet_info2 <- refnet_info[refnet_info[,"p_value"]>=p_adj,]
                 refnet_info <- rbind(refnet_info1,refnet_info2)
@@ -473,6 +445,7 @@ setMethod("rank_PFP",signature="PFP",
                 refnet_info <- refnet_info[order(refnet_info[,"group"],refnet_info[,"PFP_score"],decreasing = decreasing),]
               }
             }
+
             refnet_info <- refnet_info[c("index","id","name","group","species")]
 
             match_id <- as.vector(refnet_info$id)
@@ -480,13 +453,11 @@ setMethod("rank_PFP",signature="PFP",
             genes_score <- object@pathways_score[["genes_score"]][match_id]
             if (nrow(object@pathways_score[["stats_test"]])==nrow(object@refnet_info)){
               stats_test <- object@pathways_score[["stats_test"]][match_id,]
-              random_score <- object@pathways_score[["random_score"]][match_id]
             }else{
               stats_test <- data.frame()
-              random_score <- data.frame()
             }
             return(new(Class = "PFP",
-                       pathways_score=list(PFP_score=PFP_score,stats_test=stats_test,random_score=random_score,genes_score=genes_score),
+                       pathways_score=list(PFP_score=PFP_score,stats_test=stats_test,genes_score=genes_score),
                        refnet_info=refnet_info))
           }
 )

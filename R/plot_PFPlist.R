@@ -1,3 +1,5 @@
+globalVariables(c("net", "sim", "refnet_index"))
+
 # library(tidyr)
 # library(plyr)
 
