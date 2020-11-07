@@ -76,7 +76,7 @@ setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
 #' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #'# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#' network <- network(PFPRefnet_hsa)
+#'network <- network(PFPRefnet_hsa)
 setGeneric("network",
            function(object){standardGeneric("network")})
 #' @rdname network-methods
@@ -104,7 +104,7 @@ setMethod("network",signature="PFPRefnet",
 #' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #'# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#' net_info <- net_info(PFPRefnet_hsa)
+#'net_info <- net_info(PFPRefnet_hsa)
 setGeneric("net_info",
            function(object){standardGeneric("net_info")})
 #'@rdname net_info-methods

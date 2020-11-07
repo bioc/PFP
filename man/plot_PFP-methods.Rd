@@ -43,7 +43,7 @@ Function for visualization PFP results.
 # New a PFP object
 data(PFP_test1)
 #s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-plot_PFP(FPRefnet_hsa,'line', p_size = 1, l_size = 0.5)
+#plot_PFP(FPRefnet_hsa,'line', p_size = 1, l_size = 0.5)
 }
 \seealso{
 \code{\link{PFP-class}}

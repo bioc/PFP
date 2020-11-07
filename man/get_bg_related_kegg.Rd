@@ -33,7 +33,7 @@ it will retain the first pathway which contains the duplicated edge.
 # Load the PFPRefnet of human
 data(PFPRefnet_hsa)
 # Load the list of diff genes
-data(gene_list)
+data(gene_list_hsa)
 # Get the related kegg network
-edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
 }

@@ -289,7 +289,7 @@ setMethod("refnet_names",signature="PFP",
 #'# New a PFP object
 #'data(PFP_test1)
 #'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'refnet_names <- sub_PFP(PFP_test1,group_name,index,index_type)
+#'#refnet_names <- sub_PFP(PFP_test1,group_name,index,index_type)
 setGeneric("sub_PFP",
            function(object, group_name = NULL, index = NULL, index_type =
                       c("slice","pathway_id","pathway_name"))
@@ -383,7 +383,7 @@ setGeneric("show_PFP",
 #'# New a PFP object
 #'data(PFP_test1)
 #'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'show_PFP(PFP_test1)
+#'#show_PFP(PFP_test1)
 setMethod("show_PFP", "PFP",
           function(object){
             group_name <- unique(object@refnet_info$group)
@@ -420,7 +420,7 @@ globalVariables("refnet_index")
 #'# New a PFP object
 #'data(PFP_test1)
 #'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'plot_PFP(FPRefnet_hsa,'line', p_size = 1, l_size = 0.5)
+#'#plot_PFP(FPRefnet_hsa,'line', p_size = 1, l_size = 0.5)
 setGeneric("plot_PFP",
            function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5)
            {standardGeneric("plot_PFP")})
@@ -469,7 +469,7 @@ setMethod("plot_PFP",'PFP',
 #'# New a PFP object
 #'data(PFP_test1)
 #'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'rank_PFP(PFP_test1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
+#'#rank_PFP(PFP_test1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
 setGeneric("rank_PFP",
            function(object,total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods

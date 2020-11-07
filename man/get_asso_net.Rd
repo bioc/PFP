@@ -46,11 +46,15 @@ the nodes information of the edges.
 library(org.Hs.eg.db)
 # Load the data
 data(PFPRefnet_hsa)
-data(gene_list)
+data(gene_list_hsa)
+PFP_s10 <- calc_PFP_score(genes = gene_list_hsa,PFPRefnet = PFPRefnet_hsa,coeff1 = 1,coeff2 = 0.1)
+rank1 <- rank_PFP(object = PFP_s10,total_rank = TRUE)
+#pathway_select <- rank1@ref_net_info[1,"id"]
+#gene_test <- rank1@pathways_score$genes_score[[pathway_select]]$ENTREZID
 # Get the correlation of edges
-edges_coexp <- get_exp_cor_edges(gene_list,data_std)
+#edges_coexp <- get_exp_cor_edges(gene_test,data_std)
 # Get the related kegg
-edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
 # Get the related kegg
-asso_net <- get_asso_net(edges_coexp,edges_kegg)
+#asso_net <- get_asso_net(edges_coexp,edges_kegg)
 }

@@ -39,9 +39,9 @@ library(org.Hs.eg.db)
 # Load the data of human's PFPRefnet
 data(PFPRefnet_hsa)
 # Load the list of gene
-data(gene_list)
+data(gene_list_hsa)
 # Get the related kegg network
-edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
 # Trans the id of edges
-edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
+#edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
 }

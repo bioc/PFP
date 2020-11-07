@@ -8,7 +8,7 @@
 #' @return the kegg KGML files
 #' @examples
 #' # Load the kegg network
-#'kegg_download(spec = "hsa", file_root="~/Desktop")
+#'#kegg_download(spec = "hsa", file_root="~/Desktop")
 #' @export
 kegg_download <- function(spec,file_root="."){
   # create the file dir for downloading

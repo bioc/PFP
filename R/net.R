@@ -20,9 +20,9 @@
 #' @examples
 #' # Load the data
 #' data(data_std)
-#' data(gene_list)
+#' data(gene_list_hsa)
 #' # Get the coexp of edges
-#' edges_coexp <- get_exp_cor_edges(gene_list,data_std)
+#' #edges_coexp <- get_exp_cor_edges(gene_list_hsa,data_std)
 #' @export
 get_exp_cor_edges <- function(gene_list,data_std,method="spearman",num=5,cor_threshold=NULL){
   bg_genelist <- rownames(data_std)
@@ -93,9 +93,9 @@ get_exp_cor_edges <- function(gene_list,data_std,method="spearman",num=5,cor_thr
 #' # Load the PFPRefnet of human
 #' data(PFPRefnet_hsa)
 #' # Load the list of diff genes
-#' data(gene_list)
+#' data(gene_list_hsa)
 #' # Get the related kegg network
-#' edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#' #edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
 #' @export
 get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
   if (sum(is.na(as.numeric(gene_list))) > 0)
@@ -136,11 +136,11 @@ get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
 #' # Load the data of human's PFPRefnet
 #' data(PFPRefnet_hsa)
 #' # Load the list of gene
-#' data(gene_list)
+#' data(gene_list_hsa)
 #' # Get the related kegg network
-#' edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#' #edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
 #' # Trans the id of edges
-#' edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
+#' #edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
 #' @export
 trans_edges_id <- function(edges_data,from_type="ENTREZID",to_type="SYMBOL",gene_info_db=NULL){
   source_exp <- bitr(geneID = edges_data$source,fromType = from_type,toType = to_type,OrgDb = gene_info_db)
@@ -178,13 +178,17 @@ trans_edges_id <- function(edges_data,from_type="ENTREZID",to_type="SYMBOL",gene
 #' library(org.Hs.eg.db)
 #' # Load the data
 #' data(PFPRefnet_hsa)
-#' data(gene_list)
+#' data(gene_list_hsa)
+#' PFP_s10 <- calc_PFP_score(genes = gene_list_hsa,PFPRefnet = PFPRefnet_hsa,coeff1 = 1,coeff2 = 0.1)
+#' rank1 <- rank_PFP(object = PFP_s10,total_rank = TRUE)
+#' #pathway_select <- rank1@ref_net_info[1,"id"]
+#' #gene_test <- rank1@pathways_score$genes_score[[pathway_select]]$ENTREZID
 #' # Get the correlation of edges
-#' edges_coexp <- get_exp_cor_edges(gene_list,data_std)
+#' #edges_coexp <- get_exp_cor_edges(gene_test,data_std)
 #' # Get the related kegg
-#' edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#' #edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
 #' # Get the related kegg
-#' asso_net <- get_asso_net(edges_coexp,edges_kegg)
+#' #asso_net <- get_asso_net(edges_coexp,edges_kegg)
 #' @export
 get_asso_net <- function(edges_coexp,edges_kegg,if_symbol=TRUE,trans_fun = trans_edges_id,from_type="ENTREZID",to_type="SYMBOL",gene_info_db=NULL){
     # trans_id
@@ -229,7 +233,7 @@ get_asso_net <- function(edges_coexp,edges_kegg,if_symbol=TRUE,trans_fun = trans
 # load("/home/zx/文档/kangqichuang/PFP/data/gene_list_hsa.RData")
 # load("/home/zx/文档/PFP/RData/data_std.RData")
 # PFP_s10 <- calc_PFP_score(genes = gene_list,PFPRefnet = PFPRefnet_hsa,coeff1 = 1,coeff2 = 0.1)
-# rank1 <- rank_PFP(object = PFP_s10,total_rank = T)
+# rank1 <- rank_PFP(object = PFP_s10,total_rank = TRUE)
 # pathway_select <- rank1@ref_net_info[1,"id"]
 # gene_test <- rank1@pathways_score$genes_score[[pathway_select]]$ENTREZID
 # edges_coexp <- get_exp_cor_edges(gene_test,data_std)

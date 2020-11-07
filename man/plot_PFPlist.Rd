@@ -23,7 +23,7 @@ data(PFP_test1)
 # Get the list of pfp
 pfp_list <- list(a=PFP_test1)
 # Plot the PFP list
-plot_PFPlist(pfp_list)
+#plot_PFPlist(pfp_list)
 }
 \seealso{
 \code{\link{PFP-class}}

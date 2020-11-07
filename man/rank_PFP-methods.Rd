@@ -46,7 +46,7 @@ Function for show the rank of PFP results.
 # New a PFP object
 data(PFP_test1)
 #s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-rank_PFP(PFP_test1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
+#rank_PFP(PFP_test1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
 }
 \seealso{
 \code{\link{PFP-class}}

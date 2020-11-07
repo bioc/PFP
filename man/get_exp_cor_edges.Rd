@@ -44,7 +44,7 @@ the \code{cor_threshold} param is \emph{NULL}. If not, we will choose the \code{
 \examples{
 # Load the data
 data(data_std)
-data(gene_list)
+data(gene_list_hsa)
 # Get the coexp of edges
-edges_coexp <- get_exp_cor_edges(gene_list,data_std)
+#edges_coexp <- get_exp_cor_edges(gene_list_hsa,data_std)
 }
