@@ -50,8 +50,9 @@ the same as \code{group_name}. Default is \emph{NULL}, indicating extract the en
 }
 \examples{
 # New a PFP object
-s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-refnet_names <- sub_PFP(s1,group_name,index,index_type)
+data(PFP_test1)
+#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+refnet_names <- sub_PFP(PFP_test1,group_name,index,index_type)
 }
 \seealso{
 \code{\link{PFP-class}}

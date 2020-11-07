@@ -16,9 +16,9 @@ globalVariables(c("net", "sim", "refnet_index"))
 #' # Load the data
 #' data(PFP_test1)
 #' # Get the list of pfp
-#' pfp_list <- list(a=PFP_test1)
+#'pfp_list <- list(a=PFP_test1)
 #' # Plot the PFP list
-#' plot_PFPlist(pfp_list)
+#'plot_PFPlist(pfp_list)
 #' @export
 plot_PFPlist <- function(object, l_size = 0.5){
     if (is.list(object))

@@ -47,5 +47,5 @@ all genes' score. All pathways' scores combine the pathway fingerprint.
 data(gene_list_hsa)
 data("PFPRefnet_hsa")
 # Calculate the PFP score.
-PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet)
+PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet_hsa)
 }

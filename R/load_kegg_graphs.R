@@ -8,7 +8,7 @@
 #' @return the kegg KGML files
 #' @examples
 #' # Load the kegg network
-#' kegg_download(spec = "hsa", file_root="~/Desktop")
+#'kegg_download(spec = "hsa", file_root="~/Desktop")
 #' @export
 kegg_download <- function(spec,file_root="."){
   # create the file dir for downloading
@@ -71,9 +71,9 @@ kegg_download <- function(spec,file_root="."){
 #' @return Trans the xml to graph
 #' @examples
 #' # Download the kegg
-#' kegg_download(spec = "hsa", file_root="~/Desktop")
+#'kegg_download(spec = "hsa", file_root="~/Desktop")
 #' # Trans the xml to graph
-#' graph_list <- trans_xml2graph("~/Desktop")
+#'graph_list <- trans_xml2graph("~/Desktop")
 #' @export
 trans_xml2graph <- function(file_dir){
   if (substr(file_dir,nchar(file_dir),nchar(file_dir)) == "/"){
@@ -115,20 +115,20 @@ trans_xml2graph <- function(file_dir){
 
 # trans_xml2graph
 #' @title translate graph_list to PFPRefnet class
-#' @description This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
+#' @description This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
 #' @param graph_list, a list of \code{\link{graphNEL}}.
 #' @param pathway_info, a data.frame, which contains all kegg pathways "index","id","name","group","species"
-#' @details, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
+#' @details, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
 #' The pathway_info can be designed by yourself, but the colnames must be "index","id","name","group" and "species".
 #' @return a PFPRefnet
 #' @examples
 #' # Load the info of the pathway
-#' data(pathway_info)
+#'data(pathway_info)
 #' # Download the kegg network of human
-#' kegg_download(spec = "hsa", file_root="~/Desktop")
-#' graph_list <- trans_xml2graph("~/Desktop")
+#'kegg_download(spec = "hsa", file_root="~/Desktop")
+#'graph_list <- trans_xml2graph("~/Desktop")
 #' # Trans the graph to PFPRefnet
-#' PFPRefnet_hsa <- trans_graph2PFPRefnet(graph_list,pathway_info)
+#'PFPRefnet_hsa <- trans_graph2PFPRefnet(graph_list,pathway_info)
 #' @export
 trans_graph2PFPRefnet  <- function(graph_list,pathway_info){
   spec <- substr(names(graph_list)[1],1,3)

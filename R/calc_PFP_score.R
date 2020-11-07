@@ -15,10 +15,10 @@
 #' @return The main part of pathway fingerprint.
 #' @examples
 #' # Get the example data.
-#' data(gene_list_hsa)
-#' data("PFPRefnet_hsa")
+#'data(gene_list_hsa)
+#'data("PFPRefnet_hsa")
 #' # Calculate the PFP score.
-#' PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet)
+#'PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet_hsa)
 #' @export
 calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE,
                            bg_genelist=NULL,adjust_method="BH"){

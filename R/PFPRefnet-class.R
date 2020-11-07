@@ -52,8 +52,9 @@
 #'\code{\link{subnet-methods}}, \code{\link{show_net-methods}},
 #'@return a object of PFPRefnet class
 #'@examples
-#'# New a PFPRefnet object
-#'PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+#' # New a PFPRefnet object
+#'data(PFPRefnet_hsa)
+#'#PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
 setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
          prototype = list(network = NULL, net_info = NULL),
          validity = .check.PFPRefnet)
@@ -72,9 +73,10 @@ setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a graphNEL list of all basic networks
 #'@examples
-#'# New a PFPRefnet object
-#'PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#'network <- network(PFPRefnet1)
+#' # New a PFPRefnet object
+#' data(PFPRefnet_hsa)
+#'# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+#' network <- network(PFPRefnet_hsa)
 setGeneric("network",
            function(object){standardGeneric("network")})
 #' @rdname network-methods
@@ -99,9 +101,10 @@ setMethod("network",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a dataframe contains basic networks' information
 #'@examples
-#'# New a PFPRefnet object
-#'PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#'net_info <- net_info(PFPRefnet1)
+#' # New a PFPRefnet object
+#' data(PFPRefnet_hsa)
+#'# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+#' net_info <- net_info(PFPRefnet_hsa)
 setGeneric("net_info",
            function(object){standardGeneric("net_info")})
 #'@rdname net_info-methods
@@ -128,9 +131,10 @@ setMethod("net_info",signature="PFPRefnet",
 #'@return a list contains names of basic groups of the networks and group number, as
 #'well as the size of each group
 #'@examples
-#'# New a PFPRefnet object
-#'PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#'group <- group(PFPRefnet1)
+#' # New a PFPRefnet object
+#' data(PFPRefnet_hsa)
+#'# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+#' group <- group(PFPRefnet_hsa)
 setGeneric("group",function(object){standardGeneric("group")})
 #'@rdname group-methods
 #'@aliases group group-methods
@@ -157,9 +161,10 @@ setMethod("group",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a vector contains pathway names
 #'@examples
-#'# New a PFPRefnet object
-#'PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#'net_names <- net_names(PFPRefnet1)
+#' # New a PFPRefnet object
+#' data(PFPRefnet_hsa)
+#'# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+#' net_names <- net_names(PFPRefnet_hsa)
 setGeneric("net_names",
            function(object){standardGeneric("net_names")})
 #'@rdname net_names-methods
@@ -199,9 +204,10 @@ setMethod("net_names",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return sub the network
 #'@examples
-#'# New a PFPRefnet object
-#'PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#'subnet <- subnet(PFPRefnet1)
+#' # New a PFPRefnet object
+#' data(PFPRefnet_hsa)
+#'# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+#' subnet <- subnet(PFPRefnet_hsa)
 setGeneric("subnet",function(object, group_name = NULL,
                              index = NULL,
                              index_type = c("slice","pathway_id","pathway_name"))
@@ -289,13 +295,14 @@ setMethod("subnet",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return show the network
 #'@examples
-#'# New a PFPRefnet object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'rank_PFP(s1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
+#' # New a PFPRefnet object
+#'# s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'# rank_PFP(s1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
 #'@examples
-#'# New a PFPRefnet object
-#'PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-#'show_net(PFPRefnet1)
+#' # New a PFPRefnet object
+#' data(PFPRefnet_hsa)
+#'#PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+#'show_net(PFPRefnet_hsa)
 setGeneric("show_net",
            function(object){standardGeneric("show_net")})
 #' @rdname show_net-methods

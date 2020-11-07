@@ -29,7 +29,7 @@
 #' stats_test is a statistic test for the PFP_score.
 #' genes_score is the detail scores of every gene in the gene_list.
 #' @slot refnet_info, a data.frame, which contains the specific information of pathway networks.
-#' Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet}}, including the index, id, name, group and species.
+#' Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet-class}}, including the index, id, name, group and species.
 #' @section method:
 #'    \itemize{
 #'      \item{pathways_score, \code{signature(object = "PFP")}:
@@ -68,7 +68,8 @@
 #' \code{\link{plot_PFP-methods}}, \code{\link{rank_PFP-methods}},
 #' @examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame"),
          prototype = list(pathways_score = NULL, refnet_info = NULL),
          validity = .check.PFP)
@@ -85,8 +86,9 @@ setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame")
 #'@return as list, details in pathway fingerprint scores.
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'pathways_score <- pathways_score(s1)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'pathways_score <- pathways_score(PFP_test1)
 setGeneric("pathways_score",
            function(object){standardGeneric("pathways_score")})
 #' @rdname pathways_score-methods
@@ -111,8 +113,9 @@ setMethod("pathways_score",signature="PFP",
 #'@return detail information of reference pathway networks
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'refnet_info <- refnet_info(s1)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'refnet_info <- refnet_info(PFP_test1)
 setGeneric("refnet_info",
            function(object){standardGeneric("refnet_info")})
 #' @rdname refnet_info-methods
@@ -137,8 +140,9 @@ setMethod("refnet_info",signature="PFP",
 #'@return the PFP_score
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'PFP_score <- PFP_score(s1)
+#'data(PFP_test1)
+#'# s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'PFP_score <- PFP_score(PFP_test1)
 setGeneric("PFP_score",
            function(object){standardGeneric("PFP_score")})
 #' @rdname PFP_score-methods
@@ -162,8 +166,9 @@ setMethod("PFP_score",signature="PFP",
 #'@return Statistical test result of each pathway score
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'stats_test <- stats_test(s1)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'stats_test <- stats_test(PFP_test1)
 setGeneric("stats_test",
            function(object){standardGeneric("stats_test")})
 #' @rdname stats_test-methods
@@ -190,8 +195,9 @@ setMethod("stats_test",signature="PFP",
 #'@return a named vector of numeric scores
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'genes_score <- genes_score(s1)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'genes_score <- genes_score(PFP_test1)
 setGeneric("genes_score",
            function(object,index=NULL,
                     index_type = c("pathway_id","pathway_name","slice"))
@@ -238,8 +244,9 @@ setMethod("genes_score",signature="PFP",
 #'@return a vector contains pathway names
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'refnet_names <- refnet_names(s1)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'refnet_names <- refnet_names(PFP_test1)
 setGeneric("refnet_names",
            function(object){standardGeneric("refnet_names")})
 #' @rdname refnet_names-methods
@@ -280,8 +287,9 @@ setMethod("refnet_names",signature="PFP",
 #'@return a PFP object contains just the selected elements.
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'refnet_names <- sub_PFP(s1,group_name,index,index_type)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'refnet_names <- sub_PFP(PFP_test1,group_name,index,index_type)
 setGeneric("sub_PFP",
            function(object, group_name = NULL, index = NULL, index_type =
                       c("slice","pathway_id","pathway_name"))
@@ -373,8 +381,9 @@ setGeneric("show_PFP",
 #'@return show the PFP
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'show_PFP(s1)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'show_PFP(PFP_test1)
 setMethod("show_PFP", "PFP",
           function(object){
             group_name <- unique(object@refnet_info$group)
@@ -409,8 +418,9 @@ globalVariables("refnet_index")
 #'@return a plot of PFP
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'plot_PFP(s1,'line', p_size = 1, l_size = 0.5)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'plot_PFP(FPRefnet_hsa,'line', p_size = 1, l_size = 0.5)
 setGeneric("plot_PFP",
            function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5)
            {standardGeneric("plot_PFP")})
@@ -457,8 +467,9 @@ setMethod("plot_PFP",'PFP',
 #'@return a ranked PFP object.
 #'@examples
 #'# New a PFP object
-#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'rank_PFP(s1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
+#'data(PFP_test1)
+#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'rank_PFP(PFP_test1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
 setGeneric("rank_PFP",
            function(object,total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods

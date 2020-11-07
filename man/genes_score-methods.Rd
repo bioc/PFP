@@ -36,8 +36,9 @@ This function extract the detail scores of every gene in the gene_list by specif
 }
 \examples{
 # New a PFP object
-s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-genes_score <- genes_score(s1)
+data(PFP_test1)
+#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+genes_score <- genes_score(PFP_test1)
 }
 \seealso{
 \code{\link{PFP-class}}

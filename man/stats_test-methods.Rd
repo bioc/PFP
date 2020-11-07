@@ -24,8 +24,9 @@ This function can extract the result of statistical analysis
 }
 \examples{
 # New a PFP object
-s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-stats_test <- stats_test(s1)
+data(PFP_test1)
+#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+stats_test <- stats_test(PFP_test1)
 }
 \seealso{
 \code{\link{PFP-class}}

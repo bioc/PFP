@@ -39,7 +39,8 @@ display methods for S4 classes PFPRefnet, see also
 
 \examples{
 # New a PFPRefnet object
-PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+data(PFPRefnet_hsa)
+#PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
 }
 \seealso{
 \code{\link{network-methods}}, \code{\link{net_info-methods}},

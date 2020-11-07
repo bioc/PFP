@@ -24,6 +24,7 @@ This function extract the reference pathway network names of PFP.
 }
 \examples{
 # New a PFP object
-s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-refnet_names <- refnet_names(s1)
+data(PFP_test1)
+#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+refnet_names <- refnet_names(PFP_test1)
 }

@@ -50,8 +50,9 @@ the same as \code{group_name}. Default is \emph{NULL}, indicating extract the en
 }
 \examples{
 # New a PFPRefnet object
-PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
-subnet <- subnet(PFPRefnet1)
+data(PFPRefnet_hsa)
+# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+subnet <- subnet(PFPRefnet_hsa)
 }
 \seealso{
 \code{\link{PFPRefnet-class}}

@@ -25,8 +25,9 @@ This function can extract the details in pathway fingerprint scores.
 }
 \examples{
 # New a PFP object
-s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-pathways_score <- pathways_score(s1)
+data(PFP_test1)
+#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+pathways_score <- pathways_score(PFP_test1)
 }
 \seealso{
 \code{\link{PFP-class}}
