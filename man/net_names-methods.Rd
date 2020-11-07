@@ -20,6 +20,11 @@ a vector contains pathway names
 \description{
 This function extract the network names of PFPRefnet.
 }
+\examples{
+# New a PFPRefnet object
+PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+net_names <- net_names(PFPRefnet1)
+}
 \seealso{
 \code{\link{PFPRefnet-class}}
 }

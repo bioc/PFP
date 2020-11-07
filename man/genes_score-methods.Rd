@@ -34,6 +34,11 @@ a named vector of numeric scores
 The score of genes in \emph{PFP} class
 This function extract the detail scores of every gene in the gene_list by specific condition.
 }
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+genes_score <- genes_score(s1)
+}
 \seealso{
 \code{\link{PFP-class}}
 }

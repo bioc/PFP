@@ -39,15 +39,7 @@ similarity scoring.
 
 ### Installation
 
-*PFP* requires these packages: *magrittr*, *igraph*, *plyr*, *ggplot2*, *apcluster*, *dplyr*, *stringr*, *graph* and *KEGGgraph*. To install *PFP*, please note especially two depencies of *PFP*, *graph* and *KEGGgraph* are only available from [Bioconductor](http://bioconductor.org). Appanrantly, function `install.packages()`can not insall Biocondutor packages. There is a `biocLite()`, a wrapper around `install.packages()` provided by Bioconductor, can be used to install both CRAN and Bioconductor packages simply. 
-
-```{r nstall-pkg2, eval=FALSE}
-## install release version of PFP
-source("http://bioconductor.org/biocLite.R")
-biocLite(c("graph","KEGGgraph"))
-install.packages("PFP")
-```
-
+*PFP* requires these packages: *magrittr*, *igraph*, *plyr*, *ggplot2*, *apcluster*, *dplyr*, *stringr*, *graph* and *KEGGgraph*. To install *PFP*, please note especially two depencies of *PFP*, *graph* and *KEGGgraph* are only available from [Bioconductor](http://bioconductor.org).
 It also allows users to install the latest development version from github, which requires  *devtools* package has been installed on your system or can be installed using `install.packages("devtools")`. Note that devtools sometimes needs some extra non-R software on your system -- more specifically, an Rtools download for Windows or Xcode for OS X. There's more information about devtools [here](https://github.com/hadley/devtools).
 
 ```{r install-pkg-github, eval=FALSE}

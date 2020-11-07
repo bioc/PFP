@@ -14,6 +14,9 @@ get_bg_related_kegg(gene_list, PFPRefnet, rm_duplicated = FALSE)
 \item{rm_duplicated, }{a logical, whether to remove the duplicated kegg edges in different pathways.
 Defalut is \emph{FALSE}}
 }
+\value{
+the related kegg network.
+}
 \description{
 This function will select all genes in all kegg pathways which are directly connected with the genes in \code{gene_list}
 }
@@ -22,15 +25,15 @@ This function will select all genes in all kegg pathways which are directly conn
 In the data.frame, \code{source} refers to the genes in \code{gene_list}, \code{target} refers to the directly
 connected genes in kegg, \code{weight} is 0.5, no real means, \code{pathway}
 refers to the pathway which the edge emerge and \code{edge_type} is "kegg".
-
 Note, if \code{rm_duplicated} is \emph{FALSE}, it may return many duplicated edges,
 which will be complex when plotting a network. If \code{rm_duplicated} is \emph{TRUE},
 it will retain the first pathway which contains the duplicated edge.
 }
 \examples{
-\dontrun{
+# Load the PFPRefnet of human
 data(PFPRefnet_hsa)
+# Load the list of diff genes
 data(gene_list)
+# Get the related kegg network
 edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
-}
 }

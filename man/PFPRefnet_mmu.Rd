@@ -9,6 +9,10 @@ A PFPRefnet object, more details see \code{\link{PFPRefnet-class}}
 \description{
 A dataset containing the pathway maps of KEGG
 }
+\examples{
+# Load the data.
+data(PFPRefnet_mmu)
+}
 \seealso{
 \code{\link{PFPRefnet-class}}
 }

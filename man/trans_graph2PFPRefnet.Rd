@@ -11,18 +11,22 @@ trans_graph2PFPRefnet(graph_list, pathway_info)
 
 \item{pathway_info, }{a data.frame, which contains all kegg pathways "index","id","name","group","species"}
 }
+\value{
+a PFPRefnet
+}
 \description{
-This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
+This function will translate all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
 }
 \details{
-, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet-class}} object.
+, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
 The pathway_info can be designed by yourself, but the colnames must be "index","id","name","group" and "species".
 }
 \examples{
-\dontrun{
+# Load the info of the pathway
 data(pathway_info)
+# Download the kegg network of human
 kegg_download(spec = "hsa", file_root="~/Desktop")
 graph_list <- trans_xml2graph("~/Desktop")
+# Trans the graph to PFPRefnet
 PFPRefnet_hsa <- trans_graph2PFPRefnet(graph_list,pathway_info)
-}
 }

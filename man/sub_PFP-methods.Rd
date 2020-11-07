@@ -48,6 +48,11 @@ Note, the \code{index} argument is only worked while the group_name argument is
 consideration, which means group_name is not \emph{NULL}. And the length must be
 the same as \code{group_name}. Default is \emph{NULL}, indicating extract the entire PFP.
 }
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+refnet_names <- sub_PFP(s1,group_name,index,index_type)
+}
 \seealso{
 \code{\link{PFP-class}}
 }

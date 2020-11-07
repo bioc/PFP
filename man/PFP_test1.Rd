@@ -9,6 +9,10 @@ A PFPRefnet object,
 \description{
 A dataset of PFP class
 }
+\examples{
+# Load the data.
+data(PFP_test1)
+}
 \seealso{
 \code{\link{PFP-class}}
 }

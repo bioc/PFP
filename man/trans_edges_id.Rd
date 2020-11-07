@@ -22,21 +22,26 @@ contains the same colnames with them.}
 
 \item{gene_info_db, }{a gene}
 }
+\value{
+the id of the edges.
+}
 \description{
 translate the id name in edges_data
 }
 \details{
 , Translate the id name in edges_data.
-
 Note, the \code{from_type} must be consistent with the genes id type in \code{edges_data}.
 The \code{gene_info_db} must be consistent with the species in \code{edges_data}
 }
 \examples{
-\dontrun{
+# Library the datebase of org.Hs.eg.db
 library(org.Hs.eg.db)
+# Load the data of human's PFPRefnet
 data(PFPRefnet_hsa)
+# Load the list of gene
 data(gene_list)
+# Get the related kegg network
 edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+# Trans the id of edges
 edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
-}
 }

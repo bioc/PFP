@@ -22,6 +22,11 @@ well as the size of each group
 This function contains names of basic groups of the networks and group number, as
 well as the size of each group
 }
+\examples{
+# New a PFPRefnet object
+PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+group <- group(PFPRefnet1)
+}
 \seealso{
 \code{\link{PFPRefnet-class}}
 }

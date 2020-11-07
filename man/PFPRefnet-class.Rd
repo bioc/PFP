@@ -4,6 +4,9 @@
 \name{PFPRefnet-class}
 \alias{PFPRefnet-class}
 \title{\code{PFPRefnet-class}}
+\value{
+a object of PFPRefnet class
+}
 \description{
 An S4 object for storing PFP reference network information.
 }
@@ -34,6 +37,10 @@ display methods for S4 classes PFPRefnet, see also
 }}
 }}
 
+\examples{
+# New a PFPRefnet object
+PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+}
 \seealso{
 \code{\link{network-methods}}, \code{\link{net_info-methods}},
 \code{\link{group-methods}}, \code{\link{net_names-methods}},

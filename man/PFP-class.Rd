@@ -10,14 +10,13 @@ An S4 object for storing pathway fingerprint scores information.
 \section{Slots}{
 
 \describe{
-\item{\code{pathways_score,}}{a list contains PFP_score, stats_test, random_score, genes_score.
+\item{\code{pathways_score,}}{a list contains PFP_score, stats_test,  genes_score.
 PFP_score is a numeric score indicating the performance of a gene_list in some pathways.
 stats_test is a statistic test for the PFP_score.
-random_score is used for the statistic test.
 genes_score is the detail scores of every gene in the gene_list.}
 
 \item{\code{refnet_info,}}{a data.frame, which contains the specific information of pathway networks.
-Just be the same as \code{\link{net_info}} in \code{\link{PFP-class}}, including the index, id, name, group and species.}
+Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet}}, including the index, id, name, group and species.}
 }}
 
 \section{method}{
@@ -31,8 +30,6 @@ extract the pathway networks information}
 extract the PFP score}
 \item{stats_test, \code{signature(object = "PFP")}:
 extract  p_value & p_adj_value}
-\item{random_score, \code{signature(object = "PFP")}:
-extract the random score}
 \item{genes_score, \code{signature(object = "PFP", index=NULL,
      index_type = c("pathway_id","pathway_name","slice"))}:
 extract the genes score}
@@ -51,10 +48,14 @@ sort the PFP score.}
 }
 }
 
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+}
 \seealso{
 \code{\link{pathways_score-methods}},
 \code{\link{refnet_info-methods}},\code{\link{PFP_score-methods}},
-\code{\link{stats_test-methods}}, \code{\link{random_score-methods}},
+\code{\link{stats_test-methods}},
 \code{\link{genes_score-methods}}, \code{\link{refnet_names-methods}},
 \code{\link{sub_PFP-methods}}, \code{\link{show_PFP-methods}},
 \code{\link{plot_PFP-methods}}, \code{\link{rank_PFP-methods}},

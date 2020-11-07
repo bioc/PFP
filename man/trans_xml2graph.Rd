@@ -9,6 +9,9 @@ trans_xml2graph(file_dir)
 \arguments{
 \item{file_dir, }{a character, refers to the file_path where kegg KGML files are stored.}
 }
+\value{
+Trans the xml to graph
+}
 \description{
 This function will translate all kegg KGML files in path \code{file_dir}.
 }
@@ -16,8 +19,8 @@ This function will translate all kegg KGML files in path \code{file_dir}.
 , translate all kegg KGML files in path \code{file_dir}. It will return a list of \code{graphNEL}
 }
 \examples{
-\dontrun{
+# Download the kegg
 kegg_download(spec = "hsa", file_root="~/Desktop")
+# Trans the xml to graph
 graph_list <- trans_xml2graph("~/Desktop")
-}
 }

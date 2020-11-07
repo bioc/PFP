@@ -12,12 +12,13 @@
 #' a gene_list in some pathway networks by considering the genes' topological location in
 #' a pathway. Then we can get every gene's score and the pathway score is caculated by sum
 #' all genes' score. All pathways' scores combine the pathway fingerprint.
+#' @return The main part of pathway fingerprint.
 #' @examples
-#' \dontrun{
+#' # Get the example data.
 #' data(gene_list_hsa)
 #' data("PFPRefnet_hsa")
+#' # Calculate the PFP score.
 #' PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet)
-#' }
 #' @export
 calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE,
                            bg_genelist=NULL,adjust_method="BH"){
@@ -67,7 +68,7 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
     graph_score <- merge(x = graph_score, y = score2, by = "ENTREZID",
                          all.x = TRUE)
     graph_score[["score"]] <- rowSums(graph_score[,c("score1","score2")],
-                                      na.rm = T)/con_rate+graph_score[,c("score0")]
+                                      na.rm = TRUE)/con_rate+graph_score[,c("score0")]
     graph_score[is.na(graph_score)] <- 0
     return(graph_score)
   }

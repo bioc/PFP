@@ -13,7 +13,7 @@ refnet_names(object)
 \S4method{refnet_names}{PFP}(object)
 }
 \arguments{
-\item{object, }{\code{\link{PFPRefnet-class}} class}
+\item{object, }{\code{PFPRefnet} class}
 }
 \value{
 a vector contains pathway names
@@ -21,4 +21,9 @@ a vector contains pathway names
 \description{
 Names of basic networks
 This function extract the reference pathway network names of PFP.
+}
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+refnet_names <- refnet_names(s1)
 }

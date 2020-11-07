@@ -65,10 +65,10 @@ test_that('method sub_PFP of PFP are as expected',{
 })
 
 test_that('method rank_PFP of PFP are as expected',{
-  rank1_PFP1 <- rank_PFP(object = PFP_test1,total_rank = T)
-  rank2_PFP1 <- rank_PFP(object = PFP_test1,total_rank = F)
-  rank1_PFP2 <- rank_PFP(object = PFP_test2,total_rank = T)
-  rank2_PFP2 <- rank_PFP(object = PFP_test2,total_rank = F)
+  rank1_PFP1 <- rank_PFP(object = PFP_test1,total_rank = TRUE)
+  rank2_PFP1 <- rank_PFP(object = PFP_test1,total_rank = FALSE)
+  rank1_PFP2 <- rank_PFP(object = PFP_test2,total_rank = TRUE)
+  rank2_PFP2 <- rank_PFP(object = PFP_test2,total_rank = FALSE)
   expect_that(rank1_PFP1,is_a('PFP'))
   expect_that(rank2_PFP1,is_a('PFP'))
   expect_that(rank1_PFP2,is_a('PFP'))

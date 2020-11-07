@@ -33,6 +33,9 @@ Default is \emph{NULL}, indicating extract all the networks of a group. See
 
 \item{index_type, }{character, the type pf index, which could be "slice","id","name".}
 }
+\value{
+sub the network
+}
 \description{
 Extract or Replace parts of the PFPRefnet.
 }
@@ -44,6 +47,11 @@ a specific group networks.
 Note, the \code{index} argument is only worked while the group_name argument is
 consideration, which means group_name is not \emph{NULL}. And the length must be
 the same as \code{group_name}. Default is \emph{NULL}, indicating extract the entire group basic networks.
+}
+\examples{
+# New a PFPRefnet object
+PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+subnet <- subnet(PFPRefnet1)
 }
 \seealso{
 \code{\link{PFPRefnet-class}}

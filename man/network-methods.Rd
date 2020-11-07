@@ -20,6 +20,11 @@ a graphNEL list of all basic networks
 \description{
 This function extract the basic networks of PFPRefnet class.
 }
+\examples{
+# New a PFPRefnet object
+PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+network <- network(PFPRefnet1)
+}
 \seealso{
 \code{\link{PFPRefnet-class}}
 }

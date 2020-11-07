@@ -20,6 +20,11 @@ a dataframe contains basic networks' information
 \description{
 This function extract the basic networks information of PFPRefnet class.
 }
+\examples{
+# New a PFPRefnet object
+PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+net_info <- net_info(PFPRefnet1)
+}
 \seealso{
 \code{\link{PFPRefnet-class}}
 }

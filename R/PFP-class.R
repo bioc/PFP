@@ -66,7 +66,9 @@
 #' \code{\link{genes_score-methods}}, \code{\link{refnet_names-methods}},
 #' \code{\link{sub_PFP-methods}}, \code{\link{show_PFP-methods}},
 #' \code{\link{plot_PFP-methods}}, \code{\link{rank_PFP-methods}},
-#'
+#' @examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame"),
          prototype = list(pathways_score = NULL, refnet_info = NULL),
          validity = .check.PFP)
@@ -81,6 +83,10 @@ setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame")
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return as list, details in pathway fingerprint scores.
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'pathways_score <- pathways_score(s1)
 setGeneric("pathways_score",
            function(object){standardGeneric("pathways_score")})
 #' @rdname pathways_score-methods
@@ -103,6 +109,10 @@ setMethod("pathways_score",signature="PFP",
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return detail information of reference pathway networks
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'refnet_info <- refnet_info(s1)
 setGeneric("refnet_info",
            function(object){standardGeneric("refnet_info")})
 #' @rdname refnet_info-methods
@@ -125,6 +135,10 @@ setMethod("refnet_info",signature="PFP",
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return the PFP_score
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'PFP_score <- PFP_score(s1)
 setGeneric("PFP_score",
            function(object){standardGeneric("PFP_score")})
 #' @rdname PFP_score-methods
@@ -146,6 +160,10 @@ setMethod("PFP_score",signature="PFP",
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return Statistical test result of each pathway score
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'stats_test <- stats_test(s1)
 setGeneric("stats_test",
            function(object){standardGeneric("stats_test")})
 #' @rdname stats_test-methods
@@ -170,6 +188,10 @@ setMethod("stats_test",signature="PFP",
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return a named vector of numeric scores
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'genes_score <- genes_score(s1)
 setGeneric("genes_score",
            function(object,index=NULL,
                     index_type = c("pathway_id","pathway_name","slice"))
@@ -214,6 +236,10 @@ setMethod("genes_score",signature="PFP",
 #'@aliases refnet_names refnet_names-methods
 #'@docType methods
 #'@return a vector contains pathway names
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'refnet_names <- refnet_names(s1)
 setGeneric("refnet_names",
            function(object){standardGeneric("refnet_names")})
 #' @rdname refnet_names-methods
@@ -252,6 +278,10 @@ setMethod("refnet_names",signature="PFP",
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return a PFP object contains just the selected elements.
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'refnet_names <- sub_PFP(s1,group_name,index,index_type)
 setGeneric("sub_PFP",
            function(object, group_name = NULL, index = NULL, index_type =
                       c("slice","pathway_id","pathway_name"))
@@ -340,6 +370,11 @@ setGeneric("show_PFP",
            function(object){standardGeneric("show_PFP")})
 #' @rdname show_PFP-methods
 #' @aliases show_PFP show_PFP-methods
+#'@return show the PFP
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'show_PFP(s1)
 setMethod("show_PFP", "PFP",
           function(object){
             group_name <- unique(object@refnet_info$group)
@@ -371,6 +406,11 @@ globalVariables("refnet_index")
 #'@aliases plot_PFP plot_PFP-methods
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
+#'@return a plot of PFP
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'plot_PFP(s1,'line', p_size = 1, l_size = 0.5)
 setGeneric("plot_PFP",
            function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5)
            {standardGeneric("plot_PFP")})
@@ -379,26 +419,23 @@ setGeneric("plot_PFP",
 setMethod("plot_PFP",'PFP',
           function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5){
             type <- match.arg(type, c('matchstick', 'line','point'))
-            if (class(object) == 'PFP'){
-              PFP_score <- object@pathways_score[["PFP_score"]]
-              PFP_refnet_group <- as.vector(object@refnet_info$group)
-              sim_df <- data.frame(PFP_score = PFP_score, group = PFP_refnet_group,
-                                   refnet_index = 1:nrow(object@refnet_info))
-              network_num <- length(PFP_score)
-              if(all(!is.na(PFP_score))){ # skip plot if sim is NA
-                p <- ggplot(sim_df,aes(x = refnet_index, y = PFP_score))
-                if(type == "point")
-                  print(p + geom_point(size = p_size, aes(color = group)))
-                if(type == "line")
-                  print(p + geom_line(size = l_size, aes(color = group, group = 1)))
-                if (type == 'matchstick')
-                  print(p + geom_point(size = p_size, aes(color = group)) +
-                          geom_segment(aes(xend = refnet_index, yend = 0, color = group),
-                                       size = l_size))
-              }
-              else
-                stop('PFP score must be NA')
+            PFP_score <- object@pathways_score[["PFP_score"]]
+            PFP_refnet_group <- as.vector(object@refnet_info$group)
+            sim_df <- data.frame(PFP_score = PFP_score, group = PFP_refnet_group,
+                                 refnet_index = 1:nrow(object@refnet_info))
+            network_num <- length(PFP_score)
+            if(all(!is.na(PFP_score))){ # skip plot if sim is NA
+              p <- ggplot(sim_df,aes(x = refnet_index, y = PFP_score))
+              if(type == "point")
+                print(p + geom_point(size = p_size, aes(color = group)))
+              if(type == "line")
+                print(p + geom_line(size = l_size, aes(color = group, group = 1)))
+              if (type == 'matchstick')
+                print(p + geom_point(size = p_size, aes(color = group)) +
+                        geom_segment(aes(xend = refnet_index, yend = 0, color = group),
+                                     size = l_size))
             }
+
           }
 )
 
@@ -418,6 +455,10 @@ setMethod("plot_PFP",'PFP',
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return a ranked PFP object.
+#'@examples
+#'# New a PFP object
+#'s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'rank_PFP(s1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
 setGeneric("rank_PFP",
            function(object,total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods

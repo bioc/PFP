@@ -11,6 +11,9 @@ kegg_download(spec, file_root = ".")
 
 \item{file_root, }{a character,refers to the root you want to save kegg pathway kgml files in.}
 }
+\value{
+the kegg KGML files
+}
 \description{
 This function will download all kegg KGML files assigned by \code{spec}.
 }
@@ -19,7 +22,6 @@ This function will download all kegg KGML files assigned by \code{spec}.
 which may take tens of minutes.
 }
 \examples{
-\dontrun{
+# Load the kegg network
 kegg_download(spec = "hsa", file_root="~/Desktop")
-}
 }

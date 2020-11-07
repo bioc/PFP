@@ -14,6 +14,14 @@ show_PFP(object)
 \arguments{
 \item{object, }{\code{PFP} object}
 }
+\value{
+show the PFP
+}
 \description{
 Show a short summary for PFP object.
+}
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+show_PFP(s1)
 }

@@ -32,9 +32,17 @@ Default is 'matchstick'.}
 
 \item{l_size, }{line size of plot, default is 0.5.}
 }
+\value{
+a plot of PFP
+}
 \description{
 Plot PFP results
 Function for visualization PFP results.
+}
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+plot_PFP(s1,'line', p_size = 1, l_size = 0.5)
 }
 \seealso{
 \code{\link{PFP-class}}

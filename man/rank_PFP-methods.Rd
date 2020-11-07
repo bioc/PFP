@@ -8,9 +8,21 @@
 \title{rank of the PFP object by the value of PFP_score.
 Function for show the rank of PFP results.}
 \usage{
-rank_PFP(object, total_rank = FALSE, decreasing = TRUE)
+rank_PFP(
+  object,
+  total_rank = FALSE,
+  decreasing = TRUE,
+  separate = TRUE,
+  p_adj = 0.05
+)
 
-\S4method{rank_PFP}{PFP}(object, total_rank = FALSE, decreasing = TRUE)
+\S4method{rank_PFP}{PFP}(
+  object,
+  total_rank = FALSE,
+  decreasing = TRUE,
+  separate = TRUE,
+  p_adj = 0.05
+)
 }
 \arguments{
 \item{object, }{\code{PFP} class}
@@ -18,6 +30,10 @@ rank_PFP(object, total_rank = FALSE, decreasing = TRUE)
 \item{total_rank, }{a logical, whether to rank in total range, the default is \emph{TRUE}}
 
 \item{decreasing, }{a logical, Sorting method, the default is \emph{TRUE}}
+
+\item{separate, }{a logical, whether separate the significant pathway with not significant}
+
+\item{p_adj, }{a numeric, the threshold for p_adjust_value for pathway selection}
 }
 \value{
 a ranked PFP object.
@@ -25,6 +41,11 @@ a ranked PFP object.
 \description{
 rank of the PFP object by the value of PFP_score.
 Function for show the rank of PFP results.
+}
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+rank_PFP(s1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
 }
 \seealso{
 \code{\link{PFP-class}}

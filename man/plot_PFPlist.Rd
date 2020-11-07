@@ -11,15 +11,19 @@ plot_PFPlist(object, l_size = 0.5)
 
 \item{l_size, }{line size of plot, default is 0.5.}
 }
+\value{
+plot the PFP list
+}
 \description{
 Function for visualization multiple PFPs.
 }
 \examples{
-\dontrun{
+# Load the data
 data(PFP_test1)
+# Get the list of pfp
 pfp_list <- list(a=PFP_test1)
+# Plot the PFP list
 plot_PFPlist(pfp_list)
-}
 }
 \seealso{
 \code{\link{PFP-class}}

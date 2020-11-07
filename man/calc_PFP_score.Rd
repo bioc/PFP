@@ -11,7 +11,6 @@ calc_PFP_score(
   coeff2 = 0.1,
   statistic = FALSE,
   bg_genelist = NULL,
-  num_loop = 10,
   adjust_method = "BH"
 )
 }
@@ -28,10 +27,11 @@ calc_PFP_score(
 
 \item{bg_genelist, }{a vector of characters, background gene set for the statistical test}
 
-\item{num_loop, }{random sampling times from bg_genelist for the statistical test}
-
 \item{adjust_method, }{statistic test method for adjust the p_value.
 It could be "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none".}
+}
+\value{
+The main part of pathway fingerprint.
 }
 \description{
 It can evaluate the performance of a gene list in the pathway networks.
@@ -43,9 +43,9 @@ a pathway. Then we can get every gene's score and the pathway score is caculated
 all genes' score. All pathways' scores combine the pathway fingerprint.
 }
 \examples{
-\dontrun{
+# Get the example data.
 data(gene_list_hsa)
 data("PFPRefnet_hsa")
+# Calculate the PFP score.
 PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet)
-}
 }

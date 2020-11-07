@@ -30,6 +30,9 @@ to translate the gene ids. Default is \code{trans_edges_id}.}
 
 \item{gene_info_db, }{an AnnotationDb-object for gene annotation, such as "org.Hs.eg.db".}
 }
+\value{
+the nodes information of the edges.
+}
 \description{
 This function will remove the co-expressed edges in edges_coexp which also emerge in edges_kegg.
 }
@@ -39,12 +42,15 @@ It will return a list contains two data.frames. One is the merged data. Another 
 the nodes information of the edges.
 }
 \examples{
-\dontrun{
+# Load the depends
 library(org.Hs.eg.db)
+# Load the data
 data(PFPRefnet_hsa)
 data(gene_list)
+# Get the correlation of edges
 edges_coexp <- get_exp_cor_edges(gene_list,data_std)
+# Get the related kegg
 edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+# Get the related kegg
 asso_net <- get_asso_net(edges_coexp,edges_kegg)
-}
 }

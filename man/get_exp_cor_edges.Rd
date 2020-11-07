@@ -25,6 +25,9 @@ it could be "pearson", "kendall", "spearman", "spearman" is default}
 
 \item{cor_threshold, }{a numeric, the threshold of the correlation coefficient to choose, default is \emph{NULL}}
 }
+\value{
+the coexp of edges.
+}
 \description{
 compute the correlation coefficient of gene expression data,return the most related genes
 }
@@ -39,9 +42,9 @@ Note, when choosing the top co-expressed genes, we will use the \code{num} param
 the \code{cor_threshold} param is \emph{NULL}. If not, we will choose the \code{cor_threshold} param.
 }
 \examples{
-\dontrun{
+# Load the data
 data(data_std)
 data(gene_list)
+# Get the coexp of edges
 edges_coexp <- get_exp_cor_edges(gene_list,data_std)
-}
 }

@@ -16,12 +16,13 @@
 #'
 #' Note, when choosing the top co-expressed genes, we will use the \code{num} param if
 #' the \code{cor_threshold} param is \emph{NULL}. If not, we will choose the \code{cor_threshold} param.
+#' @return the coexp of edges.
 #' @examples
-#' \dontrun{
+#' # Load the data
 #' data(data_std)
 #' data(gene_list)
+#' # Get the coexp of edges
 #' edges_coexp <- get_exp_cor_edges(gene_list,data_std)
-#' }
 #' @export
 get_exp_cor_edges <- function(gene_list,data_std,method="spearman",num=5,cor_threshold=NULL){
   bg_genelist <- rownames(data_std)
@@ -36,7 +37,7 @@ get_exp_cor_edges <- function(gene_list,data_std,method="spearman",num=5,cor_thr
 
   get_gene_cor_num <- function(gene,data_std,method,num){
     cor_list <- vapply(X =rownames(data_std),FUN = function(name0)cor(x = unlist(data_std[gene,]),y = unlist(data_std[name0,]),method = method),0)
-    cor_list <- cor_list[order(abs(cor_list),decreasing = T)]
+    cor_list <- cor_list[order(abs(cor_list),decreasing = TRUE)]
     cor_data_frame <- data.frame(source=rep(x = gene,num),target=names(cor_list)[2:(num+1)],weight=cor_list[2:(num+1)])
   }
   get_gene_cor_thresh <- function(gene,data_std,method,cor_threshold){
@@ -84,16 +85,17 @@ get_exp_cor_edges <- function(gene_list,data_std,method="spearman",num=5,cor_thr
 #' In the data.frame, \code{source} refers to the genes in \code{gene_list}, \code{target} refers to the directly
 #' connected genes in kegg, \code{weight} is 0.5, no real means, \code{pathway}
 #' refers to the pathway which the edge emerge and \code{edge_type} is "kegg".
-#'
 #' Note, if \code{rm_duplicated} is \emph{FALSE}, it may return many duplicated edges,
 #' which will be complex when plotting a network. If \code{rm_duplicated} is \emph{TRUE},
 #' it will retain the first pathway which contains the duplicated edge.
+#' @return the related kegg network.
 #' @examples
-#' \dontrun{
+#' # Load the PFPRefnet of human
 #' data(PFPRefnet_hsa)
+#' # Load the list of diff genes
 #' data(gene_list)
+#' # Get the related kegg network
 #' edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
-#' }
 #' @export
 get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
   if (sum(is.na(as.numeric(gene_list))) > 0)
@@ -125,25 +127,28 @@ get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
 #' @param to_type, a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.
 #' @param gene_info_db, a gene
 #' @details, Translate the id name in edges_data.
-#'
 #' Note, the \code{from_type} must be consistent with the genes id type in \code{edges_data}.
 #' The \code{gene_info_db} must be consistent with the species in \code{edges_data}
+#' @return the id of the edges.
 #' @examples
-#' \dontrun{
+#' # Library the datebase of org.Hs.eg.db
 #' library(org.Hs.eg.db)
+#' # Load the data of human's PFPRefnet
 #' data(PFPRefnet_hsa)
+#' # Load the list of gene
 #' data(gene_list)
+#' # Get the related kegg network
 #' edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#' # Trans the id of edges
 #' edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
-#' }
 #' @export
 trans_edges_id <- function(edges_data,from_type="ENTREZID",to_type="SYMBOL",gene_info_db=NULL){
   source_exp <- bitr(geneID = edges_data$source,fromType = from_type,toType = to_type,OrgDb = gene_info_db)
   target_exp <- bitr(geneID = edges_data$target,fromType = from_type,toType = to_type,OrgDb = gene_info_db)
   colnames(source_exp) <- c("source","source_SYMBOL")
   colnames(target_exp) <- c("target","target_SYMBOL")
-  edges_data <- merge(x = edges_data,y=source_exp,by="source",all.x=T)
-  edges_data <- merge(x = edges_data,y=target_exp,by="target",all.x=T)
+  edges_data <- merge(x = edges_data,y=source_exp,by="source",all.x=TRUE)
+  edges_data <- merge(x = edges_data,y=target_exp,by="target",all.x=TRUE)
   edges_data <- edges_data[!is.na(edges_data$source_SYMBOL)&!is.na(edges_data$target_SYMBOL),]
   edges_data <- edges_data[c("source_SYMBOL","target_SYMBOL","weight","pathway","edge_type")]
   colnames(edges_data) <- c("source","target","weight","pathway","edge_type")
@@ -167,15 +172,19 @@ trans_edges_id <- function(edges_data,from_type="ENTREZID",to_type="SYMBOL",gene
 #' @details, This function will remove the co-expressed edges in edges_coexp which also emerge in edges_kegg.
 #' It will return a list contains two data.frames. One is the merged data. Another is
 #' the nodes information of the edges.
+#' @return the nodes information of the edges.
 #' @examples
-#' \dontrun{
+#' # Load the depends
 #' library(org.Hs.eg.db)
+#' # Load the data
 #' data(PFPRefnet_hsa)
 #' data(gene_list)
+#' # Get the correlation of edges
 #' edges_coexp <- get_exp_cor_edges(gene_list,data_std)
+#' # Get the related kegg
 #' edges_kegg <- get_bg_related_kegg(gene_list,PFPRefnet_hsa)
+#' # Get the related kegg
 #' asso_net <- get_asso_net(edges_coexp,edges_kegg)
-#' }
 #' @export
 get_asso_net <- function(edges_coexp,edges_kegg,if_symbol=TRUE,trans_fun = trans_edges_id,from_type="ENTREZID",to_type="SYMBOL",gene_info_db=NULL){
     # trans_id

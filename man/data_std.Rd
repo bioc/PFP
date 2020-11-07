@@ -9,3 +9,7 @@ Gene list obtained by differential gene analysis
 \description{
 A dataset of gene expression profile
 }
+\examples{
+# Load the data.
+data(data_std)
+}

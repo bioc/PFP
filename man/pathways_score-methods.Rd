@@ -23,6 +23,11 @@ as list, details in pathway fingerprint scores.
 Basic pathway networks scores of \emph{PFP} class
 This function can extract the details in pathway fingerprint scores.
 }
+\examples{
+# New a PFP object
+s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+pathways_score <- pathways_score(s1)
+}
 \seealso{
 \code{\link{PFP-class}}
 }

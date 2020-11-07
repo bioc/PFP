@@ -9,3 +9,7 @@ a list
 \description{
 A pathway information
 }
+\examples{
+# Load the data.
+data(pathway_info)
+}

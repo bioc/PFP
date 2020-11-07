@@ -5,10 +5,10 @@
 #' @param file_root, a character,refers to the root you want to save kegg pathway kgml files in.
 #' @details, Downloading all kegg KGML files assigned by \code{spec} from https://www.kegg.jp/kegg/xml/,
 #'  which may take tens of minutes.
+#' @return the kegg KGML files
 #' @examples
-#' \dontrun{
+#' # Load the kegg network
 #' kegg_download(spec = "hsa", file_root="~/Desktop")
-#' }
 #' @export
 kegg_download <- function(spec,file_root="."){
   # create the file dir for downloading
@@ -23,7 +23,7 @@ kegg_download <- function(spec,file_root="."){
   url_pathway_names <- paste0("http://rest.kegg.jp/list/pathway/",spec)
   # downloaded pathway info files
   download.file(url = url_pathway_names, destfile = paste0(file_root,"/",spec,"_pathways.txt"))
-  file1 = read.csv(file = paste0(file_root,"/",spec,"_pathways.txt"),header = F,sep = "\t")
+  file1 = read.csv(file = paste0(file_root,"/",spec,"_pathways.txt"),header = FALSE,sep = "\t")
   if (length(unique(substr(as.vector(file1$V1),1,5)))!=1){
     stop("You downloaded the wrong pathway info file! Please check your network connection!")
   }
@@ -68,11 +68,12 @@ kegg_download <- function(spec,file_root="."){
 #' @description This function will translate all kegg KGML files in path \code{file_dir}.
 #' @param file_dir, a character, refers to the file_path where kegg KGML files are stored.
 #' @details, translate all kegg KGML files in path \code{file_dir}. It will return a list of \code{graphNEL}
+#' @return Trans the xml to graph
 #' @examples
-#' \dontrun{
+#' # Download the kegg
 #' kegg_download(spec = "hsa", file_root="~/Desktop")
+#' # Trans the xml to graph
 #' graph_list <- trans_xml2graph("~/Desktop")
-#' }
 #' @export
 trans_xml2graph <- function(file_dir){
   if (substr(file_dir,nchar(file_dir),nchar(file_dir)) == "/"){
@@ -119,19 +120,21 @@ trans_xml2graph <- function(file_dir){
 #' @param pathway_info, a data.frame, which contains all kegg pathways "index","id","name","group","species"
 #' @details, translating all graphs in \code{graph_list} to a \code{\link{PFPRefnet}} object.
 #' The pathway_info can be designed by yourself, but the colnames must be "index","id","name","group" and "species".
+#' @return a PFPRefnet
 #' @examples
-#' \dontrun{
+#' # Load the info of the pathway
 #' data(pathway_info)
+#' # Download the kegg network of human
 #' kegg_download(spec = "hsa", file_root="~/Desktop")
 #' graph_list <- trans_xml2graph("~/Desktop")
+#' # Trans the graph to PFPRefnet
 #' PFPRefnet_hsa <- trans_graph2PFPRefnet(graph_list,pathway_info)
-#' }
 #' @export
 trans_graph2PFPRefnet  <- function(graph_list,pathway_info){
   spec <- substr(names(graph_list)[1],1,3)
   name_len <- nchar(names(graph_list)[1])
   id_graphlist <- data.frame(id = substr(names(graph_list),4,name_len))
-  pathway_info <- merge(id_graphlist,pathway_info,by="id",all.x=T)
+  pathway_info <- merge(id_graphlist,pathway_info,by="id",all.x=TRUE)
   pathway_info[["id"]] <- paste0(rep(spec,nrow(pathway_info)),pathway_info$id)
   pathway_info[["species"]] <- rep(spec,nrow(pathway_info))
   pathway_info <- pathway_info[order(pathway_info$index,decreasing = FALSE),c("index","id","name","group","species")]
