@@ -463,7 +463,7 @@ setMethod("plot_PFP",'PFP',
 #'the threshold slot to choose for select the significant pathway. Default is 'p_adj_value'.
 #'It also could be \emph{NULL},it means that you don't want to select the significant pathway
 #'and you will select all pathways.
-#'@param thresh_value, a numeric, the threshold for 'p_value' or 'p_adjust_value' for pathway selection
+#'@param thresh_value, a numeric, threshold value of 'p_value' or 'p_adjust_value' for pathway selection
 #'@aliases rank_PFP rank_PFP-methods
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
