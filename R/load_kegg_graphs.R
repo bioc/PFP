@@ -95,7 +95,7 @@ trans_xml2graph <- function(file_dir){
   }
   graph_list <- graph_list[right_trans]
   # remove pathways which have no elements in nodes or edges
-  zero_id <- vapply(X = graph_list,FUN = function(x)(length(nodes(x))==0 | length(edgeData(x))==0),TRUE)
+  zero_id <- vapply(X = graph_list,FUN = function(x)(length(nodes(x))==0 & length(edgeData(x))==0),TRUE)
   graph_list <- graph_list[!zero_id]
   names(graph_list) <- t(data.frame(strsplit(x = names(graph_list),split = "\\.")))[,1]
   spec <- substr(names(graph_list)[1],1,3)
