@@ -4,7 +4,7 @@ data("PFP_test2")
 test_that('method pathways_score of PFP are as expected',{
   pathways.score <- pathways_score(PFP_test1)
   expect_that(pathways.score, is_a('list'))
-  expect_that(length(pathways.score), is_equivalent_to(4))
+  expect_that(length(pathways.score), is_equivalent_to(3))
 })
 
 test_that('method refnet_info of PFP are as expected',{
@@ -24,14 +24,6 @@ test_that('method stats_test of PFP are as expected',{
   expect_that(stats.test1, is_a('data.frame'))
   expect_that(stats.test2, is_a('data.frame'))
 })
-
-#test_that('method random_score of PFP are as expected',{
-#  random.score1 <- random_score(PFP_test1)
-#  random.score2 <- random_score(PFP_test2)
-#  expect_that(random.score1, is_a('data.frame'))
-#  expect_that(random.score2, is_a('data.frame'))
-#  expect_that(nrow(random.score2), is_equivalent_to(0))
-#})
 
 test_that('method genes_score of PFP are as expected',{
   genes.score <- genes_score(PFP_test1)
