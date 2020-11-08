@@ -1,7 +1,7 @@
 Package: PFP
 Type: Package
 Title: Pathway Fingerprint Framework in R
-Version: 0.99.1
+Version: 0.99.2
 biocViews: WorkflowStep, RNASeq, FeatureExtraction
 Authors@R: c(
     person("XC", "Zhang",email = "xiaochang_z@foxmail.com",role = c("aut","cre" )),
