@@ -106,8 +106,8 @@ trans_xml2graph <- function(file_dir){
     graph1 <- new(Class = "graphNEL",nodes=nodes(graph0),edgeL=edgeL(graph0),edgemode='directed')
   }
   graph_list <- sapply(names(graph_list), FUN = fun_trans,graph_list)
-  save(list = c("graph_list"),file = paste0(file_dir,"/graph_list.RData"))
-  graph_list
+  # save(list = c("graph_list"),file = paste0(file_dir,"/graph_list.RData"))
+  # graph_list
 }
 
 
