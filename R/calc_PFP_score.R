@@ -12,13 +12,12 @@
 #' a gene_list in some pathway networks by considering the genes' topological location in
 #' a pathway. Then we can get every gene's score and the pathway score is caculated by sum
 #' all genes' score. All pathways' scores combine the pathway fingerprint.
-#' @return The main part of pathway fingerprint.
 #' @examples
-#' # Get the example data.
-#'data(gene_list_hsa)
-#'data("PFPRefnet_hsa")
-#' # Calculate the PFP score.
-#'#PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet_hsa)
+#' \dontrun{
+#' data(gene_list_hsa)
+#' data("PFPRefnet_hsa")
+#' PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet)
+#' }
 #' @export
 calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE,
                            bg_genelist=NULL,adjust_method="BH"){
@@ -32,44 +31,49 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
     genes_inter <- as.vector(intersect(genes,kegg_nodes0))
     graph_score <- data.frame(ENTREZID=genes_inter,
                               score0=rep(1,length(genes_inter)))
+    if (nrow(kegg_edges1)!=0){
+      # score1
+      score1_tmp <- vapply(X = kegg_edges0,
+                           FUN = function(x)sum(match(x = x,
+                                                      table = genes_inter,
+                                                      nomatch = 0) == 0)==0,
+                           FUN.VALUE = TRUE)
+      if (sum(score1_tmp) == 0){
+        score1 <- data.frame(matrix(nrow = 0,ncol=2))
+        colnames(score1) <- c("ENTREZID","score1")
+      }else{
+        score1 <- data.frame(table(unlist(kegg_edges0[score1_tmp])))
+        colnames(score1) <- c("ENTREZID","score1")
+        score1[["score1"]] <- score1[,"score1"]*coeff1
+      }
 
-    # score1
-    score1_tmp <- vapply(X = kegg_edges0,
-                         FUN = function(x)sum(match(x = x,
-                                                    table = genes_inter,
-                                                    nomatch = 0) == 0)==0,
-                         FUN.VALUE = TRUE)
-    if (sum(score1_tmp) == 0){
-      score1 <- data.frame(matrix(nrow = 0,ncol=2))
-      colnames(score1) <- c("ENTREZID","score1")
+      # score2
+      left_con <- lapply(genes_inter,function(x)kegg_edges1[kegg_edges1[,1]==x,2])
+      names(left_con) <- genes_inter
+      right_con <- lapply(genes_inter,function(x)kegg_edges1[kegg_edges1[,2]==x,1])
+      names(right_con) <- genes_inter
+      fun_intersect <- function(set,set_list){
+        vapply(X = set_list, FUN = function(x)(length(intersect(x,set))),0)
+      }
+      score2_tmp <- data.frame(lapply(X = left_con,FUN = fun_intersect,right_con))
+      score2 <- vapply(X = seq_len(length(genes_inter)),
+                       function(x)sum(score2_tmp[,x])+sum(score2_tmp[x,])-
+                         score2_tmp[x,x],0)
+      score2 <- data.frame(ENTREZID=genes_inter,score2=score2)
+      score2[["score2"]] <- score2[,"score2"]*coeff2
+
+      graph_score <- merge(x = graph_score, y = score1, by = "ENTREZID",
+                           all.x = TRUE)
+      graph_score <- merge(x = graph_score, y = score2, by = "ENTREZID",
+                           all.x = TRUE)
+      graph_score[["score"]] <- rowSums(graph_score[,c("score1","score2")],
+                                        na.rm = T)/con_rate+graph_score[,c("score0")]
+      graph_score[is.na(graph_score)] <- 0
     }else{
-      score1 <- data.frame(table(unlist(kegg_edges0[score1_tmp])))
-      colnames(score1) <- c("ENTREZID","score1")
-      score1[["score1"]] <- score1[,"score1"]*coeff1
+      graph_score[["score1"]] <- rep(0,nrow(graph_score))
+      graph_score[["score2"]] <- rep(0,nrow(graph_score))
+      graph_score[["score"]] <- graph_score[,c("score0")]
     }
-
-    # score2
-    left_con <- lapply(genes_inter,function(x)kegg_edges1[kegg_edges1[,1]==x,2])
-    names(left_con) <- genes_inter
-    right_con <- lapply(genes_inter,function(x)kegg_edges1[kegg_edges1[,2]==x,1])
-    names(right_con) <- genes_inter
-    fun_intersect <- function(set,set_list){
-      vapply(X = set_list, FUN = function(x)(length(intersect(x,set))),0)
-    }
-    score2_tmp <- data.frame(lapply(X = left_con,FUN = fun_intersect,right_con))
-    score2 <- vapply(X = seq_len(length(genes_inter)),
-                     function(x)sum(score2_tmp[,x])+sum(score2_tmp[x,])-
-                       score2_tmp[x,x],0)
-    score2 <- data.frame(ENTREZID=genes_inter,score2=score2)
-    score2[["score2"]] <- score2[,"score2"]*coeff2
-
-    graph_score <- merge(x = graph_score, y = score1, by = "ENTREZID",
-                         all.x = TRUE)
-    graph_score <- merge(x = graph_score, y = score2, by = "ENTREZID",
-                         all.x = TRUE)
-    graph_score[["score"]] <- rowSums(graph_score[,c("score1","score2")],
-                                      na.rm = TRUE)/con_rate+graph_score[,c("score0")]
-    graph_score[is.na(graph_score)] <- 0
     return(graph_score)
   }
 
@@ -119,5 +123,3 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
                  refnet_info = net_info(PFPRefnet))
   return(PFP_res)
 }
-
-
