@@ -459,35 +459,37 @@ setMethod("plot_PFP",'PFP',
 #'@param object, \code{PFP} class
 #'@param total_rank, a logical, whether to rank in total range, the default is \emph{TRUE}
 #'@param decreasing, a logical, Sorting method, the default is \emph{TRUE}
-#'@param separate, a logical, whether separate the significant pathway with not significant
-#'@param p_adj, a numeric, the threshold for p_adjust_value for pathway selection
+#'@param thresh_slot, a character, it could be 'p_value' or 'p_adj_value', it means
+#'the threshold slot to choose for select the significant pathway. Default is 'p_adj_value'.
+#'It also could be \emph{NULL},it means that you don't want to select the significant pathway
+#'and you will select all pathways.
+#'@param thresh_value, a numeric, the threshold for 'p_value' or 'p_adjust_value' for pathway selection
 #'@aliases rank_PFP rank_PFP-methods
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return a ranked PFP object.
-#'@examples
-#'# New a PFP object
-#'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'#rank_PFP(PFP_test1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
 setGeneric("rank_PFP",
-           function(object,total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05){standardGeneric("rank_PFP")})
+           function(object,total_rank=FALSE,decreasing=TRUE,thresh_slot="p_adj_value",thresh_value = 0.05){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods
 #' @aliases rank_PFP rank_PFP-methods
 setMethod("rank_PFP",signature="PFP",
-          function(object,total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05){
+          function(object,total_rank=FALSE,decreasing=TRUE,thresh_slot="p_adj_value",thresh_value = 0.05){
             refnet_info <- object@refnet_info
             refnet_info[["PFP_score"]] <- data.frame(object@pathways_score[["PFP_score"]])
             if (nrow(object@pathways_score[["stats_test"]])==nrow(object@refnet_info)){
-              refnet_info[["p_value"]] <- data.frame(object@pathways_score[["stats_test"]][,"p_adj_value"])
+              if (thresh_slot=="p_adj_value"){
+                refnet_info[["p_value"]] <- data.frame(object@pathways_score[["stats_test"]][,"p_adj_value"])
+              }else if (thresh_slot=="p_value"){
+                refnet_info[["p_value"]] <- data.frame(object@pathways_score[["stats_test"]][,"p_value"])
+              }
               if (total_rank==TRUE){
                 refnet_info <- refnet_info[order(refnet_info[,"PFP_score"],-refnet_info[,"p_value"],decreasing = decreasing),]
               }else{
                 refnet_info <- refnet_info[order(refnet_info[,"group"],refnet_info[,"PFP_score"],-refnet_info[,"p_value"],decreasing = decreasing),]
               }
-              if (separate == TRUE){
-                refnet_info1 <- refnet_info[refnet_info[,"p_value"]<p_adj,]
-                refnet_info2 <- refnet_info[refnet_info[,"p_value"]>=p_adj,]
+              if (!is.null(thresh_slot)){
+                refnet_info1 <- refnet_info[refnet_info[,"p_value"]<thresh_value,]
+                refnet_info2 <- refnet_info[refnet_info[,"p_value"]>=thresh_value,]
                 refnet_info <- rbind(refnet_info1,refnet_info2)
               }
             }else{
@@ -513,4 +515,5 @@ setMethod("rank_PFP",signature="PFP",
                        refnet_info=refnet_info))
           }
 )
+
 
