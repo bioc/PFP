@@ -190,7 +190,7 @@ trans_edges_id <- function(edges_data,from_type="ENTREZID",to_type="SYMBOL",gene
 #' # Get the related kegg
 #' #asso_net <- get_asso_net(edges_coexp,edges_kegg)
 #' @export
-get_asso_net <- function(edges_coexp,edges_kegg,if_symbol=TRUE,trans_fun = trans_edges_id,from_type="ENTREZID",to_type="SYMBOL",gene_info_db=NULL){
+get_asso_net <- function(edges_coexp,edges_kegg,file_dir=NULL,if_symbol=TRUE,trans_fun = trans_edges_id,from_type="ENTREZID",to_type="SYMBOL",gene_info_db=NULL){
     # trans_id
     if (if_symbol==TRUE){
         if (is.null(gene_info_db)){
