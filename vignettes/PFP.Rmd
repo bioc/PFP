@@ -46,7 +46,7 @@ It also allows users to install the latest development version from github, whic
 ## install PFP from github, require biocondutor dependencies package pre-installed 
 if (!require(devtools))
   install.packages("devtools")
-devtools::install_github("AIB-KQC/PFP")
+devtools::install_github("aib-group/PFP")
 ```
 
 After installation, the \*{PFP} is ready to load into the current workspace by the following codes to the current workspace by typing or pasting the following codes:
