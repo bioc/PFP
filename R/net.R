@@ -100,7 +100,21 @@ get_exp_cor_edges <- function(gene_list,data_std,method="spearman",num=5,cor_thr
 get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
   if (sum(is.na(as.numeric(gene_list))) > 0)
     stop("You should translate all your gene ids into ENTREZID!")
-  kegg_edges <- lapply(X = network(PFPRefnet),FUN = getEdgeList)
+  kegg_edges <- lapply(X = network(PFPRefnet),FUN = function(x){
+    if (is(x, "graphNEL")){
+      em <- edgeMatrix(x, duplicates = F)
+      dat <- data.frame(cbind(from = I(nodes(x)[em[1,]])))
+      dat$from <- as.character(dat$from)
+      dat$to <- nodes(x)[em[2, ]]
+      dat$tag1 <- paste(nodes(x)[em[1, ]], nodes(x)[em[2,]], sep = "~")
+      dat$tag2 <- paste(nodes(x)[em[2, ]], nodes(x)[em[1,]], sep = "~")
+      return(dat)
+    }
+    if (is(x, "igraph")) {
+      dat <- as_edgelist(x)
+      return(dat)
+    }
+  })
   data_tf <- llply(kegg_edges,function(kegg_edge)apply(X=kegg_edge,MARGIN=1, FUN=function(x)((x[1] %in% gene_list) | (x[2] %in% gene_list))))
   kegg_edges1 <- lapply(X = names(kegg_edges), function(x)kegg_edges[[x]][data_tf[[x]],])
   kegg_edges1 <-  lapply(X = seq_len(length(kegg_edges1)), function(x)data.frame(source=kegg_edges1[[x]][,1],
