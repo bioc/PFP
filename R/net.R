@@ -177,6 +177,7 @@ trans_edges_id <- function(edges_data,from_type="ENTREZID",to_type="SYMBOL",gene
 #' @description This function will remove the co-expressed edges in edges_coexp which also emerge in edges_kegg.
 #' @param edges_coexp, a data.frame whose colnames is "source","target","weight","pathway","edge_type".
 #' @param edges_kegg, a data.frame whose colnames is "source","target","weight","pathway","edge_type".
+#' @param file_dir, a character, the root to save the result of nodes & edges.
 #' @param if_symbol, a logical,whether to translate the gene id type. Default is TRUE.
 #' @param trans_fun, a function, when \code{if_symbol} is \emph{TRUE},it will use the \code{trans_fun} function
 #' to translate the gene ids. Default is \code{trans_edges_id}.
