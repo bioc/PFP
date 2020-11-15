@@ -2,8 +2,10 @@
 #' @description It can evaluate the performance of a gene list in the pathway networks.
 #' @param genes, a vector of characters
 #' @param PFPRefnet, A PFPRefnet class
-#' @param coeff1, a numeric, the coefficient 1 in PFP model
-#' @param coeff2, a numeric, the coefficient 2 in PFP model
+#' @param lambda, a numeric, the coefficient for keeping balance between the node_score
+#' and edge_score in PFP model
+#' @param coeff1, a numeric, the weight coefficient for directly connected score in PFP model
+#' @param coeff2, a numeric, the weight coefficient for indirectly connected score in PFP model
 #' @param statistic, a logical,whether to do the statistical test
 #' @param bg_genelist, a vector of characters, background gene set for the statistical test
 #' @param adjust_method, statistic test method for adjust the p_value.
@@ -19,10 +21,10 @@
 #' PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet)
 #' }
 #' @export
-calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE,
+calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statistic = FALSE,
                            bg_genelist=NULL,adjust_method="BH"){
   # get graph score
-  get_graph_score <- function(graph0,genes,coeff1,coeff2){
+  get_graph_score <- function(graph0,genes,lambda,coeff1,coeff2){
 
     kegg_edges0 <- strsplit(x = names(edgeData(graph0)),split = "\\|")
     kegg_edges1 <- data.frame(t(data.frame(kegg_edges0)))
@@ -67,7 +69,7 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
       graph_score <- merge(x = graph_score, y = score2, by = "ENTREZID",
                            all.x = TRUE)
       graph_score[["score"]] <- rowSums(graph_score[,c("score1","score2")],
-                                        na.rm = T)/con_rate+graph_score[,c("score0")]
+                                        na.rm = T)/con_rate*(1-lambda)+graph_score[,c("score0")]*lambda
       graph_score[is.na(graph_score)] <- 0
     }else{
       graph_score[["score1"]] <- rep(0,nrow(graph_score))
@@ -96,7 +98,7 @@ calc_PFP_score <- function(genes,PFPRefnet,coeff1=1,coeff2=0.1,statistic = FALSE
   if (sum(is.na(as.numeric(genes))) > 0)
     stop("You should translate all your gene ids into ENTREZID!")
 
-  genes_score <- lapply(network(PFPRefnet),get_graph_score,genes=genes,
+  genes_score <- lapply(network(PFPRefnet),get_graph_score,genes=genes,lambda=lambda,
                         coeff1=coeff1,coeff2=coeff2)
   PFP_score <- vapply(genes_score,function(x)sum(x$score),0)
 
