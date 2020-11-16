@@ -74,7 +74,7 @@ calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statis
     }else{
       graph_score[["score1"]] <- rep(0,nrow(graph_score))
       graph_score[["score2"]] <- rep(0,nrow(graph_score))
-      graph_score[["score"]] <- graph_score[,c("score0")]
+      graph_score[["score"]] <- graph_score[,c("score0")]*lambda
     }
     return(graph_score)
   }
