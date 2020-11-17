@@ -241,22 +241,3 @@ get_asso_net <- function(edges_coexp,edges_kegg,file_dir=NULL,if_symbol=TRUE,tra
 }
 
 
-#
-# library("ggplot2")
-#
-# load("/home/zx/文档/kangqichuang/PFP/data/PFPRefnet_hsa.RData")
-# load("/home/zx/文档/kangqichuang/PFP/data/gene_list_hsa.RData")
-# load("/home/zx/文档/PFP/RData/data_std.RData")
-# PFP_s10 <- calc_PFP_score(genes = gene_list,PFPRefnet = PFPRefnet_hsa,coeff1 = 1,coeff2 = 0.1)
-# rank1 <- rank_PFP(object = PFP_s10,total_rank = TRUE)
-# pathway_select <- rank1@ref_net_info[1,"id"]
-# gene_test <- rank1@pathways_score$genes_score[[pathway_select]]$ENTREZID
-# edges_coexp <- get_exp_cor_edges(gene_test,data_std)
-# gene_list2 <- unique(c(edges_coexp$source,edges_coexp$target))
-# edges_kegg <- get_bg_related_kegg(gene_list2,PFPRefnet=PFPRefnet_hsa,rm_duplicated = TRUE)
-#
-# net_test <- get_asso_net(edges_coexp = edges_coexp,edges_kegg = edges_kegg,if_symbol = T,gene_info_db = org.Hs.eg.db)
-#
-# write.csv(x = net_test$nodes,"/home/zx/文档/nodes.csv")
-# write.csv(x = net_test$edges,"/home/zx/文档/edges2.csv")
-
