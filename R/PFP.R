@@ -5,7 +5,7 @@
 #' @name PFP
 #' @docType package
 #'
-#' @importFrom graph nodes edgeL edgeData
+#' @importFrom graph nodes edgeL edgeData edgeMatrix
 #' @importFrom KEGGgraph parseKGML2Graph nodes<-
 #' @importFrom clusterProfiler bitr
 #' @importFrom ggplot2 ggplot geom_point geom_segment labs theme aes element_text
