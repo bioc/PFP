@@ -40,12 +40,12 @@ get_exp_cor_edges <- function(gene_list,
                               num=5,cor_threshold=NULL){
   bg_genelist <- rownames(data_std)
   match_list <- match(x = gene_list,table = bg_genelist,nomatch = 0)
-  if (sum(match_list==0)){
-    stop("gene_list must have common elements with rownames of data_std,
-         maybe the gene id types you choose in the two data set are not
+  if (sum(match_list==0)==length(gene_list)){
+    stop("gene_list must have common elements with rownames of data_std,\
+         maybe the gene id types you choose in the two data set are not\
          consistent.")
   }else if(sum(match_list!=0)<length(match_list)){
-    print("Some genes in gene_list can't be found in data_std. These genes
+    print("Some genes in gene_list can't be found in data_std. These genes\
           will be removed.")
     print(gene_list[match_list==0])
     gene_list <- gene_list[match_list!=0]
@@ -309,7 +309,7 @@ get_asso_net <- function(edges_coexp,
     # trans_id
     if (if_symbol==TRUE){
         if (is.null(gene_info_db)){
-            stop("Please input a genome wide annotation packade,
+            stop("Please input a genome wide annotation packade,\
                  for example: org.Hs.eg.db.")
         }else{
           edges_kegg <- trans_edges_id(edges_data = edges_kegg,
@@ -358,27 +358,6 @@ get_asso_net <- function(edges_coexp,
         write.csv(x = asso_net[["nodes"]],file=paste0(file_dir,"/",
                                                       "asso_net_nodes.csv"))
     }
-    # save(list = c("asso_net"),file = "/home/zx/文档/test/asso_net.RData")
     return(asso_net)
 }
-
-
-#
-# library("ggplot2")
-#
-# load("/home/zx/文档/kangqichuang/PFP/data/PFPRefnet_hsa.RData")
-# load("/home/zx/文档/kangqichuang/PFP/data/gene_list_hsa.RData")
-# load("/home/zx/文档/PFP/RData/data_std.RData")
-# PFP_s10 <- calc_PFP_score(genes = gene_list,PFPRefnet = PFPRefnet_hsa,coeff1 = 1,coeff2 = 0.1)
-# rank1 <- rank_PFP(object = PFP_s10,total_rank = TRUE)
-# pathway_select <- rank1@ref_net_info[1,"id"]
-# gene_test <- rank1@pathways_score$genes_score[[pathway_select]]$ENTREZID
-# edges_coexp <- get_exp_cor_edges(gene_test,data_std)
-# gene_list2 <- unique(c(edges_coexp$source,edges_coexp$target))
-# edges_kegg <- get_bg_related_kegg(gene_list2,PFPRefnet=PFPRefnet_hsa,rm_duplicated = TRUE)
-#
-# net_test <- get_asso_net(edges_coexp = edges_coexp,edges_kegg = edges_kegg,if_symbol = T,gene_info_db = org.Hs.eg.db)
-#
-# write.csv(x = net_test$nodes,"/home/zx/文档/nodes.csv")
-# write.csv(x = net_test$edges,"/home/zx/文档/edges2.csv")
 
