@@ -27,7 +27,7 @@
 #' PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet_hsa)
 #' @export
 calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,
-                           statistic = FALSE,
+                           statistic = TRUE,
                            bg_genelist=NULL,
                            adjust_method="BH"){
   # get graph score
