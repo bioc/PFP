@@ -78,6 +78,7 @@ setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame")
          validity = .check.PFP)
 
 #' Basic pathway networks scores of \emph{PFP} class
+#'
 #' This function can extract the details in pathway fingerprint scores.
 #'@exportMethod pathways_score
 #'@rdname pathways_score-methods
@@ -103,8 +104,8 @@ setMethod("pathways_score",signature="PFP",
 
 
 #' Basic network information of \emph{PFP} class
-#' This function extract the detail information of reference pathway networks.
 #'
+#' This function extract the detail information of reference pathway networks.
 #'@exportMethod refnet_info
 #'@rdname refnet_info-methods
 #'@name refnet_info-methods
@@ -129,8 +130,8 @@ setMethod("refnet_info",signature="PFP",
 
 
 #' The score of \emph{PFP}
-#' This function can extract the PFP_score of PFP.
 #'
+#' This function can extract the PFP_score of PFP.
 #'@exportMethod PFP_score
 #'@rdname PFP_score-methods
 #'@name PFP_score-methods
@@ -155,6 +156,7 @@ setMethod("PFP_score",signature="PFP",
 
 
 #' The P value of \emph{PFP}
+#'
 #' This function can extract the result of statistical analysis
 #'@exportMethod stats_test
 #'@rdname stats_test-methods
@@ -181,6 +183,7 @@ setMethod("stats_test",signature="PFP",
 
 
 #' The score of genes in \emph{PFP} class
+#'
 #' This function extract the detail scores of every gene in the gene_list by
 #' specific condition.
 #'@exportMethod genes_score
@@ -237,6 +240,7 @@ setMethod("genes_score",signature="PFP",
 
 
 #' Names of basic networks
+#'
 #' This function extract the reference pathway network names of PFP.
 #'@exportMethod refnet_names
 #'@rdname refnet_names-methods
@@ -425,6 +429,7 @@ setMethod("show_PFP", "PFP",
 
 globalVariables("refnet_index")
 #' Plot PFP results
+#'
 #' Function for visualization PFP results.
 #'@exportMethod plot_PFP
 #'@rdname plot_PFP-methods
@@ -477,10 +482,9 @@ setMethod("plot_PFP",'PFP',
           }
 )
 
-
-
-#' rank of the PFP object by the value of PFP_score.
-#' Function for show the rank of PFP results.
+#' rank PFPscore
+#' 
+#' rank the PFP object by the value of PFP_score.
 #'@exportMethod rank_PFP
 #'@rdname rank_PFP-methods
 #'@name rank_PFP-methods
@@ -573,3 +577,60 @@ setMethod("rank_PFP",signature="PFP",
 )
 
 
+#' result of the PFP object.
+#' 
+#' get the result of the PFP object.
+#'@exportMethod result_PFP
+#'@rdname result_PFP-methods
+#'@name result_PFP-methods
+#'@param object, \code{PFP} class
+#'@param thresh_slot, a character, it could be 'p_value' or 'p_adj_value',
+#'it means the threshold slot to choose for select the significant pathway.
+#'Default is \emph{NULL},it means that you don't
+#'want to select the significant pathway and you will select all pathways.
+#'@param thresh_value, a numeric, threshold value of 'p_value' or
+#''p_adjust_value' for pathway selection,Default is 0.05.
+#'@aliases result_PFP result_PFP-methods
+#'@docType methods
+#'@seealso \code{\link{PFP-class}}
+#'@return the scores and the information of PFP object.
+#'@examples
+#'# New a PFP object
+#'data(PFP_test1)
+#'result_PFP(PFP_test1,
+#'         thresh_slot="p_adj_value",
+#'         thresh_value = 0.05)
+setGeneric("result_PFP",
+           function(object,
+                    thresh_slot=NULL,
+                    thresh_value = 0.05){standardGeneric("result_PFP")})
+#' @rdname result_PFP-methods
+#' @aliases result_PFP result_PFP-methods
+setMethod("result_PFP",signature="PFP",
+          function(object,
+                   thresh_slot=NULL,
+                   thresh_value = 0.05){
+            if (!is.null(thresh_slot)){
+              stats_t <- stats_test(object)
+              match_id <- rownames(stats_t[stats_t[,thresh_slot] < thresh_value,])
+            }else{
+              match_id <- refnet_info(object)[["id"]]
+            }
+            refnet_info <- refnet_info(object)[match(x = match_id,
+                                          table = refnet_info(object)[["id"]]),]
+            enriched_genes <- vapply(X = genes_score(object)[match_id],
+                                     FUN = function(x)paste(x[["ENTREZID"]],
+                                                            collapse = "/"),
+                                     FUN.VALUE = "")
+            links <- vapply(X = names(enriched_genes),FUN = function(x){
+              paste0("https://www.genome.jp/kegg-bin/show_pathway?",
+                      x,"/",enriched_genes[x])
+            },FUN.VALUE = "")
+            result <- data.frame(id = refnet_info[["id"]],
+                                 name = refnet_info[["name"]],
+                                 PFP_score = PFP_score(object)[match_id],
+                                 p_value = stats_test(object)[match_id,"p_value"],
+                                 p_adj_value = stats_test(object)[match_id,"p_adj_value"],
+                                 group = refnet_info[["group"]],
+                                 pathway_link = links)
+          })
