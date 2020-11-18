@@ -11,12 +11,14 @@ An S4 object for storing pathway fingerprint scores information.
 
 \describe{
 \item{\code{pathways_score,}}{a list contains PFP_score, stats_test,  genes_score.
-PFP_score is a numeric score indicating the performance of a gene_list in some pathways.
-stats_test is a statistic test for the PFP_score.
+PFP_score is a numeric score indicating the performance of a gene_list in
+some pathways.stats_test is a statistic test for the PFP_score.
 genes_score is the detail scores of every gene in the gene_list.}
 
-\item{\code{refnet_info,}}{a data.frame, which contains the specific information of pathway networks.
-Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet-class}}, including the index, id, name, group and species.}
+\item{\code{refnet_info,}}{a data.frame, which contains the specific information of
+pathway networks.
+Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet-class}},
+including the index, id, name, group and species.}
 }}
 
 \section{method}{
@@ -43,7 +45,8 @@ display methods for S4 classes PFP}
 \item{plot_PFP, \code{signature(object, type = "character",
      p_size = "numeric", l_size = 'numeric')}:
 plot the Pathway Fingerprint.}
-\item{rank_PFP \code{signature(object = "PFP", total_rank = FALSE, decreasing=TRUE)}
+\item{rank_PFP \code{signature(object = "PFP", total_rank = FALSE,
+     decreasing=TRUE)}
 sort the PFP score.}
 }
 }
@@ -51,7 +54,7 @@ sort the PFP score.}
 \examples{
 # New a PFP object
 data(PFP_test1)
-#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+PFP_test1
 }
 \seealso{
 \code{\link{pathways_score-methods}},

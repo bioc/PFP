@@ -23,7 +23,6 @@ This function extract the network names of PFPRefnet.
 \examples{
 # New a PFPRefnet object
 data(PFPRefnet_hsa)
-# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
 net_names <- net_names(PFPRefnet_hsa)
 }
 \seealso{

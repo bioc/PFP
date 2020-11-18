@@ -26,7 +26,8 @@ sub_PFP(
 
 \item{group_name, }{the group name in kegg}
 
-\item{index, }{the index of pathway, NULL or a list contains slice/numeric, character, specifying elements to extract.
+\item{index, }{the index of pathway, NULL or a list contains slice/numeric,
+character, specifying elements to extract.
 This parameter' length must be the same as \code{group_name}.
 Default is \emph{NULL}, indicating extract all the networks of a group. See
 \emph{details} for more information.}
@@ -40,19 +41,19 @@ a PFP object contains just the selected elements.
 This function extract the subsets of PFP-class.
 }
 \details{
-This function help users to extract the specific networks PFPscores for
-customized analysis, which could be of entire group PFP or some part of
+This function help users to extract the specific networks PFPscores
+for customized analysis, which could be of entire group PFP or some part of
 a specific group PFP.
 
-Note, the \code{index} argument is only worked while the group_name argument is
-consideration, which means group_name is not \emph{NULL}. And the length must be
-the same as \code{group_name}. Default is \emph{NULL}, indicating extract the entire PFP.
+Note, the \code{index} argument is only worked while the group_name argument
+is consideration, which means group_name is not \emph{NULL}. And the length
+must be the same as \code{group_name}. Default is \emph{NULL}, indicating
+extract the entire PFP.
 }
 \examples{
 # New a PFP object
 data(PFP_test1)
-#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#refnet_names <- sub_PFP(PFP_test1,group_name,index,index_type)
+PFP_test1
 }
 \seealso{
 \code{\link{PFP-class}}

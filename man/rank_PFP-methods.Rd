@@ -12,28 +12,33 @@ rank_PFP(
   object,
   total_rank = FALSE,
   decreasing = TRUE,
-  separate = TRUE,
-  p_adj = 0.05
+  thresh_slot = "p_adj_value",
+  thresh_value = 0.05
 )
 
 \S4method{rank_PFP}{PFP}(
   object,
   total_rank = FALSE,
   decreasing = TRUE,
-  separate = TRUE,
-  p_adj = 0.05
+  thresh_slot = "p_adj_value",
+  thresh_value = 0.05
 )
 }
 \arguments{
 \item{object, }{\code{PFP} class}
 
-\item{total_rank, }{a logical, whether to rank in total range, the default is \emph{TRUE}}
+\item{total_rank, }{a logical, whether to rank in total range,the default is
+\emph{TRUE}}
 
 \item{decreasing, }{a logical, Sorting method, the default is \emph{TRUE}}
 
-\item{separate, }{a logical, whether separate the significant pathway with not significant}
+\item{thresh_slot, }{a character, it could be 'p_value' or 'p_adj_value',
+it means the threshold slot to choose for select the significant pathway.
+Default is 'p_adj_value'.It also could be \emph{NULL},it means that you don't
+want to select the significant pathway and you will select all pathways.}
 
-\item{p_adj, }{a numeric, the threshold for p_adjust_value for pathway selection}
+\item{thresh_value, }{a numeric, threshold value of 'p_value' or
+'p_adjust_value' for pathway selection}
 }
 \value{
 a ranked PFP object.
@@ -45,8 +50,11 @@ Function for show the rank of PFP results.
 \examples{
 # New a PFP object
 data(PFP_test1)
-#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#rank_PFP(PFP_test1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
+rank_PFP(PFP_test1,
+        total_rank=FALSE,
+        decreasing=TRUE,
+        thresh_slot="p_adj_value",
+        thresh_value = 0.05)
 }
 \seealso{
 \code{\link{PFP-class}}

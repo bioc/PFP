@@ -6,7 +6,8 @@
 \alias{genes_score}
 \alias{genes_score,PFP-method}
 \title{The score of genes in \emph{PFP} class
-This function extract the detail scores of every gene in the gene_list by specific condition.}
+This function extract the detail scores of every gene in the gene_list by
+specific condition.}
 \usage{
 genes_score(
   object,
@@ -32,12 +33,12 @@ a named vector of numeric scores
 }
 \description{
 The score of genes in \emph{PFP} class
-This function extract the detail scores of every gene in the gene_list by specific condition.
+This function extract the detail scores of every gene in the gene_list by
+specific condition.
 }
 \examples{
 # New a PFP object
 data(PFP_test1)
-#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 genes_score <- genes_score(PFP_test1)
 }
 \seealso{

@@ -23,7 +23,6 @@ This function extract the basic networks of PFPRefnet class.
 \examples{
 # New a PFPRefnet object
 data(PFPRefnet_hsa)
-# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
 network <- network(PFPRefnet_hsa)
 }
 \seealso{

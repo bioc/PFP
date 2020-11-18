@@ -1,10 +1,16 @@
 # PFP: Pathway fingerprint analysis in R
 
-This package implements the pathway fingerprint framework. A biomedical pathway is characterized as a spectrum-like vector called “pathway fingerprint”, which contains similarities to basic pathways. This knowledge-based multidimensional characterization provides a more intuitive way to decipher molecular pathways, especially for large-scale pathway comparisons and clustering analyses.
+This package implements the pathway fingerprint framework. A biomedical pathway 
+is characterized as a spectrum-like vector called “pathway fingerprint”, which 
+contains similarities to basic pathways. This knowledge-based multidimensional 
+characterization provides a more intuitive way to decipher molecular pathways, 
+especially for large-scale pathway comparisons and clustering analyses.
 
 **Prerequisites**
 
-To install **PFP**, please note especially a depencies of **PFP**, **org.Mm.eg.db** are only available from [Bioconductor](https://www.bioconductor.org).
+To install **PFP**, please note especially a depencies of 
+**PFP**, **org.Mm.eg.db** are only available from 
+[Bioconductor](https://www.bioconductor.org).
 Install the  Bioconductor dependencies package first:
 
 ```R 

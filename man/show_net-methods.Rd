@@ -22,11 +22,7 @@ show method short for PFPRefnet object
 }
 \examples{
 # New a PFPRefnet object
-# s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-# rank_PFP(s1,'line', total_rank=FALSE,decreasing=TRUE,separate=TRUE,p_adj = 0.05)
-# New a PFPRefnet object
 data(PFPRefnet_hsa)
-#PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
 show_net(PFPRefnet_hsa)
 }
 \seealso{

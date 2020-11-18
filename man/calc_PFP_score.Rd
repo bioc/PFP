@@ -7,6 +7,7 @@
 calc_PFP_score(
   genes,
   PFPRefnet,
+  lambda = 0.5,
   coeff1 = 1,
   coeff2 = 0.1,
   statistic = FALSE,
@@ -19,33 +20,40 @@ calc_PFP_score(
 
 \item{PFPRefnet, }{A PFPRefnet class}
 
-\item{coeff1, }{a numeric, the coefficient 1 in PFP model}
+\item{lambda, }{a numeric, the coefficient for keeping balance between the
+node_score and edge_score in PFP model}
 
-\item{coeff2, }{a numeric, the coefficient 2 in PFP model}
+\item{coeff1, }{a numeric, the weight coefficient for directly connected score
+in PFP model}
+
+\item{coeff2, }{a numeric, the weight coefficient for indirectly connected
+score in PFP model}
 
 \item{statistic, }{a logical,whether to do the statistical test}
 
-\item{bg_genelist, }{a vector of characters, background gene set for the statistical test}
+\item{bg_genelist, }{a vector of characters, background gene set for the
+statistical test}
 
 \item{adjust_method, }{statistic test method for adjust the p_value.
-It could be "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none".}
+It could be "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr",
+"none".}
 }
 \value{
-The main part of pathway fingerprint.
+The score of PFP
 }
 \description{
-It can evaluate the performance of a gene list in the pathway networks.
+It can evaluate the performance of a gene list in the pathway
+networks.
 }
 \details{
-The main part of pathway fingerprint. PFP is used to evaluate the performance of
-a gene_list in some pathway networks by considering the genes' topological location in
-a pathway. Then we can get every gene's score and the pathway score is caculated by sum
-all genes' score. All pathways' scores combine the pathway fingerprint.
+The main part of pathway fingerprint. PFP is used to evaluate the
+performance of a gene_list in some pathway networks by considering the
+genes' topological location in a pathway. Then we can get every gene's score
+and the pathway score is caculated by sum all genes' score. All pathways'
+scores combine the pathway fingerprint.
 }
 \examples{
-# Get the example data.
 data(gene_list_hsa)
-data("PFPRefnet_hsa")
-# Calculate the PFP score.
-#PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet_hsa)
+data(PFPRefnet_hsa)
+PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet_hsa)
 }

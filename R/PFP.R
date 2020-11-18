@@ -4,7 +4,6 @@
 #'
 #' @name PFP
 #' @docType package
-#'
 #' @importFrom graph nodes edgeL edgeData edgeMatrix
 #' @importFrom KEGGgraph parseKGML2Graph nodes<-
 #' @importFrom clusterProfiler bitr

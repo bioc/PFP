@@ -2,13 +2,16 @@ Package: PFP
 Type: Package
 Title: Pathway Fingerprint Framework in R
 Version: 0.99.2
-biocViews: WorkflowStep, RNASeq, FeatureExtraction
+biocViews: WorkflowStep, RNASeq, Pathways
 Authors@R: c(
-    person("XC", "Zhang",email = "xiaochang_z@foxmail.com",role = c("aut","cre" )),
+    person("XC", "Zhang",email = "xiaochang_z@foxmail.com",
+    role = c("aut","cre" )),
     person("QC", "Kang", email = "850287874@qq.com", role = "aut")
     )
 Maintainer: XC Zhang <kunghero@163.com>
-Description: An implementation of the pathway fingerprint framework that introduced in paper "Pathway Fingerprint: a novel pathway knowledge and topology based method for biomarker discovery and characterization".  This method provides a systematic comparisons between a gene set (such as a list of differentially expressed genes) and well-studied "basic pathway networks" (KEGG pathways), measuring the importance of pathways and genes for the gene set, which is helpful for researchers to find the biomarkers and its function.
+Description: An implementation of the pathway fingerprint framework that introduced in paper "Pathway Fingerprint: a novel pathway knowledge and topology based method for biomarker discovery and characterization".
+    This method provides a systematic comparisons between a gene set (such as a list of differentially expressed genes) and well-studied "basic pathway networks" (KEGG pathways), measuring the importance of pathways and genes for the gene set.
+    The package is helpful for researchers to find the biomarkers and its function.
 Depends:
     R (>= 4.0.0)
 Imports:
@@ -22,7 +25,7 @@ Imports:
     magrittr,
     stats,
     methods,
-    utils,
+    utils
 Suggests:
     knitr,
     testthat,

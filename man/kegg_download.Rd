@@ -7,21 +7,27 @@
 kegg_download(spec, file_root = ".")
 }
 \arguments{
-\item{spec, }{a character, refers to the species names in kegg, such as "hsa","mmu"...}
+\item{spec, }{a character, refers to the species names in kegg, such as "hsa",
+"mmu"...}
 
-\item{file_root, }{a character,refers to the root you want to save kegg pathway kgml files in.}
+\item{file_root, }{a character,refers to the root you want to save kegg
+pathway kgml files in.}
 }
 \value{
 the kegg KGML files
 }
 \description{
-This function will download all kegg KGML files assigned by \code{spec}.
+This function will download all kegg KGML files assigned by
+\code{spec}.
 }
 \details{
-, Downloading all kegg KGML files assigned by \code{spec} from https://www.kegg.jp/kegg/xml/,
+, Downloading all kegg KGML files assigned by \code{spec} from
+https://www.kegg.jp/kegg/xml/,
 which may take tens of minutes.
 }
 \examples{
 # Load the kegg network
 #kegg_download(spec = "hsa", file_root="~/Desktop")
+data(gene_list_hsa)
+gene_list_hsa
 }

@@ -23,6 +23,5 @@ Show a short summary for PFP object.
 \examples{
 # New a PFP object
 data(PFP_test1)
-#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#show_PFP(PFP_test1)
+show_PFP(PFP_test1)
 }

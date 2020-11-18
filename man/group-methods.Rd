@@ -15,17 +15,16 @@ group(object)
 \item{object, }{\code{PFPRefnet} class}
 }
 \value{
-a list contains names of basic groups of the networks and group number, as
-well as the size of each group
+a list contains names of basic groups of the networks and group
+number, as well as the size of each group
 }
 \description{
-This function contains names of basic groups of the networks and group number, as
-well as the size of each group
+This function contains names of basic groups of the networks and group
+number, as well as the size of each group
 }
 \examples{
 # New a PFPRefnet object
 data(PFPRefnet_hsa)
-# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
 group <- group(PFPRefnet_hsa)
 }
 \seealso{

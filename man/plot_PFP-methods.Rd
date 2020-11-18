@@ -25,8 +25,8 @@ plot_PFP(
 \arguments{
 \item{object, }{\code{PFP} class}
 
-\item{type, }{types of the visaulization of \emph{PFP} object, 'matchstick', 'line','point'.
-Default is 'matchstick'.}
+\item{type, }{types of the visaulization of \emph{PFP} object, 'matchstick',
+'line','point'. Default is 'matchstick'.}
 
 \item{p_size, }{point size of plot, default is 1.}
 
@@ -42,8 +42,7 @@ Function for visualization PFP results.
 \examples{
 # New a PFP object
 data(PFP_test1)
-#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#plot_PFP(FPRefnet_hsa,'line', p_size = 1, l_size = 0.5)
+plot_PFP(PFP_test1,'line', p_size = 1, l_size = 0.5)
 }
 \seealso{
 \code{\link{PFP-class}}

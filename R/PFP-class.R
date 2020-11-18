@@ -25,11 +25,13 @@
 #'An S4 object for storing pathway fingerprint scores information.
 #'
 #' @slot pathways_score, a list contains PFP_score, stats_test,  genes_score.
-#' PFP_score is a numeric score indicating the performance of a gene_list in some pathways.
-#' stats_test is a statistic test for the PFP_score.
+#' PFP_score is a numeric score indicating the performance of a gene_list in
+#' some pathways.stats_test is a statistic test for the PFP_score.
 #' genes_score is the detail scores of every gene in the gene_list.
-#' @slot refnet_info, a data.frame, which contains the specific information of pathway networks.
-#' Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet-class}}, including the index, id, name, group and species.
+#' @slot refnet_info, a data.frame, which contains the specific information of
+#' pathway networks.
+#' Just be the same as \code{\link{net_info}} in \code{\link{PFPRefnet-class}},
+#' including the index, id, name, group and species.
 #' @section method:
 #'    \itemize{
 #'      \item{pathways_score, \code{signature(object = "PFP")}:
@@ -53,8 +55,9 @@
 #'      \item{plot_PFP, \code{signature(object, type = "character",
 #'      p_size = "numeric", l_size = 'numeric')}:
 #'        plot the Pathway Fingerprint.}
-#'      \item{rank_PFP \code{signature(object = "PFP", total_rank = FALSE, decreasing=TRUE)}
-#'        sort the PFP score.}
+#'      \item{rank_PFP \code{signature(object = "PFP", total_rank = FALSE,
+#'      decreasing=TRUE)}
+#'      sort the PFP score.}
 #'        }
 #'
 #' @name PFP-class
@@ -69,7 +72,7 @@
 #' @examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
+#'PFP_test1
 setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame"),
          prototype = list(pathways_score = NULL, refnet_info = NULL),
          validity = .check.PFP)
@@ -87,7 +90,6 @@ setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame")
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 #'pathways_score <- pathways_score(PFP_test1)
 setGeneric("pathways_score",
            function(object){standardGeneric("pathways_score")})
@@ -114,7 +116,6 @@ setMethod("pathways_score",signature="PFP",
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 #'refnet_info <- refnet_info(PFP_test1)
 setGeneric("refnet_info",
            function(object){standardGeneric("refnet_info")})
@@ -141,7 +142,6 @@ setMethod("refnet_info",signature="PFP",
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'# s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 #'PFP_score <- PFP_score(PFP_test1)
 setGeneric("PFP_score",
            function(object){standardGeneric("PFP_score")})
@@ -167,7 +167,6 @@ setMethod("PFP_score",signature="PFP",
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 #'stats_test <- stats_test(PFP_test1)
 setGeneric("stats_test",
            function(object){standardGeneric("stats_test")})
@@ -182,7 +181,8 @@ setMethod("stats_test",signature="PFP",
 
 
 #' The score of genes in \emph{PFP} class
-#' This function extract the detail scores of every gene in the gene_list by specific condition.
+#' This function extract the detail scores of every gene in the gene_list by
+#' specific condition.
 #'@exportMethod genes_score
 #'@rdname genes_score-methods
 #'@name genes_score-methods
@@ -196,7 +196,6 @@ setMethod("stats_test",signature="PFP",
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 #'genes_score <- genes_score(PFP_test1)
 setGeneric("genes_score",
            function(object,index=NULL,
@@ -205,8 +204,12 @@ setGeneric("genes_score",
 #' @rdname genes_score-methods
 #' @aliases genes_score genes_score-methods
 setMethod("genes_score",signature="PFP",
-          function(object,index=NULL,index_type = c("pathway_id","pathway_name","slice")){
-            index_type <- match.arg(index_type, c("pathway_id","pathway_name","slice"))
+          function(object,index=NULL,index_type = c("pathway_id",
+                                                    "pathway_name",
+                                                    "slice")){
+            index_type <- match.arg(index_type, c("pathway_id",
+                                                  "pathway_name",
+                                                  "slice"))
             refnet_info <- object@refnet_info
             if (is.null(index)){
               net_select <- refnet_info
@@ -245,7 +248,6 @@ setMethod("genes_score",signature="PFP",
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 #'refnet_names <- refnet_names(PFP_test1)
 setGeneric("refnet_names",
            function(object){standardGeneric("refnet_names")})
@@ -267,19 +269,20 @@ setMethod("refnet_names",signature="PFP",
 #'@name sub_PFP-methods
 #'@param object, \code{PFP} class
 #'@param group_name, the group name in kegg
-#'@param index, the index of pathway, NULL or a list contains slice/numeric, character, specifying elements to extract.
+#'@param index, the index of pathway, NULL or a list contains slice/numeric,
+#'character, specifying elements to extract.
 #'This parameter' length must be the same as \code{group_name}.
 #'Default is \emph{NULL}, indicating extract all the networks of a group. See
 #'\emph{details} for more information.
 #'
-#'@details This function help users to extract the specific networks PFPscores for
-#'customized analysis, which could be of entire group PFP or some part of
+#'@details This function help users to extract the specific networks PFPscores
+#'for customized analysis, which could be of entire group PFP or some part of
 #'a specific group PFP.
 #'
-#'Note, the \code{index} argument is only worked while the group_name argument is
-#'consideration, which means group_name is not \emph{NULL}. And the length must be
-#'the same as \code{group_name}. Default is \emph{NULL}, indicating extract the entire PFP.
-#'
+#'Note, the \code{index} argument is only worked while the group_name argument
+#'is consideration, which means group_name is not \emph{NULL}. And the length
+#'must be the same as \code{group_name}. Default is \emph{NULL}, indicating
+#'extract the entire PFP.
 #'@param index_type, the index type,such as "slice","pathway_id","pathway_name"
 #'@aliases sub_PFP sub_PFP-methods
 #'@docType methods
@@ -288,8 +291,7 @@ setMethod("refnet_names",signature="PFP",
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'#refnet_names <- sub_PFP(PFP_test1,group_name,index,index_type)
+#'PFP_test1
 setGeneric("sub_PFP",
            function(object, group_name = NULL, index = NULL, index_type =
                       c("slice","pathway_id","pathway_name"))
@@ -297,20 +299,24 @@ setGeneric("sub_PFP",
 #' @rdname sub_PFP-methods
 #' @aliases sub_PFP sub_PFP-methods
 setMethod("sub_PFP",signature="PFP",
-          function(object, group_name = NULL,index = NULL, index_type = c("slice","pathway_id","pathway_name")){
-            index_type <- match.arg(index_type, c("slice","pathway_id","pathway_name"))
+          function(object, group_name = NULL,
+                   index = NULL,
+                   index_type = c("slice","pathway_id","pathway_name")){
+            index_type <- match.arg(index_type,
+                                    c("slice","pathway_id","pathway_name"))
             if (is.null(group_name)){
               group_name <- unique(object@refnet_info$group)
             }
 
             refnet_info <- object@refnet_info
             group_vec <- as.vector(object@refnet_info$group)
-            group_select_info <- lapply(X = group_name,function(x)refnet_info[x==group_vec,])
-
+            group_select_info <- lapply(X = group_name,
+                                        function(x)refnet_info[x==group_vec,])
             all_group_names <- unique(group_vec)
             tf <- match(group_name,all_group_names,nomatch = 0) != 0
             if (sum(tf) < length(group_name)){
-              stop("Please input right group name(s)! You should choose one or more in the following names.","\n",
+              stop("Please input right group name(s)!
+                   You should choose one or more in the following names.","\n",
                    paste0("\"",all_group_names,collapse = "\","),"\"")
             }
 
@@ -320,10 +326,13 @@ setMethod("sub_PFP",signature="PFP",
             }else{
               if (index_type == "slice"){
                 if(length(group_name) != length(index))
-                  stop('When the index_type is slice, the length of index must be equal to the selected group numbers')
+                  stop('When the index_type is slice, the length of index must
+                       be equal to the selected group numbers')
                 if(!is.list(index))
-                  stop('When the index_type is slice, index must be a list with the same length with group_name')
-                group_size <- vapply(all_group_names,function(x)sum(x==refnet_info$group),0)
+                  stop('When the index_type is slice, index must be a list with
+                       the same length with group_name')
+                group_size <- vapply(all_group_names,
+                                     function(x)sum(x==refnet_info$group),0)
                 max_slice <- vapply(index,max,0)
                 max_group_select <- group_size[group_name]
                 group_if <- max_slice > max_group_select
@@ -333,7 +342,8 @@ setMethod("sub_PFP",signature="PFP",
                        paste0(group_name,","),"\n",
                        paste0(max_group_select,","))
                 }
-                net_select <- lapply(seq_len(length(group_name)),function(i)group_select_info[[i]][index[[i]],])
+                net_select <- lapply(seq_len(length(group_name)),
+                                     function(i)group_select_info[[i]][index[[i]],])
                 net_select <- do.call('rbind',net_select)
               }else{
                 group_select_info <- do.call("rbind",group_select_info)
@@ -341,13 +351,19 @@ setMethod("sub_PFP",signature="PFP",
                   match_tf <- match(unlist(index),group_select_info$id,nomatch = 0)
                   if (length(match_tf[match_tf==0])>0){
                     print("The following pathways can't be found!")
-                    print(setdiff(unlist(index),unlist(group_select_info[match_tf[match_tf!=0],"id"])))
+                    print(setdiff(unlist(index),
+                                  unlist(group_select_info[match_tf[match_tf!=0],
+                                                           "id"])))
                   }
                 }else if (index_type == "pathway_name"){
-                  match_tf <- match(unlist(index),group_select_info$name,nomatch = 0)
+                  match_tf <- match(unlist(index),
+                                    group_select_info$name,
+                                    nomatch = 0)
                   if (length(match_tf[match_tf==0])>0){
                     print("The following pathways can't be found!")
-                    print(setdiff(unlist(index),unlist(group_select_info[match_tf[match_tf!=0],"name"])))
+                    print(setdiff(unlist(index),
+                                  unlist(group_select_info[match_tf[match_tf!=0],
+                                                           "name"])))
                   }
                 }
                 match_tf <-match_tf[match_tf!=0]
@@ -359,7 +375,9 @@ setMethod("sub_PFP",signature="PFP",
             stats_test <- object@pathways_score[["stats_test"]][pathway_select_ids,]
             genes_score <- object@pathways_score[["genes_score"]][pathway_select_ids]
             return(new(Class = "PFP",
-                       pathways_score=list(PFP_score=PFP_score,stats_test=stats_test,genes_score=genes_score),
+                       pathways_score=list(PFP_score=PFP_score,
+                                           stats_test=stats_test,
+                                           genes_score=genes_score),
                        refnet_info=net_select))
           }
 )
@@ -382,18 +400,22 @@ setGeneric("show_PFP",
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'#show_PFP(PFP_test1)
+#'show_PFP(PFP_test1)
 setMethod("show_PFP", "PFP",
           function(object){
             group_name <- unique(object@refnet_info$group)
-            group_size <- vapply(group_name,function(x)sum(x==object@refnet_info$group),0)
-            print(paste0("The PFP object has the following ",length(group_name)," group(s)."))
+            group_size <- vapply(group_name,
+                                 function(x)sum(x==object@refnet_info$group),0)
+            print(paste0("The PFP object has the following ",
+                         length(group_name),
+                         " group(s)."))
             print(group_name)
-            print("The pathway numbers in the group(s) are displayed in the following.")
+            print("The pathway numbers in the group(s)
+                  are displayed in the following.")
             print(group_size)
             # print("\n",)
-            print(paste0("The total number of pathways in the PFP object is ",nrow(object@refnet_info)))
+            print(paste0("The total number of pathways in the PFP object is ",
+                         nrow(object@refnet_info)))
             # print("\n")
             print("The details of PFP scores are displayed in the following.")
             print(object@pathways_score[["PFP_score"]])
@@ -408,8 +430,8 @@ globalVariables("refnet_index")
 #'@rdname plot_PFP-methods
 #'@name plot_PFP-methods
 #'@param object, \code{PFP} class
-#'@param type, types of the visaulization of \emph{PFP} object, 'matchstick', 'line','point'.
-#'Default is 'matchstick'.
+#'@param type, types of the visaulization of \emph{PFP} object, 'matchstick',
+#''line','point'. Default is 'matchstick'.
 #'@param p_size, point size of plot, default is 1.
 #'@param l_size, line size of plot, default is 0.5.
 #'@aliases plot_PFP plot_PFP-methods
@@ -419,19 +441,23 @@ globalVariables("refnet_index")
 #'@examples
 #'# New a PFP object
 #'data(PFP_test1)
-#'#s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
-#'#plot_PFP(FPRefnet_hsa,'line', p_size = 1, l_size = 0.5)
+#'plot_PFP(PFP_test1,'line', p_size = 1, l_size = 0.5)
 setGeneric("plot_PFP",
-           function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5)
+           function(object, type = c('matchstick', 'line','point'),
+                    p_size = 1,
+                    l_size = 0.5)
            {standardGeneric("plot_PFP")})
 #' @rdname plot_PFP-methods
 #' @aliases plot_PFP plot_PFP-methods
 setMethod("plot_PFP",'PFP',
-          function(object, type = c('matchstick', 'line','point'), p_size = 1, l_size = 0.5){
+          function(object, type = c('matchstick', 'line','point'),
+                   p_size = 1,
+                   l_size = 0.5){
             type <- match.arg(type, c('matchstick', 'line','point'))
             PFP_score <- object@pathways_score[["PFP_score"]]
             PFP_refnet_group <- as.vector(object@refnet_info$group)
-            sim_df <- data.frame(PFP_score = PFP_score, group = PFP_refnet_group,
+            sim_df <- data.frame(PFP_score = PFP_score,
+                                 group = PFP_refnet_group,
                                  refnet_index = 1:nrow(object@refnet_info))
             network_num <- length(PFP_score)
             if(all(!is.na(PFP_score))){ # skip plot if sim is NA
@@ -439,10 +465,12 @@ setMethod("plot_PFP",'PFP',
               if(type == "point")
                 print(p + geom_point(size = p_size, aes(color = group)))
               if(type == "line")
-                print(p + geom_line(size = l_size, aes(color = group, group = 1)))
+                print(p + geom_line(size = l_size, aes(color = group,
+                                                       group = 1)))
               if (type == 'matchstick')
                 print(p + geom_point(size = p_size, aes(color = group)) +
-                        geom_segment(aes(xend = refnet_index, yend = 0, color = group),
+                        geom_segment(aes(xend = refnet_index, yend = 0,
+                                         color = group),
                                      size = l_size))
             }
 
@@ -457,23 +485,41 @@ setMethod("plot_PFP",'PFP',
 #'@rdname rank_PFP-methods
 #'@name rank_PFP-methods
 #'@param object, \code{PFP} class
-#'@param total_rank, a logical, whether to rank in total range, the default is \emph{TRUE}
+#'@param total_rank, a logical, whether to rank in total range,the default is
+#'\emph{TRUE}
 #'@param decreasing, a logical, Sorting method, the default is \emph{TRUE}
-#'@param thresh_slot, a character, it could be 'p_value' or 'p_adj_value', it means
-#'the threshold slot to choose for select the significant pathway. Default is 'p_adj_value'.
-#'It also could be \emph{NULL},it means that you don't want to select the significant pathway
-#'and you will select all pathways.
-#'@param thresh_value, a numeric, threshold value of 'p_value' or 'p_adjust_value' for pathway selection
+#'@param thresh_slot, a character, it could be 'p_value' or 'p_adj_value',
+#'it means the threshold slot to choose for select the significant pathway.
+#'Default is 'p_adj_value'.It also could be \emph{NULL},it means that you don't
+#'want to select the significant pathway and you will select all pathways.
+#'@param thresh_value, a numeric, threshold value of 'p_value' or
+#''p_adjust_value' for pathway selection
 #'@aliases rank_PFP rank_PFP-methods
 #'@docType methods
 #'@seealso \code{\link{PFP-class}}
 #'@return a ranked PFP object.
+#'@examples
+#'# New a PFP object
+#'data(PFP_test1)
+#'rank_PFP(PFP_test1,
+#'         total_rank=FALSE,
+#'         decreasing=TRUE,
+#'         thresh_slot="p_adj_value",
+#'         thresh_value = 0.05)
 setGeneric("rank_PFP",
-           function(object,total_rank=FALSE,decreasing=TRUE,thresh_slot="p_adj_value",thresh_value = 0.05){standardGeneric("rank_PFP")})
+           function(object,
+                    total_rank=FALSE,
+                    decreasing=TRUE,
+                    thresh_slot="p_adj_value",
+                    thresh_value = 0.05){standardGeneric("rank_PFP")})
 #' @rdname rank_PFP-methods
 #' @aliases rank_PFP rank_PFP-methods
 setMethod("rank_PFP",signature="PFP",
-          function(object,total_rank=FALSE,decreasing=TRUE,thresh_slot="p_adj_value",thresh_value = 0.05){
+          function(object,
+                   total_rank=FALSE,
+                   decreasing=TRUE,
+                   thresh_slot="p_adj_value",
+                   thresh_value = 0.05){
             refnet_info <- object@refnet_info
             refnet_info[["PFP_score"]] <- data.frame(object@pathways_score[["PFP_score"]])
             if (nrow(object@pathways_score[["stats_test"]])==nrow(object@refnet_info)){
@@ -483,9 +529,14 @@ setMethod("rank_PFP",signature="PFP",
                 refnet_info[["p_value"]] <- data.frame(object@pathways_score[["stats_test"]][,"p_value"])
               }
               if (total_rank==TRUE){
-                refnet_info <- refnet_info[order(refnet_info[,"PFP_score"],-refnet_info[,"p_value"],decreasing = decreasing),]
+                refnet_info <- refnet_info[order(refnet_info[,"PFP_score"],
+                                                 -refnet_info[,"p_value"],
+                                                 decreasing = decreasing),]
               }else{
-                refnet_info <- refnet_info[order(refnet_info[,"group"],refnet_info[,"PFP_score"],-refnet_info[,"p_value"],decreasing = decreasing),]
+                refnet_info <- refnet_info[order(refnet_info[,"group"],
+                                                 refnet_info[,"PFP_score"],
+                                                 -refnet_info[,"p_value"],
+                                                 decreasing = decreasing),]
               }
               if (!is.null(thresh_slot)){
                 refnet_info1 <- refnet_info[refnet_info[,"p_value"]<thresh_value,]
@@ -494,9 +545,12 @@ setMethod("rank_PFP",signature="PFP",
               }
             }else{
               if (total_rank==TRUE){
-                refnet_info <- refnet_info[order(refnet_info[,"PFP_score"],decreasing = decreasing),]
+                refnet_info <- refnet_info[order(refnet_info[,"PFP_score"],
+                                                 decreasing = decreasing),]
               }else{
-                refnet_info <- refnet_info[order(refnet_info[,"group"],refnet_info[,"PFP_score"],decreasing = decreasing),]
+                refnet_info <- refnet_info[order(refnet_info[,"group"],
+                                                 refnet_info[,"PFP_score"],
+                                                 decreasing = decreasing),]
               }
             }
 
@@ -511,7 +565,9 @@ setMethod("rank_PFP",signature="PFP",
               stats_test <- data.frame()
             }
             return(new(Class = "PFP",
-                       pathways_score=list(PFP_score=PFP_score,stats_test=stats_test,genes_score=genes_score),
+                       pathways_score=list(PFP_score=PFP_score,
+                                           stats_test=stats_test,
+                                           genes_score=genes_score),
                        refnet_info=refnet_info))
           }
 )

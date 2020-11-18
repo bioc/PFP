@@ -15,8 +15,9 @@ An S4 object for storing PFP reference network information.
 \describe{
 \item{\code{network,}}{object of graphNEL list represents the basic networks.}
 
-\item{\code{net_info,}}{a dataframe which contains the index, id, name, group and species.
-It contains the information of the pathway networks, whose row number is the same with \emph{network}.
+\item{\code{net_info,}}{a dataframe which contains the index, id, name, group and
+species.It contains the information of the pathway networks, whose row number
+is the same with \emph{network}.
 
 #'@section method:
 \itemize{
@@ -40,7 +41,7 @@ display methods for S4 classes PFPRefnet, see also
 \examples{
 # New a PFPRefnet object
 data(PFPRefnet_hsa)
-#PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
+PFPRefnet_hsa
 }
 \seealso{
 \code{\link{network-methods}}, \code{\link{net_info-methods}},

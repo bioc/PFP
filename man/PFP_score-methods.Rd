@@ -25,7 +25,6 @@ This function can extract the PFP_score of PFP.
 \examples{
 # New a PFP object
 data(PFP_test1)
-# s1 <- new("PFP", pathways_score = list1, refnet_info = data1)
 PFP_score <- PFP_score(PFP_test1)
 }
 \seealso{

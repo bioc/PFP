@@ -15,36 +15,46 @@ get_exp_cor_edges(
 \arguments{
 \item{gene_list, }{a vector of characters}
 
-\item{data_std, }{a matrix of data, such as gene expression data, whose rownames are gene
+\item{data_std, }{a matrix of data, such as gene expression data, whose
+rownames are gene
 names or ids and colnames are sample names}
 
-\item{method, }{a chareater, which method to compare the correlation of gene expression data
+\item{method, }{a chareater, which method to compare the correlation of gene
+expression data
 it could be "pearson", "kendall", "spearman", "spearman" is default}
 
-\item{num, }{an integer, the top number of co-expressed genes to choose, 5 is default}
+\item{num, }{an integer, the top number of co-expressed genes to choose, 5 is
+default}
 
-\item{cor_threshold, }{a numeric, the threshold of the correlation coefficient to choose, default is \emph{NULL}}
+\item{cor_threshold, }{a numeric, the threshold of the correlation coefficient
+to choose, default is \emph{NULL}}
 }
 \value{
 the coexp of edges.
 }
 \description{
-compute the correlation coefficient of gene expression data,return the most related genes
+compute the correlation coefficient of gene expression data,
+return the most related genes
 }
 \details{
-, This function computes the correlation coefficient of gene expression data between \code{gene_list}
-and \code{data_std}, it will return a data.frame which can be translated a graph or network.
-In the data.frame, \code{source} refers to the genes in \code{gene_list}, \code{target} refers to the top coexpressed genes,
-\code{weight} refers to the correlated coefficient of genes in \code{source} and \code{target},
-\code{pathway} is "uncertain" and \code{edge_type} is "coexp".
-
-Note, when choosing the top co-expressed genes, we will use the \code{num} param if
-the \code{cor_threshold} param is \emph{NULL}. If not, we will choose the \code{cor_threshold} param.
+, This function computes the correlation coefficient of gene
+expression data between \code{gene_list}
+and \code{data_std}, it will return a data.frame which can be translated
+a graph or network.
+In the data.frame, \code{source} refers to the genes in \code{gene_list},
+\code{target} refers to the top coexpressed genes,
+\code{weight} refers to the correlated coefficient of genes in \code{source}
+and \code{target}, \code{pathway} is "uncertain" and \code{edge_type} is
+"coexp".Note, when choosing the top co-expressed genes, we will use the
+\code{num} param if the \code{cor_threshold} param is \emph{NULL}. If not,
+we will choose the \code{cor_threshold} param.
 }
 \examples{
 # Load the data
 data(data_std)
-data(gene_list_hsa)
-# Get the coexp of edges
-#edges_coexp <- get_exp_cor_edges(gene_list_hsa,data_std)
+data(PFP_test1)
+rank1 <- rank_PFP(object = PFP_test1,total_rank = TRUE)
+pathway_select <- refnet_info(rank1)[1,"id"]
+gene_test <- pathways_score(rank1)$genes_score[[pathway_select]]$ENTREZID
+edges_coexp <- get_exp_cor_edges(gene_test,data_std)
 }

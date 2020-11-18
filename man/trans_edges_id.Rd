@@ -13,12 +13,14 @@ trans_edges_id(
 }
 \arguments{
 \item{edges_data, }{the edges_data to translate, it can be the data.frame got
-from \code{\link{get_exp_cor_edges}} or \code{\link{get_asso_net}}, or a data.frame
-contains the same colnames with them.}
+from \code{\link{get_exp_cor_edges}} or \code{\link{get_asso_net}}, or a
+data.frame contains the same colnames with them.}
 
-\item{from_type, }{a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.}
+\item{from_type, }{a character,the type of gene ID, "ENSEMBL","GO","SYMBOL"
+and so on.}
 
-\item{to_type, }{a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.}
+\item{to_type, }{a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and
+so on.}
 
 \item{gene_info_db, }{a gene}
 }
@@ -30,18 +32,20 @@ translate the id name in edges_data
 }
 \details{
 , Translate the id name in edges_data.
-Note, the \code{from_type} must be consistent with the genes id type in \code{edges_data}.
-The \code{gene_info_db} must be consistent with the species in \code{edges_data}
+Note, the \code{from_type} must be consistent with the genes id type in
+\code{edges_data}.
+The \code{gene_info_db} must be consistent with the species in
+\code{edges_data}
 }
 \examples{
 # Library the datebase of org.Hs.eg.db
-library(org.Hs.eg.db)
-# Load the data of human's PFPRefnet
+#require(org.Hs.eg.db)
+# Load the PFPRefnet of human
 data(PFPRefnet_hsa)
-# Load the list of gene
+# Load the list of diff genes
 data(gene_list_hsa)
-# Get the related kegg network
-#edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
-# Trans the id of edges
+edges_kegg <- get_bg_related_kegg(gene_list_hsa,
+                                  PFPRefnet=PFPRefnet_hsa,
+                                  rm_duplicated = TRUE)
 #edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
 }

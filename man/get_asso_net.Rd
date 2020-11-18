@@ -7,6 +7,7 @@
 get_asso_net(
   edges_coexp,
   edges_kegg,
+  file_dir = NULL,
   if_symbol = TRUE,
   trans_fun = trans_edges_id,
   from_type = "ENTREZID",
@@ -15,46 +16,62 @@ get_asso_net(
 )
 }
 \arguments{
-\item{edges_coexp, }{a data.frame whose colnames is "source","target","weight","pathway","edge_type".}
+\item{edges_coexp, }{a data.frame whose colnames is "source","target",
+"weight","pathway","edge_type".}
 
-\item{edges_kegg, }{a data.frame whose colnames is "source","target","weight","pathway","edge_type".}
+\item{edges_kegg, }{a data.frame whose colnames is "source","target",
+"weight","pathway","edge_type".}
 
-\item{if_symbol, }{a logical,whether to translate the gene id type. Default is TRUE.}
+\item{file_dir, }{a character, the root to save the result of nodes & edges.}
 
-\item{trans_fun, }{a function, when \code{if_symbol} is \emph{TRUE},it will use the \code{trans_fun} function
-to translate the gene ids. Default is \code{trans_edges_id}.}
+\item{if_symbol, }{a logical,whether to translate the gene id type. Default is
+TRUE.}
 
-\item{from_type, }{a character,the parameter in \code{trans_fun}. It is the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.}
+\item{trans_fun, }{a function, when \code{if_symbol} is \emph{TRUE},it will
+use the \code{trans_fun} function to translate the gene ids. Default is
+\code{trans_edges_id}.}
 
-\item{to_type, }{a character,the parameter in \code{trans_fun}. It is the type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.}
+\item{from_type, }{a character,the parameter in \code{trans_fun}. It is the
+type of gene ID, "ENSEMBL","GO","SYMBOL" and so on.}
 
-\item{gene_info_db, }{an AnnotationDb-object for gene annotation, such as "org.Hs.eg.db".}
+\item{to_type, }{a character,the parameter in \code{trans_fun}. It is the type
+of gene ID, "ENSEMBL","GO","SYMBOL" and so on.}
+
+\item{gene_info_db, }{an AnnotationDb-object for gene annotation, such as
+"org.Hs.eg.db".}
 }
 \value{
 the nodes information of the edges.
 }
 \description{
-This function will remove the co-expressed edges in edges_coexp which also emerge in edges_kegg.
+This function will remove the co-expressed edges in edges_coexp
+which also emerge in edges_kegg.
 }
 \details{
-, This function will remove the co-expressed edges in edges_coexp which also emerge in edges_kegg.
-It will return a list contains two data.frames. One is the merged data. Another is
-the nodes information of the edges.
+, This function will remove the co-expressed edges in edges_coexp
+which also emerge in edges_kegg.
+It will return a list contains two data.frames. One is the merged data.
+Another is the nodes information of the edges.
 }
 \examples{
-# Load the depends
-library(org.Hs.eg.db)
-# Load the data
+# Library the datebase of org.Hs.eg.db
+#require(org.Hs.eg.db)
+# Load the PFPRefnet of human
 data(PFPRefnet_hsa)
-data(gene_list_hsa)
-PFP_s10 <- calc_PFP_score(genes = gene_list_hsa,PFPRefnet = PFPRefnet_hsa,coeff1 = 1,coeff2 = 0.1)
-rank1 <- rank_PFP(object = PFP_s10,total_rank = TRUE)
-#pathway_select <- rank1@ref_net_info[1,"id"]
-#gene_test <- rank1@pathways_score$genes_score[[pathway_select]]$ENTREZID
-# Get the correlation of edges
-#edges_coexp <- get_exp_cor_edges(gene_test,data_std)
+# Load the list of diff genes
+data(data_std)
+data(PFP_test1)
+rank1 <- rank_PFP(object = PFP_test1,total_rank = TRUE)
+pathway_select <- refnet_info(rank1)[1,"id"]
+gene_test <- pathways_score(rank1)$genes_score[[pathway_select]]$ENTREZID
+edges_coexp <- get_exp_cor_edges(gene_test,data_std)
+gene_list2 <- unique(c(edges_coexp$source,edges_coexp$target))
+edges_kegg <- get_bg_related_kegg(gene_list2,
+                                  PFPRefnet=PFPRefnet_hsa,
+                                  rm_duplicated = TRUE)
 # Get the related kegg
-#edges_kegg <- get_bg_related_kegg(gene_list_hsa,PFPRefnet_hsa)
-# Get the related kegg
-#asso_net <- get_asso_net(edges_coexp,edges_kegg)
+#net_test <- get_asso_net(edges_coexp = edges_coexp,
+ #                        edges_kegg = edges_kegg,
+  #                       if_symbol = TRUE,
+   #                      gene_info_db = org.Hs.eg.db)
 }

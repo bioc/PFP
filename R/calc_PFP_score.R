@@ -1,31 +1,37 @@
 #' @title Get the pathway fingerprint of a gene_list
-#' @description It can evaluate the performance of a gene list in the pathway networks.
+#' @description It can evaluate the performance of a gene list in the pathway
+#' networks.
 #' @param genes, a vector of characters
 #' @param PFPRefnet, A PFPRefnet class
-#' @param lambda, a numeric, the coefficient for keeping balance between the node_score
-#' and edge_score in PFP model
-#' @param coeff1, a numeric, the weight coefficient for directly connected score in PFP model
-#' @param coeff2, a numeric, the weight coefficient for indirectly connected score in PFP model
+#' @param lambda, a numeric, the coefficient for keeping balance between the
+#' node_score and edge_score in PFP model
+#' @param coeff1, a numeric, the weight coefficient for directly connected score
+#' in PFP model
+#' @param coeff2, a numeric, the weight coefficient for indirectly connected
+#' score in PFP model
 #' @param statistic, a logical,whether to do the statistical test
-#' @param bg_genelist, a vector of characters, background gene set for the statistical test
+#' @param bg_genelist, a vector of characters, background gene set for the
+#' statistical test
 #' @param adjust_method, statistic test method for adjust the p_value.
-#' It could be "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none".
-#' @details The main part of pathway fingerprint. PFP is used to evaluate the performance of
-#' a gene_list in some pathway networks by considering the genes' topological location in
-#' a pathway. Then we can get every gene's score and the pathway score is caculated by sum
-#' all genes' score. All pathways' scores combine the pathway fingerprint.
+#' It could be "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr",
+#' "none".
+#' @details The main part of pathway fingerprint. PFP is used to evaluate the
+#' performance of a gene_list in some pathway networks by considering the
+#' genes' topological location in a pathway. Then we can get every gene's score
+#' and the pathway score is caculated by sum all genes' score. All pathways'
+#' scores combine the pathway fingerprint.
+#' @return The score of PFP
 #' @examples
-#' \dontrun{
 #' data(gene_list_hsa)
-#' data("PFPRefnet_hsa")
-#' PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet)
-#' }
+#' data(PFPRefnet_hsa)
+#' PFP <- calc_PFP_score(gene_list_hsa,PFPRefnet_hsa)
 #' @export
-calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statistic = FALSE,
-                           bg_genelist=NULL,adjust_method="BH"){
+calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,
+                           statistic = FALSE,
+                           bg_genelist=NULL,
+                           adjust_method="BH"){
   # get graph score
   get_graph_score <- function(graph0,genes,lambda,coeff1,coeff2){
-
     kegg_edges0 <- strsplit(x = names(edgeData(graph0)),split = "\\|")
     kegg_edges1 <- data.frame(t(data.frame(kegg_edges0)))
     kegg_nodes0 <- nodes(graph0)
@@ -50,14 +56,17 @@ calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statis
       }
 
       # score2
-      left_con <- lapply(genes_inter,function(x)kegg_edges1[kegg_edges1[,1]==x,2])
+      left_con <- lapply(genes_inter,
+                         function(x)kegg_edges1[kegg_edges1[,1]==x,2])
       names(left_con) <- genes_inter
-      right_con <- lapply(genes_inter,function(x)kegg_edges1[kegg_edges1[,2]==x,1])
+      right_con <- lapply(genes_inter,
+                          function(x)kegg_edges1[kegg_edges1[,2]==x,1])
       names(right_con) <- genes_inter
       fun_intersect <- function(set,set_list){
         vapply(X = set_list, FUN = function(x)(length(intersect(x,set))),0)
       }
-      score2_tmp <- data.frame(lapply(X = left_con,FUN = fun_intersect,right_con))
+      score2_tmp <- data.frame(lapply(X = left_con,
+                                      FUN = fun_intersect,right_con))
       score2 <- vapply(X = seq_len(length(genes_inter)),
                        function(x)sum(score2_tmp[,x])+sum(score2_tmp[x,])-
                          score2_tmp[x,x],0)
@@ -69,7 +78,8 @@ calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statis
       graph_score <- merge(x = graph_score, y = score2, by = "ENTREZID",
                            all.x = TRUE)
       graph_score[["score"]] <- rowSums(graph_score[,c("score1","score2")],
-                                        na.rm = T)/con_rate*(1-lambda)+graph_score[,c("score0")]*lambda
+                                        na.rm = TRUE)/con_rate*(1-lambda)+
+        graph_score[,c("score0")]*lambda
       graph_score[is.na(graph_score)] <- 0
     }else{
       graph_score[["score1"]] <- rep(0,nrow(graph_score))
@@ -81,15 +91,20 @@ calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statis
 
   test_pavlue <- function(genes,bg_genelist,PFPRefnet,adjust_method){
     genes <- intersect(genes,bg_genelist)
-    sep_nodes <- lapply(X = names(network(PFPRefnet)),FUN = function(x)intersect(nodes(network(PFPRefnet)[[x]]),bg_genelist))
+    sep_nodes <- lapply(X = names(network(PFPRefnet)),
+                        FUN = function(x)intersect(
+                          nodes(network(PFPRefnet)[[x]]),bg_genelist))
     names(sep_nodes) <- names(network(PFPRefnet))
-    sep_nodes_hit <- lapply(X = names(sep_nodes),FUN = function(x)intersect(sep_nodes[[x]],genes))
+    sep_nodes_hit <- lapply(X = names(sep_nodes),
+                            FUN = function(x)intersect(sep_nodes[[x]],genes))
     names(sep_nodes_hit) <- names(network(PFPRefnet))
-    p_values <- vapply(X = names(sep_nodes),FUN = function(x)phyper(q = length(sep_nodes_hit[[x]])-1,
-                                                                    m = length(sep_nodes[[x]]),
-                                                                    n = length(bg_genelist)-length(sep_nodes[[x]]),
-                                                                    k = length(genes),
-                                                                    lower.tail = FALSE),FUN.VALUE = 1)
+    p_values <- vapply(X = names(sep_nodes),
+                       FUN = function(x)phyper(q = length(sep_nodes_hit[[x]])-1,
+                                               m = length(sep_nodes[[x]]),
+                                               n = length(bg_genelist)-
+                                                 length(sep_nodes[[x]]),
+                                               k = length(genes),
+                                               lower.tail = FALSE),FUN.VALUE = 1)
     p_adjust <- p.adjust(p = p_values, method = adjust_method)
     return(list(p_value = p_values,p_adj_value = p_adjust))
   }
@@ -98,7 +113,9 @@ calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statis
   if (sum(is.na(as.numeric(genes))) > 0)
     stop("You should translate all your gene ids into ENTREZID!")
 
-  genes_score <- lapply(network(PFPRefnet),get_graph_score,genes=genes,lambda=lambda,
+  genes_score <- lapply(network(PFPRefnet),
+                        get_graph_score,genes=genes,
+                        lambda=lambda,
                         coeff1=coeff1,coeff2=coeff2)
   PFP_score <- vapply(genes_score,function(x)sum(x$score),0)
 
@@ -110,7 +127,10 @@ calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statis
         stop("You should translate all your background genes ids into ENTREZID!")
       }
     }
-    random_tests <- test_pavlue(genes,bg_genelist,PFPRefnet,adjust_method = adjust_method)
+    random_tests <- test_pavlue(genes,
+                                bg_genelist,
+                                PFPRefnet,
+                                adjust_method = adjust_method)
     p_value <- random_tests[["p_value"]]
     p_adj_value <- random_tests[["p_adj_value"]]
   }else{
@@ -120,7 +140,9 @@ calc_PFP_score <- function(genes,PFPRefnet,lambda=0.5,coeff1=1,coeff2=0.1,statis
 
   PFP_res <- new(Class = "PFP",
                  pathways_score = list(PFP_score=PFP_score,
-                                       stats_test=data.frame(p_value=p_value,p_adj_value=p_adj_value),
+                                       stats_test=data.frame(p_value=p_value,
+                                                             p_adj_value=
+                                                               p_adj_value),
                                        genes_score=genes_score),
                  refnet_info = net_info(PFPRefnet))
   return(PFP_res)

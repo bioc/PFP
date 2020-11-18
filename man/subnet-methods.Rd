@@ -26,12 +26,14 @@ subnet(
 
 \item{group_name, }{character, indicating the groups to subset.}
 
-\item{index, }{NULL or a list contains slice/numeric, character, specifying elements to extract.
+\item{index, }{NULL or a list contains slice/numeric, character,
+specifying elements to extract.
 This parameter' length must be the same as \code{group_name}.
 Default is \emph{NULL}, indicating extract all the networks of a group. See
 \emph{details} for more information.}
 
-\item{index_type, }{character, the type pf index, which could be "slice","id","name".}
+\item{index_type, }{character, the type pf index, which could be
+"slice","id","name".}
 }
 \value{
 sub the network
@@ -44,14 +46,14 @@ This function help users to extract the specific networks for
 customized analysis, which could be of entire group networks or some part of
 a specific group networks.
 
-Note, the \code{index} argument is only worked while the group_name argument is
-consideration, which means group_name is not \emph{NULL}. And the length must be
-the same as \code{group_name}. Default is \emph{NULL}, indicating extract the entire group basic networks.
+Note, the \code{index} argument is only worked while the group_name argument
+is consideration, which means group_name is not \emph{NULL}. And the length
+must be the same as \code{group_name}. Default is \emph{NULL}, indicating
+extract the entire group basic networks.
 }
 \examples{
 # New a PFPRefnet object
 data(PFPRefnet_hsa)
-# PFPRefnet1 <- new("PFPRefnet", network = list1, net_info = data1)
 subnet <- subnet(PFPRefnet_hsa)
 }
 \seealso{
