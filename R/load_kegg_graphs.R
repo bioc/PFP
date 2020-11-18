@@ -6,7 +6,7 @@
 #' "mmu"...
 #' @param file_root, a character,refers to the root you want to save kegg
 #' pathway kgml files in.
-#' @details, Downloading all kegg KGML files assigned by \code{spec} from
+#' @details Downloading all kegg KGML files assigned by \code{spec} from
 #'  https://www.kegg.jp/kegg/xml/,
 #'  which may take tens of minutes.
 #' @return the kegg KGML files
