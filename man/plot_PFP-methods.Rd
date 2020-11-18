@@ -5,8 +5,7 @@
 \alias{plot_PFP-methods}
 \alias{plot_PFP}
 \alias{plot_PFP,PFP-method}
-\title{Plot PFP results
-Function for visualization PFP results.}
+\title{Plot PFP results}
 \usage{
 plot_PFP(
   object,
@@ -36,7 +35,6 @@ plot_PFP(
 a plot of PFP
 }
 \description{
-Plot PFP results
 Function for visualization PFP results.
 }
 \examples{

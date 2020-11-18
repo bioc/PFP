@@ -5,8 +5,7 @@
 \alias{PFP_score-methods}
 \alias{PFP_score}
 \alias{PFP_score,PFP-method}
-\title{The score of \emph{PFP}
-This function can extract the PFP_score of PFP.}
+\title{The score of \emph{PFP}}
 \usage{
 PFP_score(object)
 
@@ -19,7 +18,6 @@ PFP_score(object)
 the PFP_score
 }
 \description{
-The score of \emph{PFP}
 This function can extract the PFP_score of PFP.
 }
 \examples{

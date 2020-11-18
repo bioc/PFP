@@ -86,7 +86,7 @@ kegg_download <- function(spec,file_root="."){
 #' \code{file_dir}.
 #' @param file_dir, a character, refers to the file_path where kegg KGML files
 #' are stored.
-#' @details, translate all kegg KGML files in path \code{file_dir}. It will
+#' @details translate all kegg KGML files in path \code{file_dir}. It will
 #' return a list of \code{graphNEL}
 #' @return Trans the xml to graph
 #' @examples
@@ -159,7 +159,7 @@ trans_xml2graph <- function(file_dir){
 #' @param graph_list, a list of \code{\link{graphNEL}}.
 #' @param pathway_info, a data.frame, which contains all kegg pathways "index",
 #' "id","name","group","species"
-#' @details, translating all graphs in \code{graph_list} to a
+#' @details translating all graphs in \code{graph_list} to a
 #' \code{\link{PFPRefnet-class}} object.
 #' The pathway_info can be designed by yourself, but the colnames must be
 #' "index","id","name","group" and "species".

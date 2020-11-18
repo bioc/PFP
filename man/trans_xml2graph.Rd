@@ -18,7 +18,7 @@ This function will translate all kegg KGML files in path
 \code{file_dir}.
 }
 \details{
-, translate all kegg KGML files in path \code{file_dir}. It will
+translate all kegg KGML files in path \code{file_dir}. It will
 return a list of \code{graphNEL}
 }
 \examples{

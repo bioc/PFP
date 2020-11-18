@@ -5,8 +5,7 @@
 \alias{rank_PFP-methods}
 \alias{rank_PFP}
 \alias{rank_PFP,PFP-method}
-\title{rank of the PFP object by the value of PFP_score.
-Function for show the rank of PFP results.}
+\title{rank PFPscore}
 \usage{
 rank_PFP(
   object,
@@ -44,8 +43,7 @@ want to select the significant pathway and you will select all pathways.}
 a ranked PFP object.
 }
 \description{
-rank of the PFP object by the value of PFP_score.
-Function for show the rank of PFP results.
+rank the PFP object by the value of PFP_score.
 }
 \examples{
 # New a PFP object

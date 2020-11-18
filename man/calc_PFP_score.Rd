@@ -10,7 +10,7 @@ calc_PFP_score(
   lambda = 0.5,
   coeff1 = 1,
   coeff2 = 0.1,
-  statistic = FALSE,
+  statistic = TRUE,
   bg_genelist = NULL,
   adjust_method = "BH"
 )

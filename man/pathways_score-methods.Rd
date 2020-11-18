@@ -6,8 +6,7 @@
 \alias{pathways_score}
 \alias{pathways_score-method}
 \alias{pathways_score,PFP-method}
-\title{Basic pathway networks scores of \emph{PFP} class
-This function can extract the details in pathway fingerprint scores.}
+\title{Basic pathway networks scores of \emph{PFP} class}
 \usage{
 pathways_score(object)
 
@@ -20,7 +19,6 @@ pathways_score(object)
 as list, details in pathway fingerprint scores.
 }
 \description{
-Basic pathway networks scores of \emph{PFP} class
 This function can extract the details in pathway fingerprint scores.
 }
 \examples{

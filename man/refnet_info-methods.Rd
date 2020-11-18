@@ -5,8 +5,7 @@
 \alias{refnet_info-methods}
 \alias{refnet_info}
 \alias{refnet_info,PFP-method}
-\title{Basic network information of \emph{PFP} class
-This function extract the detail information of reference pathway networks.}
+\title{Basic network information of \emph{PFP} class}
 \usage{
 refnet_info(object)
 
@@ -19,7 +18,6 @@ refnet_info(object)
 detail information of reference pathway networks
 }
 \description{
-Basic network information of \emph{PFP} class
 This function extract the detail information of reference pathway networks.
 }
 \examples{

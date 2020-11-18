@@ -5,8 +5,7 @@
 \alias{stats_test-methods}
 \alias{stats_test}
 \alias{stats_test,PFP-method}
-\title{The P value of \emph{PFP}
-This function can extract the result of statistical analysis}
+\title{The P value of \emph{PFP}}
 \usage{
 stats_test(object)
 
@@ -19,7 +18,6 @@ stats_test(object)
 Statistical test result of each pathway score
 }
 \description{
-The P value of \emph{PFP}
 This function can extract the result of statistical analysis
 }
 \examples{

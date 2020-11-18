@@ -48,7 +48,7 @@ This function will remove the co-expressed edges in edges_coexp
 which also emerge in edges_kegg.
 }
 \details{
-, This function will remove the co-expressed edges in edges_coexp
+This function will remove the co-expressed edges in edges_coexp
 which also emerge in edges_kegg.
 It will return a list contains two data.frames. One is the merged data.
 Another is the nodes information of the edges.

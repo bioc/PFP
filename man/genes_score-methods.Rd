@@ -5,9 +5,7 @@
 \alias{genes_score-methods}
 \alias{genes_score}
 \alias{genes_score,PFP-method}
-\title{The score of genes in \emph{PFP} class
-This function extract the detail scores of every gene in the gene_list by
-specific condition.}
+\title{The score of genes in \emph{PFP} class}
 \usage{
 genes_score(
   object,
@@ -32,7 +30,6 @@ genes_score(
 a named vector of numeric scores
 }
 \description{
-The score of genes in \emph{PFP} class
 This function extract the detail scores of every gene in the gene_list by
 specific condition.
 }

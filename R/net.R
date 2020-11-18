@@ -13,7 +13,7 @@
 #' default
 #' @param cor_threshold, a numeric, the threshold of the correlation coefficient
 #' to choose, default is \emph{NULL}
-#' @details, This function computes the correlation coefficient of gene
+#' @details This function computes the correlation coefficient of gene
 #' expression data between \code{gene_list}
 #' and \code{data_std}, it will return a data.frame which can be translated
 #' a graph or network.
@@ -122,7 +122,7 @@ get_exp_cor_edges <- function(gene_list,
 #' @param rm_duplicated, a logical, whether to remove the duplicated kegg edges
 #' in different pathways.
 #' Defalut is \emph{FALSE}
-#' @details, It will return a data.frame which can be translated a graph or
+#' @details It will return a data.frame which can be translated a graph or
 #' network.
 #' In the data.frame, \code{source} refers to the genes in \code{gene_list},
 #' \code{target} refers to the directly connected genes in kegg, \code{weight}
@@ -206,7 +206,7 @@ get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
 #' @param to_type, a character,the type of gene ID, "ENSEMBL","GO","SYMBOL" and
 #' so on.
 #' @param gene_info_db, a gene
-#' @details, Translate the id name in edges_data.
+#' @details Translate the id name in edges_data.
 #' Note, the \code{from_type} must be consistent with the genes id type in
 #' \code{edges_data}.
 #' The \code{gene_info_db} must be consistent with the species in
@@ -271,7 +271,7 @@ trans_edges_id <- function(edges_data,from_type="ENTREZID",
 #' of gene ID, "ENSEMBL","GO","SYMBOL" and so on.
 #' @param gene_info_db, an AnnotationDb-object for gene annotation, such as
 #' "org.Hs.eg.db".
-#' @details, This function will remove the co-expressed edges in edges_coexp
+#' @details This function will remove the co-expressed edges in edges_coexp
 #' which also emerge in edges_kegg.
 #' It will return a list contains two data.frames. One is the merged data.
 #' Another is the nodes information of the edges.

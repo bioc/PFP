@@ -31,7 +31,7 @@ the id of the edges.
 translate the id name in edges_data
 }
 \details{
-, Translate the id name in edges_data.
+Translate the id name in edges_data.
 Note, the \code{from_type} must be consistent with the genes id type in
 \code{edges_data}.
 The \code{gene_info_db} must be consistent with the species in

@@ -23,7 +23,7 @@ This function will select all genes in all kegg pathways which
 are directly connected with the genes in \code{gene_list}
 }
 \details{
-, It will return a data.frame which can be translated a graph or
+It will return a data.frame which can be translated a graph or
 network.
 In the data.frame, \code{source} refers to the genes in \code{gene_list},
 \code{target} refers to the directly connected genes in kegg, \code{weight}

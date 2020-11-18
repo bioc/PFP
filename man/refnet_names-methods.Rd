@@ -5,8 +5,7 @@
 \alias{refnet_names-methods}
 \alias{refnet_names}
 \alias{refnet_names,PFP-method}
-\title{Names of basic networks
-This function extract the reference pathway network names of PFP.}
+\title{Names of basic networks}
 \usage{
 refnet_names(object)
 
@@ -19,7 +18,6 @@ refnet_names(object)
 a vector contains pathway names
 }
 \description{
-Names of basic networks
 This function extract the reference pathway network names of PFP.
 }
 \examples{

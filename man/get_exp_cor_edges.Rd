@@ -37,7 +37,7 @@ compute the correlation coefficient of gene expression data,
 return the most related genes
 }
 \details{
-, This function computes the correlation coefficient of gene
+This function computes the correlation coefficient of gene
 expression data between \code{gene_list}
 and \code{data_std}, it will return a data.frame which can be translated
 a graph or network.

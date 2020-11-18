@@ -21,13 +21,11 @@ This function will download all kegg KGML files assigned by
 \code{spec}.
 }
 \details{
-, Downloading all kegg KGML files assigned by \code{spec} from
+Downloading all kegg KGML files assigned by \code{spec} from
 https://www.kegg.jp/kegg/xml/,
 which may take tens of minutes.
 }
 \examples{
-# Load the kegg network
-#kegg_download(spec = "hsa", file_root="~/Desktop")
-data(gene_list_hsa)
-gene_list_hsa
+# download the kegg network
+kegg_download(spec = "hsa", file_root="~/Desktop")
 }

@@ -20,7 +20,7 @@ This function will translate all graphs in \code{graph_list} to
 a \code{\link{PFPRefnet-class}} object.
 }
 \details{
-, translating all graphs in \code{graph_list} to a
+translating all graphs in \code{graph_list} to a
 \code{\link{PFPRefnet-class}} object.
 The pathway_info can be designed by yourself, but the colnames must be
 "index","id","name","group" and "species".
