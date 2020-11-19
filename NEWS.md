@@ -1,6 +1,8 @@
+# PFP 0.99.5
+* We update R version dependency from 4.0.0 to 4.1.
+
 # PFP 0.99.4
-* We subscribe to the bioc-devel mailing list and update R version dependency 
-* from 4.0.0 to 4.1.
+* We subscribe to the bioc-devel mailing list 
 
 # PFP 0.99.3
 * Remove bugs in *.R, date: 2020.11.19.

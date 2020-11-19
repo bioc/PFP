@@ -1,7 +1,7 @@
 Package: PFP
 Type: Package
 Title: Pathway Fingerprint Framework in R
-Version: 0.99.4
+Version: 0.99.5
 biocViews: Software, Pathways, RNASeq 
 Authors@R: person("XC", "Zhang",email = "kunghero@163.com",role = c("aut","cre" ))
 Description: An implementation of the pathway fingerprint framework that introduced in paper "Pathway Fingerprint: a novel pathway knowledge and topology based method for biomarker discovery and characterization".
