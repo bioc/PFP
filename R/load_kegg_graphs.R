@@ -12,7 +12,9 @@
 #' @return the kegg KGML files
 #' @examples
 #' # download the kegg network
-#' kegg_download(spec = "hsa", file_root="~/Desktop")
+#' data(pathway_info)
+#' pathway_info
+#' #kegg_download(spec = "hsa", file_root="~/Desktop")
 #' @export
 kegg_download <- function(spec,file_root="."){
   # create the file dir for downloading
