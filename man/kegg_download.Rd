@@ -27,5 +27,7 @@ which may take tens of minutes.
 }
 \examples{
 # download the kegg network
-kegg_download(spec = "hsa", file_root="~/Desktop")
+data(pathway_info)
+pathway_info
+#kegg_download(spec = "hsa", file_root="~/Desktop")
 }
