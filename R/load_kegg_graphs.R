@@ -111,7 +111,7 @@ trans_xml2graph <- function(file_dir){
   if (length(xml_list)==0){
     stop("Please input a file dir which contains at least one kgml file!")
   }
-  graph_list <- vapply(X = xml_list, FUN = function(file_name) try(
+  graph_list <- lapply(X = xml_list, FUN = function(file_name) try(
     parseKGML2Graph(paste0(file_dir,"/",file_name))))
 
   # remove pathways which failed to be translated
