@@ -113,7 +113,7 @@ trans_xml2graph <- function(file_dir){
   }
   graph_list <- lapply(X = xml_list, FUN = function(file_name) try(
     parseKGML2Graph(paste0(file_dir,"/",file_name))))
-
+  names(graph_list) <- xml_list
   # remove pathways which failed to be translated
   right_trans <- vapply(graph_list,function(x)is(x,"graphNEL"),TRUE)
   wrong_trans_file <- names(graph_list)[!right_trans]
@@ -146,7 +146,9 @@ trans_xml2graph <- function(file_dir){
                   edgeL=edgeL(graph0),
                   edgemode='directed')
   }
-  graph_list <- vapply(names(graph_list), FUN = fun_trans,graph_list)
+  graph_list <- lapply(names(graph_list), FUN = fun_trans,graph_list)
+  names(graph_list2) <- names(graph_list)
+  graph_list2
   # save(list = c("graph_list"),file = paste0(file_dir,"/graph_list.RData"))
   # graph_list
 }
