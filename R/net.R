@@ -105,7 +105,7 @@ get_exp_cor_edges <- function(gene_list,
   if (length(delete_row)!=0){
     edges_coeff <- edges_coeff[-delete_row,]
   }
-  rownames(edges_coeff) <- 1:nrow(edges_coeff)
+  rownames(edges_coeff) <- seq_len(1):nrow(edges_coeff)
   edges_coeff[["pathway"]] <- rep("uncertain",nrow(edges_coeff))
   edges_coeff[["edge_type"]] <- rep("coexp",nrow(edges_coeff))
   return(edges_coeff)
