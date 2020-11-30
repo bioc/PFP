@@ -21,7 +21,6 @@ detail information of reference pathway networks
 This function extract the detail information of reference pathway networks.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 refnet_info <- refnet_info(PFP_test1)
 }

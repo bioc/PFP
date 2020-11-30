@@ -26,7 +26,6 @@
 #' we will choose the \code{cor_threshold} param.
 #' @return the coexp of edges.
 #' @examples
-#' # Load the data
 #' data(data_std)
 #' data(PFP_test1)
 #' rank1 <- rank_PFP(object = PFP_test1,total_rank = TRUE)
@@ -51,6 +50,7 @@ get_exp_cor_edges <- function(gene_list,
     gene_list <- gene_list[match_list!=0]
   }
 
+  #get the correlation number of gene.
   get_gene_cor_num <- function(gene,data_std,method,num){
     cor_list <- vapply(X =rownames(data_std),
                        FUN = function(name0)cor(x = unlist(data_std[gene,]),
@@ -61,6 +61,7 @@ get_exp_cor_edges <- function(gene_list,
                                  target=names(cor_list)[2:(num+1)],
                                  weight=cor_list[2:(num+1)])
   }
+  #get the gene correlation thresh.
   get_gene_cor_thresh <- function(gene,data_std,method,cor_threshold){
     cor_list <- vapply(X =rownames(data_std),
                        FUN = function(name0)cor(x = unlist(data_std[gene,]),
@@ -133,9 +134,7 @@ get_exp_cor_edges <- function(gene_list,
 #' first pathway which contains the duplicated edge.
 #' @return the related kegg network.
 #' @examples
-#' # Load the PFPRefnet of human
 #' data(PFPRefnet_hsa)
-#' # Load the list of diff genes
 #' data(gene_list_hsa)
 #' edges_kegg <- get_bg_related_kegg(gene_list_hsa,
 #'                                   PFPRefnet=PFPRefnet_hsa,
@@ -213,16 +212,11 @@ get_bg_related_kegg <- function(gene_list,PFPRefnet,rm_duplicated = FALSE){
 #' \code{edges_data}
 #' @return the id of the edges.
 #' @examples
-#' # Library the datebase of org.Hs.eg.db
-#' #require(org.Hs.eg.db)
-#' # Load the PFPRefnet of human
 #' data(PFPRefnet_hsa)
-#' # Load the list of diff genes
 #' data(gene_list_hsa)
 #' edges_kegg <- get_bg_related_kegg(gene_list_hsa,
 #'                                   PFPRefnet=PFPRefnet_hsa,
 #'                                   rm_duplicated = TRUE)
-#' #edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
 #' @export
 trans_edges_id <- function(edges_data,from_type="ENTREZID",
                            to_type="SYMBOL",
@@ -277,11 +271,7 @@ trans_edges_id <- function(edges_data,from_type="ENTREZID",
 #' Another is the nodes information of the edges.
 #' @return the nodes information of the edges.
 #' @examples
-#' # Library the datebase of org.Hs.eg.db
-#' #require(org.Hs.eg.db)
-#' # Load the PFPRefnet of human
 #' data(PFPRefnet_hsa)
-#' # Load the list of diff genes
 #' data(data_std)
 #' data(PFP_test1)
 #' rank1 <- rank_PFP(object = PFP_test1,total_rank = TRUE)
@@ -292,11 +282,6 @@ trans_edges_id <- function(edges_data,from_type="ENTREZID",
 #' edges_kegg <- get_bg_related_kegg(gene_list2,
 #'                                   PFPRefnet=PFPRefnet_hsa,
 #'                                   rm_duplicated = TRUE)
-#' # Get the related kegg
-#' #net_test <- get_asso_net(edges_coexp = edges_coexp,
-#'  #                        edges_kegg = edges_kegg,
-#'   #                       if_symbol = TRUE,
-#'    #                      gene_info_db = org.Hs.eg.db)
 #' @export
 get_asso_net <- function(edges_coexp,
                          edges_kegg,

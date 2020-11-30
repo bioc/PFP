@@ -38,7 +38,6 @@ a plot of PFP
 Function for visualization PFP results.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 plot_PFP(PFP_test1,'line', p_size = 1, l_size = 0.5)
 }

@@ -21,7 +21,6 @@ a dataframe contains basic networks' information
 This function extract the basic networks information of PFPRefnet class.
 }
 \examples{
-# New a PFPRefnet object
 data(PFPRefnet_hsa)
 net_info <- net_info(PFPRefnet_hsa)
 }

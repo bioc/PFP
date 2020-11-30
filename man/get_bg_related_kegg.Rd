@@ -34,9 +34,7 @@ plotting a network. If \code{rm_duplicated} is \emph{TRUE},it will retain the
 first pathway which contains the duplicated edge.
 }
 \examples{
-# Load the PFPRefnet of human
 data(PFPRefnet_hsa)
-# Load the list of diff genes
 data(gene_list_hsa)
 edges_kegg <- get_bg_related_kegg(gene_list_hsa,
                                   PFPRefnet=PFPRefnet_hsa,

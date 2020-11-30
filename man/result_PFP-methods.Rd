@@ -29,7 +29,6 @@ the scores and the information of PFP object.
 get the result of the PFP object.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 result_PFP(PFP_test1,
         thresh_slot="p_adj_value",

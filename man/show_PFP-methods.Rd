@@ -21,7 +21,6 @@ show the PFP
 Show a short summary for PFP object.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 show_PFP(PFP_test1)
 }

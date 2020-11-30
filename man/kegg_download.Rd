@@ -26,8 +26,6 @@ https://www.kegg.jp/kegg/xml/,
 which may take tens of minutes.
 }
 \examples{
-# download the kegg network
 data(pathway_info)
 pathway_info
-#kegg_download(spec = "hsa", file_root="~/Desktop")
 }

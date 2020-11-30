@@ -26,7 +26,6 @@ The pathway_info can be designed by yourself, but the colnames must be
 "index","id","name","group" and "species".
 }
 \examples{
-# Load the info of the pathway
 data(pathway_info)
 pathway_info
 }

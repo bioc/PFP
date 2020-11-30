@@ -53,7 +53,6 @@
 #'\code{\link{subnet-methods}}, \code{\link{show_net-methods}},
 #'@return a object of PFPRefnet class
 #'@examples
-#' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #' PFPRefnet_hsa
 setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
@@ -74,7 +73,6 @@ setClass("PFPRefnet", slot=list(network = "list", net_info = "data.frame"),
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a graphNEL list of all basic networks
 #'@examples
-#' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #' network <- network(PFPRefnet_hsa)
 setGeneric("network",
@@ -101,7 +99,6 @@ setMethod("network",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a dataframe contains basic networks' information
 #'@examples
-#' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #' net_info <- net_info(PFPRefnet_hsa)
 setGeneric("net_info",
@@ -129,7 +126,6 @@ setMethod("net_info",signature="PFPRefnet",
 #'@return a list contains names of basic groups of the networks and group
 #'number, as well as the size of each group
 #'@examples
-#' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #' group <- group(PFPRefnet_hsa)
 setGeneric("group",function(object){standardGeneric("group")})
@@ -159,7 +155,6 @@ setMethod("group",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return a vector contains pathway names
 #'@examples
-#' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #' net_names <- net_names(PFPRefnet_hsa)
 setGeneric("net_names",
@@ -203,7 +198,6 @@ setMethod("net_names",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return sub the network
 #'@examples
-#' # New a PFPRefnet object
 #' data(PFPRefnet_hsa)
 #' subnet <- subnet(PFPRefnet_hsa)
 setGeneric("subnet",function(object, group_name = NULL,
@@ -309,7 +303,6 @@ setMethod("subnet",signature="PFPRefnet",
 #'@seealso \code{\link{PFPRefnet-class}}
 #'@return show the network
 #'@examples
-#' # New a PFPRefnet object
 #'data(PFPRefnet_hsa)
 #'show_net(PFPRefnet_hsa)
 setGeneric("show_net",

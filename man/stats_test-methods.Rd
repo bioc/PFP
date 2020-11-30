@@ -21,7 +21,6 @@ Statistical test result of each pathway score
 This function can extract the result of statistical analysis
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 stats_test <- stats_test(PFP_test1)
 }

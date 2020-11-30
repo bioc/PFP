@@ -46,7 +46,6 @@ a ranked PFP object.
 rank the PFP object by the value of PFP_score.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 rank_PFP(PFP_test1,
         total_rank=FALSE,

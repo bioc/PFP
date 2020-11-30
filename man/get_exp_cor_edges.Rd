@@ -50,7 +50,6 @@ and \code{target}, \code{pathway} is "uncertain" and \code{edge_type} is
 we will choose the \code{cor_threshold} param.
 }
 \examples{
-# Load the data
 data(data_std)
 data(PFP_test1)
 rank1 <- rank_PFP(object = PFP_test1,total_rank = TRUE)

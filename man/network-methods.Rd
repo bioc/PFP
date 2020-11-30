@@ -21,7 +21,6 @@ a graphNEL list of all basic networks
 This function extract the basic networks of PFPRefnet class.
 }
 \examples{
-# New a PFPRefnet object
 data(PFPRefnet_hsa)
 network <- network(PFPRefnet_hsa)
 }

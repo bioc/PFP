@@ -52,7 +52,6 @@ must be the same as \code{group_name}. Default is \emph{NULL}, indicating
 extract the entire group basic networks.
 }
 \examples{
-# New a PFPRefnet object
 data(PFPRefnet_hsa)
 subnet <- subnet(PFPRefnet_hsa)
 }

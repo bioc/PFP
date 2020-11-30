@@ -38,14 +38,9 @@ The \code{gene_info_db} must be consistent with the species in
 \code{edges_data}
 }
 \examples{
-# Library the datebase of org.Hs.eg.db
-#require(org.Hs.eg.db)
-# Load the PFPRefnet of human
 data(PFPRefnet_hsa)
-# Load the list of diff genes
 data(gene_list_hsa)
 edges_kegg <- get_bg_related_kegg(gene_list_hsa,
                                   PFPRefnet=PFPRefnet_hsa,
                                   rm_duplicated = TRUE)
-#edges_kegg <- trans_edges_id(edges_kegg,gene_info_db=org.Hs.eg.db)
 }

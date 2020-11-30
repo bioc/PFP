@@ -34,7 +34,6 @@ This function extract the detail scores of every gene in the gene_list by
 specific condition.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 genes_score <- genes_score(PFP_test1)
 }

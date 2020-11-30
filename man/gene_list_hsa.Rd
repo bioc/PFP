@@ -2,14 +2,15 @@
 % Please edit documentation in R/datalist.R
 \name{gene_list_hsa}
 \alias{gene_list_hsa}
-\title{A gene list of human}
+\title{A gene list of human
+gene_list_hsa is a array of 40 genetic ENTREZID.}
 \format{
 Gene list obtained by differential gene analysis
 }
 \description{
-A dataset of gene list
+A gene list of human
+gene_list_hsa is a array of 40 genetic ENTREZID.
 }
 \examples{
-# Load the data.
 data(gene_list_hsa)
 }

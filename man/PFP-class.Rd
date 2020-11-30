@@ -52,7 +52,6 @@ sort the PFP score.}
 }
 
 \examples{
-# New a PFP object
 data(PFP_test1)
 PFP_test1
 }

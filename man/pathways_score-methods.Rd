@@ -22,7 +22,6 @@ as list, details in pathway fingerprint scores.
 This function can extract the details in pathway fingerprint scores.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 pathways_score <- pathways_score(PFP_test1)
 }

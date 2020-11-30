@@ -11,10 +11,8 @@
 #'  which may take tens of minutes.
 #' @return the kegg KGML files
 #' @examples
-#' # download the kegg network
 #' data(pathway_info)
 #' pathway_info
-#' #kegg_download(spec = "hsa", file_root="~/Desktop")
 #' @export
 kegg_download <- function(spec,file_root="."){
   # create the file dir for downloading
@@ -92,11 +90,6 @@ kegg_download <- function(spec,file_root="."){
 #' return a list of \code{graphNEL}
 #' @return Trans the xml to graph
 #' @examples
-#' # Download the kegg
-#' #kegg_download(spec = "hsa", file_root="~/Desktop")
-#' # Trans the xml to graph
-#' #graph_list <- trans_xml2graph("~/Desktop")
-#' # Show the graph
 #' data(gene_list_hsa)
 #' gene_list_hsa
 #' @export
@@ -169,7 +162,6 @@ trans_xml2graph <- function(file_dir){
 #' "index","id","name","group" and "species".
 #' @return a PFPRefnet
 #' @examples
-#' # Load the info of the pathway
 #' data(pathway_info)
 #' pathway_info
 #' @export

@@ -23,7 +23,6 @@ This function contains names of basic groups of the networks and group
 number, as well as the size of each group
 }
 \examples{
-# New a PFPRefnet object
 data(PFPRefnet_hsa)
 group <- group(PFPRefnet_hsa)
 }

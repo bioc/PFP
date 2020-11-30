@@ -1,26 +1,25 @@
 #'  Pathway fingerprint data of human
 #'
 #' A dataset containing the pathway maps of KEGG
-#'
+#' PFPRefnet_hsa is a PFPRefnet class with network(a list of length 338), net_info
+# (a datafame, 338rows and 5 columns), the main data is about human.
 #'
 #'@format A PFPRefnet object, more details see \code{\link{PFPRefnet-class}}
 #'
 #'@seealso  \code{\link{PFPRefnet-class}}
 #'@examples
-#'# Load the data.
 #'data(PFPRefnet_hsa)
 #'@name PFPRefnet_hsa
 NULL
 #'  Pathway fingerprint data of mouse
 #'
 #' A dataset containing the pathway maps of KEGG
-#'
+#' PFPRefnet_mmu  a PFPRefnet class with network(a list of length 334), net_info
+#' (a datafame, 334rows and 5 columns), the main data is about mouse.
 #'
 #'@format A PFPRefnet object, more details see \code{\link{PFPRefnet-class}}
-#'
 #'@seealso  \code{\link{PFPRefnet-class}}
 #'@examples
-#'# Load the data.
 #'data(PFPRefnet_mmu)
 #'@name PFPRefnet_mmu
 NULL
@@ -28,13 +27,13 @@ NULL
 #'  PFP_test1
 #'
 #' A dataset of PFP class
-#'
+#' a PFP class with pathways_score(a list of length 3), refnet_info
+#' (a datafame, 338rows and 3 columns), the main data is about human.
 #'
 #'@format A PFPRefnet object,
 #'
 #'@seealso  \code{\link{PFP-class}}
 #'@examples
-#'# Load the data.
 #'data(PFP_test1)
 #'@name PFP_test1
 NULL
@@ -43,46 +42,38 @@ NULL
 #'
 #' A dataset of PFP class
 #'
-#'
+#' a PFP class with pathways_score(a list of length 3), refnet_info
+#' (a datafame, 338rows and 3 columns), the main data is about human.
 #'@format A PFPRefnet object,
 #'
 #'@seealso  \code{\link{PFP-class}}
 #'@examples
-#'# Load the data.
 #'data(PFP_test2)
 #'@name PFP_test2
 NULL
 #' A matrix of counts
-#'
-#' A dataset of gene expression profile
-#'
+#' A dataset of gene expression profile, a large matrix with 21 rows and 2603 
+#' columns.
 #'
 #'@format Gene list obtained by differential gene analysis
 #'@examples
-#'# Load the data.
 #'data(data_std)
 #'@name data_std
 NULL
 #' A gene list of human
-#'
-#' A dataset of gene list
-#'
+#' gene_list_hsa is a array of 40 genetic ENTREZID.
 #'
 #'@format Gene list obtained by differential gene analysis
 #'@examples
-#'# Load the data.
 #'data(gene_list_hsa)
 #'@name gene_list_hsa
 NULL
 #'  pathway_info
-#'
-#' A pathway information
-#'
+#'  pathway_info is dataframe of the information of pathway, 539rows、4columns.
 #'
 #'@format a list
 #'
 #'@examples
-#'# Load the data.
 #'data(pathway_info)
 #'@name pathway_info
 NULL

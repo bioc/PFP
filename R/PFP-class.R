@@ -70,7 +70,6 @@
 #' \code{\link{sub_PFP-methods}}, \code{\link{show_PFP-methods}},
 #' \code{\link{plot_PFP-methods}}, \code{\link{rank_PFP-methods}},
 #' @examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'PFP_test1
 setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame"),
@@ -89,7 +88,6 @@ setClass("PFP", slot = list(pathways_score = "list", refnet_info = "data.frame")
 #'@seealso \code{\link{PFP-class}}
 #'@return as list, details in pathway fingerprint scores.
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'pathways_score <- pathways_score(PFP_test1)
 setGeneric("pathways_score",
@@ -115,7 +113,6 @@ setMethod("pathways_score",signature="PFP",
 #'@seealso \code{\link{PFP-class}}
 #'@return detail information of reference pathway networks
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'refnet_info <- refnet_info(PFP_test1)
 setGeneric("refnet_info",
@@ -141,7 +138,6 @@ setMethod("refnet_info",signature="PFP",
 #'@seealso \code{\link{PFP-class}}
 #'@return the PFP_score
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'PFP_score <- PFP_score(PFP_test1)
 setGeneric("PFP_score",
@@ -167,7 +163,6 @@ setMethod("PFP_score",signature="PFP",
 #'@seealso \code{\link{PFP-class}}
 #'@return Statistical test result of each pathway score
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'stats_test <- stats_test(PFP_test1)
 setGeneric("stats_test",
@@ -197,7 +192,6 @@ setMethod("stats_test",signature="PFP",
 #'@seealso \code{\link{PFP-class}}
 #'@return a named vector of numeric scores
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'genes_score <- genes_score(PFP_test1)
 setGeneric("genes_score",
@@ -250,7 +244,6 @@ setMethod("genes_score",signature="PFP",
 #'@docType methods
 #'@return a vector contains pathway names
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'refnet_names <- refnet_names(PFP_test1)
 setGeneric("refnet_names",
@@ -293,7 +286,6 @@ setMethod("refnet_names",signature="PFP",
 #'@seealso \code{\link{PFP-class}}
 #'@return a PFP object contains just the selected elements.
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'PFP_test1
 setGeneric("sub_PFP",
@@ -402,7 +394,6 @@ setGeneric("show_PFP",
 #' @aliases show_PFP show_PFP-methods
 #'@return show the PFP
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'show_PFP(PFP_test1)
 setMethod("show_PFP", "PFP",
@@ -444,7 +435,6 @@ globalVariables("refnet_index")
 #'@seealso \code{\link{PFP-class}}
 #'@return a plot of PFP
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'plot_PFP(PFP_test1,'line', p_size = 1, l_size = 0.5)
 setGeneric("plot_PFP",
@@ -458,12 +448,15 @@ setMethod("plot_PFP",'PFP',
           function(object, type = c('matchstick', 'line','point'),
                    p_size = 1,
                    l_size = 0.5){
+            if (nrow(object@refnet_info)<1){
+              stop("The PFP-class object is NULL!")
+            }
             type <- match.arg(type, c('matchstick', 'line','point'))
             PFP_score <- object@pathways_score[["PFP_score"]]
             PFP_refnet_group <- as.vector(object@refnet_info$group)
             sim_df <- data.frame(PFP_score = PFP_score,
                                  group = PFP_refnet_group,
-                                 refnet_index = 1:nrow(object@refnet_info))
+                                 refnet_index = seq_len(1):nrow(object@refnet_info))
             network_num <- length(PFP_score)
             if(all(!is.na(PFP_score))){ # skip plot if sim is NA
               p <- ggplot(sim_df,aes(x = refnet_index, y = PFP_score))
@@ -503,7 +496,6 @@ setMethod("plot_PFP",'PFP',
 #'@seealso \code{\link{PFP-class}}
 #'@return a ranked PFP object.
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'rank_PFP(PFP_test1,
 #'         total_rank=FALSE,
@@ -543,6 +535,9 @@ setMethod("rank_PFP",signature="PFP",
                                                  decreasing = decreasing),]
               }
               if (!is.null(thresh_slot)){
+                #refnet_info <- refnet_info[refnet_info[,"p_value"]<thresh_value,]
+                ## the modified can cause the problem of the function 
+                ## get_exp_cor_edges()
                 refnet_info1 <- refnet_info[refnet_info[,"p_value"]<thresh_value,]
                 refnet_info2 <- refnet_info[refnet_info[,"p_value"]>=thresh_value,]
                 refnet_info <- rbind(refnet_info1,refnet_info2)
@@ -595,7 +590,6 @@ setMethod("rank_PFP",signature="PFP",
 #'@seealso \code{\link{PFP-class}}
 #'@return the scores and the information of PFP object.
 #'@examples
-#'# New a PFP object
 #'data(PFP_test1)
 #'result_PFP(PFP_test1,
 #'         thresh_slot="p_adj_value",

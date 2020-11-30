@@ -39,7 +39,6 @@ display methods for S4 classes PFPRefnet, see also
 }}
 
 \examples{
-# New a PFPRefnet object
 data(PFPRefnet_hsa)
 PFPRefnet_hsa
 }

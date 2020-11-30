@@ -27,15 +27,15 @@ knitr::opts_chunk$set(
 ## Introduction
 
 Recent network fingerprint method based on GO knowledge and propagation clustering mentioned provide a novel representation of network differentiation known as biological spectra, or Network Fingerprint. This method was used to describe the relationship between multiple disease networks and its related pathways, and to visually compare and parse different diseases by generating a fingerprint overlay. To give a quantitative comparison of the mixed disease network, we achieve the function of complex network comparison based on pathway on the open scientific computing platform **R**, and present *PFP* package for fingerprint-based pathway analyzing and comparison of systems. Driven by the research needs of customers, *PFP* provides a unified interface to three similarity clustering algorithms. In addition, *PFP* can also provide multiscale statistical analysis and visualization, access to the specific attributes of different disease fingerprint.
-
-This manual is a brief introduction to structure, functions and usage of *PFP* package. The PFP package provides a set of functions to support knowledge-based network fingerprint (PFP) framework. A biomedical network is characterized as a spectrum-like vector called “network fingerprint”, which contains similarities to basic reference networks. This framework provides a more intuitive way to decipher molecular networks, especially for large-scale network comparisons and clustering analyses.
+This manual is a brief introduction to structure, functions and usage of *PFP* package. The PFP package provides a set of functions to support knowledge-based network fingerprint (PFP) framework.
+A biomedical network is characterized as a spectrum-like vector called “network fingerprint”, which contains similarities to basic reference networks. This framework provides a more intuitive way to decipher molecular networks, especially for large-scale network comparisons and clustering analyses.
 
 The three main features of *PFP*:
 
 - Basic reference networks generation.
 - Network comparison, which encompasses network merging, annotation and
 similarity scoring.
-- \item Network standardization.
+- Network standardization.
 
 ### Installation
 
@@ -48,10 +48,24 @@ if (!require(devtools))
   install.packages("devtools")
 devtools::install_github("aib-group/PFP")
 ```
+You  can also install *PFP* via Bioconductor.
+```{r install-pkg-bioconductor, eval=FALSE}
+## install PFP from github, require biocondutor dependencies package pre-installed 
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("PFP")
+```
+During analysis, you need to install *org.Hs.eg.db*, the installation strategy is as follows.
+```{r install-database-bioconductor, eval=FALSE}
+## install PFP from github, require biocondutor dependencies package pre-installed 
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("org.Hs.eg.db")
+```
 
 After installation, the \*{PFP} is ready to load into the current workspace by the following codes to the current workspace by typing or pasting the following codes:
 
-```{r load-pkg,eval=TRUE, include=FALSE}
+```{r load-pkg,eval=TRUE, include=TRUE}
 library(PFP)
 ```
 
@@ -85,25 +99,6 @@ Detailed instructions for this five methods refer to package function help.
 
 Obviously users can also customize a PFPRefnet as a reference for computing network fingerprint. Users can refer to the documents of `PFPRefnet`  about the composition details of this class. *graphite* [@sales2012g] allow users to build `graphNEL` object from several pathway databases.
 
-```{r reactome-map}
-## Reactome human pathway maps
-
-## just choose first two pathway maps for testing
-
-```
-
-Then users can create their own customized \Rclass{PFPRefnet} object as following:
-
-```{r customize-refnet,echo=TRUE, eval=TRUE}
-## here, just take the above two reactome pathway maps as PFP basic reference
-## networks as example
-
-## only one group and two reference networks
-
-
-## methods of PFPRefnet
-
-```
 
 ### Network fingerprint calculation
 
@@ -117,37 +112,55 @@ Similarity scoring. The calculation of similarity score is processed in two step
 
 To not affect the results of standardization and improve the efficiency of fingerprint calculation, we set limit on the permutation time (the default is 100) of background network randomization in the standardization process. Users can also adjust randomization time of background network according to their own demands for the precision of network fingerprint.
 
-*PFP* provides the `calc_sim_score()` function for calculating the similarity score between two networks. As the similarity score is subjected to the size of the network, we use the maslov’s method [@maslov2002specificity] to randomize a network while preserving the degree distribution. The `nperm` parameter is added to `calc_sim_score()` refers to the permutation times (the default is 100) of random network while calculating the similarity score mentioned above. We define a S4 class `PFP` in our package to store the calculation results of network fingerprints.
+*PFP* provides the `calc_sim_score()` function for calculating the similarity score of the network. As the similarity score is subjected to the size of the network, we use the maslov’s method [@maslov2002specificity] to randomize a network while preserving the degree distribution. The `nperm` parameter is added to `calc_sim_score()` refers to the permutation times (the default is 100) of random network while calculating the similarity score mentioned above. We define a S4 class `PFP` in our package to store the calculation results of network fingerprints.
 
 Simply, we choose the two pathway maps `g` as a query network, and a subset networks of `kegg_refnet` as the reference networks. Then the PFP
 can be calculated as following:
+```{r a general-pipline,eval=TRUE, include=TRUE}
+#load the data -- gene list of human; the PFPRefnet object of human; the PFP 
+#object to test; the list of different genes.
+data("gene_list_hsa")
+data("PFPRefnet_hsa")
+data("PFP_test1")
+data("data_std")
+# Step1: calculate the similarity score of network.
+PFP_test <- calc_PFP_score(genes = gene_list_hsa,PFPRefnet = PFPRefnet_hsa)
+# Step2: rank the pathway by the PFP score.
+rank1 <- rank_PFP(object = PFP_test,total_rank = TRUE,thresh_value=0.5)
+plot_PFP(rank1)
+```
+We study the target pathway, the pathway with the highest score after ranking.Below is 
+a simple example.
+```{r a the_target_gene,eval=TRUE, include=TRUE}
+# Step1: select the max score of pathway.
+pathway_select <- refnet_info(rank1)[1,"id"]
+gene_test <- pathways_score(rank1)$genes_score[[pathway_select]]$ENTREZID
+# Step2: get the correlation coefficient score of the edge.
+edges_coexp <- get_exp_cor_edges(gene_test,data_std)
+# Step3: Find the difference genes that are of focus.
+gene_list2 <- unique(c(edges_coexp$source,edges_coexp$target))
+# Step4: Find the edge to focus on.
+edges_kegg <- get_bg_related_kegg(gene_list2,PFPRefnet=PFPRefnet_hsa,
+                                  rm_duplicated = TRUE)
+# Step5: Find the associated network
+require(org.Hs.eg.db)
+net_test <- get_asso_net(edges_coexp = edges_coexp,
+                         edges_kegg = edges_kegg,
+                         if_symbol = TRUE,
+                         gene_info_db = org.Hs.eg.db)
+```
 
+            
 ### Network fingerprint visualization
 
 *PFP* provides the `plot_PFP()` function to visualize the network fingerprint of a single query network.
-
-
-```{r}
-knitr::include_graphics("000001.png")
-```
-
-```{r plot-PFP-all,echo=TRUE,eval=FALSE,fig.cap='Plot a PFP object',dev='pdf',fig.show='hold',out.width='.8\\linewidth', out.height='.7\\linewidth'}
+First we show an example of PFP score.
+```{r a PFP example, fig.height=6, fig.width=7.2, warning=FALSE}
 plot_PFP(PFP_test)
 ```
-
-```{r}
-knitr::include_graphics("000002.png")
-```
-
-The version number of R and packages loaded for generating the vignette were:
-
-```{r plot-PFP-sort,echo=TRUE,eval=FALSE,fig.cap='Plot a PFP object',dev='pdf',fig.show='hold',out.width='.8\\linewidth', out.height='.7\\linewidth'}
-rank_PFP <- rank_PFP(PFP_test,decreasing=F)
-plot_PFP(rank_PFP)
-```
-
-```{r}
-knitr::include_graphics("000003.png")
+Plot the scores from high to low.
+```{r a rank PFP, fig.height=6, fig.width=7.2, warning=FALSE}
+plot_PFP(rank1)
 ```
 
 ## Session Information
@@ -157,5 +170,3 @@ The version number of R and packages loaded for generating the vignette were:
 ```{r echo=FALSE}
 sessionInfo()
 ```
-
-## References

@@ -1,3 +1,5 @@
+# PFP 0.99.6
+* We update the package after the first review.
 # PFP 0.99.5
 * We update R version dependency from 4.0.0 to 4.1.
 

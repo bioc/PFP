@@ -8,9 +8,10 @@ A PFPRefnet object,
 }
 \description{
 A dataset of PFP class
+a PFP class with pathways_score(a list of length 3), refnet_info
+(a datafame, 338rows and 3 columns), the main data is about human.
 }
 \examples{
-# Load the data.
 data(PFP_test1)
 }
 \seealso{

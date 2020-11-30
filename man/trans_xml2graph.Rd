@@ -22,11 +22,6 @@ translate all kegg KGML files in path \code{file_dir}. It will
 return a list of \code{graphNEL}
 }
 \examples{
-# Download the kegg
-#kegg_download(spec = "hsa", file_root="~/Desktop")
-# Trans the xml to graph
-#graph_list <- trans_xml2graph("~/Desktop")
-# Show the graph
 data(gene_list_hsa)
 gene_list_hsa
 }

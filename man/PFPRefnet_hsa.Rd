@@ -8,9 +8,9 @@ A PFPRefnet object, more details see \code{\link{PFPRefnet-class}}
 }
 \description{
 A dataset containing the pathway maps of KEGG
+PFPRefnet_hsa is a PFPRefnet class with network(a list of length 338), net_info
 }
 \examples{
-# Load the data.
 data(PFPRefnet_hsa)
 }
 \seealso{

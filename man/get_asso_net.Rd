@@ -54,11 +54,7 @@ It will return a list contains two data.frames. One is the merged data.
 Another is the nodes information of the edges.
 }
 \examples{
-# Library the datebase of org.Hs.eg.db
-#require(org.Hs.eg.db)
-# Load the PFPRefnet of human
 data(PFPRefnet_hsa)
-# Load the list of diff genes
 data(data_std)
 data(PFP_test1)
 rank1 <- rank_PFP(object = PFP_test1,total_rank = TRUE)
@@ -69,9 +65,4 @@ gene_list2 <- unique(c(edges_coexp$source,edges_coexp$target))
 edges_kegg <- get_bg_related_kegg(gene_list2,
                                   PFPRefnet=PFPRefnet_hsa,
                                   rm_duplicated = TRUE)
-# Get the related kegg
-#net_test <- get_asso_net(edges_coexp = edges_coexp,
- #                        edges_kegg = edges_kegg,
-  #                       if_symbol = TRUE,
-   #                      gene_info_db = org.Hs.eg.db)
 }

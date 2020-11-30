@@ -8,9 +8,10 @@ A PFPRefnet object, more details see \code{\link{PFPRefnet-class}}
 }
 \description{
 A dataset containing the pathway maps of KEGG
+PFPRefnet_mmu  a PFPRefnet class with network(a list of length 334), net_info
+(a datafame, 334rows and 5 columns), the main data is about mouse.
 }
 \examples{
-# Load the data.
 data(PFPRefnet_mmu)
 }
 \seealso{

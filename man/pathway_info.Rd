@@ -2,14 +2,15 @@
 % Please edit documentation in R/datalist.R
 \name{pathway_info}
 \alias{pathway_info}
-\title{pathway_info}
+\title{pathway_info
+pathway_info is dataframe of the information of pathway, 539rows、4columns.}
 \format{
 a list
 }
 \description{
-A pathway information
+pathway_info
+pathway_info is dataframe of the information of pathway, 539rows、4columns.
 }
 \examples{
-# Load the data.
 data(pathway_info)
 }

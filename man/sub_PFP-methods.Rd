@@ -51,7 +51,6 @@ must be the same as \code{group_name}. Default is \emph{NULL}, indicating
 extract the entire PFP.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 PFP_test1
 }

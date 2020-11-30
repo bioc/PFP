@@ -21,7 +21,6 @@ a vector contains pathway names
 This function extract the reference pathway network names of PFP.
 }
 \examples{
-# New a PFP object
 data(PFP_test1)
 refnet_names <- refnet_names(PFP_test1)
 }

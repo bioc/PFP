@@ -21,7 +21,6 @@ show the network
 show method short for PFPRefnet object
 }
 \examples{
-# New a PFPRefnet object
 data(PFPRefnet_hsa)
 show_net(PFPRefnet_hsa)
 }

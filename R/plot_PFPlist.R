@@ -13,11 +13,8 @@ globalVariables(c("net", "sim", "refnet_index"))
 #' @seealso \code{\link{PFP-class}}
 #' @return plot the PFP list
 #' @examples
-#' # Load the data
 #' data(PFP_test1)
-#' # Get the list of pfp
 #' pfp_list <- list(a=PFP_test1)
-#' # Plot the PFP list
 #' plot_PFPlist(pfp_list)
 #' @export
 plot_PFPlist <- function(object,
@@ -30,7 +27,7 @@ plot_PFPlist <- function(object,
             do.call(what = cbind) %>%
             as.data.frame
         network_num <- nrow(pfp_score)
-        sim_df <- data.frame(pfp_score,refnet_index = 1:network_num) %>%
+        sim_df <- data.frame(pfp_score,refnet_index = seq(1):network_num) %>%
             gather(net,sim,-refnet_index)
         p <- ggplot(data = sim_df,
                     aes(x = refnet_index, y =sim)) +
