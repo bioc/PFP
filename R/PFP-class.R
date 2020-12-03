@@ -518,7 +518,7 @@ setMethod("rank_PFP",signature="PFP",
                    thresh_value = 0.05){
             refnet_info <- object@refnet_info
             refnet_info[["PFP_score"]] <- data.frame(object@pathways_score[["PFP_score"]])
-            if (nrow(object@pathways_score[["stats_test"]])==nrow(object@refnet_info)){
+            if (nrow(object@pathways_score[["stats_test"]])==nrow(object@refnet_info) & !is.null(thresh_slot)){
               if (thresh_slot=="p_adj_value"){
                 refnet_info[["p_value"]] <- data.frame(object@pathways_score[["stats_test"]][,"p_adj_value"])
               }else if (thresh_slot=="p_value"){
@@ -534,14 +534,14 @@ setMethod("rank_PFP",signature="PFP",
                                                  -refnet_info[,"p_value"],
                                                  decreasing = decreasing),]
               }
-              if (!is.null(thresh_slot)){
+              # if (!is.null(thresh_slot)){
                 #refnet_info <- refnet_info[refnet_info[,"p_value"]<thresh_value,]
                 ## the modified can cause the problem of the function 
                 ## get_exp_cor_edges()
-                refnet_info1 <- refnet_info[refnet_info[,"p_value"]<thresh_value,]
-                refnet_info2 <- refnet_info[refnet_info[,"p_value"]>=thresh_value,]
-                refnet_info <- rbind(refnet_info1,refnet_info2)
-              }
+              refnet_info1 <- refnet_info[refnet_info[,"p_value"]<thresh_value,]
+              refnet_info2 <- refnet_info[refnet_info[,"p_value"]>=thresh_value,]
+              refnet_info <- rbind(refnet_info1,refnet_info2)
+              #}
             }else{
               if (total_rank==TRUE){
                 refnet_info <- refnet_info[order(refnet_info[,"PFP_score"],
