@@ -6,13 +6,13 @@
 #' "mmu"...
 #' @param file_root, a character,refers to the root you want to save kegg
 #' pathway kgml files in.
-#' @details Downloading all kegg KGML files assigned by \code{spec} from
+#' @details  Downloading all kegg KGML files assigned by \code{spec} from
 #'  https://www.kegg.jp/kegg/xml/,
 #'  which may take tens of minutes.
 #' @return the kegg KGML files
 #' @examples
-#' data(pathway_info)
-#' pathway_info
+#' # download the kegg network
+#' kegg_download(spec = "hsa", file_root="~/Desktop")
 #' @export
 kegg_download <- function(spec,file_root="."){
   # create the file dir for downloading
@@ -86,10 +86,15 @@ kegg_download <- function(spec,file_root="."){
 #' \code{file_dir}.
 #' @param file_dir, a character, refers to the file_path where kegg KGML files
 #' are stored.
-#' @details translate all kegg KGML files in path \code{file_dir}. It will
+#' @details, translate all kegg KGML files in path \code{file_dir}. It will
 #' return a list of \code{graphNEL}
 #' @return Trans the xml to graph
 #' @examples
+#' # Download the kegg
+#' #kegg_download(spec = "hsa", file_root="~/Desktop")
+#' # Trans the xml to graph
+#' #graph_list <- trans_xml2graph("~/Desktop")
+#' # Show the graph
 #' data(gene_list_hsa)
 #' gene_list_hsa
 #' @export
@@ -104,7 +109,7 @@ trans_xml2graph <- function(file_dir){
   if (length(xml_list)==0){
     stop("Please input a file dir which contains at least one kgml file!")
   }
-  graph_list <- lapply(X = xml_list, FUN = function(file_name) try(
+  graph_list <- lapply(X = xml_list, FUN = function(file_name)try(
     parseKGML2Graph(paste0(file_dir,"/",file_name))))
   names(graph_list) <- xml_list
   # remove pathways which failed to be translated
@@ -139,13 +144,55 @@ trans_xml2graph <- function(file_dir){
                   edgeL=edgeL(graph0),
                   edgemode='directed')
   }
-  graph_list <- lapply(names(graph_list), FUN = fun_trans,graph_list)
+  graph_list2 <- lapply(names(graph_list), FUN = fun_trans,graph_list)
   names(graph_list2) <- names(graph_list)
   graph_list2
   # save(list = c("graph_list"),file = paste0(file_dir,"/graph_list.RData"))
   # graph_list
 }
 
+
+
+# get_pathway_info
+#' @title get pathway info of a species in KEGG
+#' @description This function helps get pathway info of a species in KEGG.
+#' @param spec, a character, refers to the species in KEGG. hsa, mmu...
+#' @details, get pathway info of a species in KEGG. It will
+#' return a data.frame.
+#' @return a data.frame whose colnames contains "index","id","name" and "group"
+#' @examples
+#' pathway_info <- get_pathway_info("hsa")
+#' @export
+get_pathway_info <- function(spec){
+  url <- paste0("https://www.kegg.jp/kegg-bin/show_organism",
+                "?menu_type=pathway_maps&org=",spec)
+  page <- readLines(url)
+  group_num <- grep("^<b>.*</b>$", page)
+  pathway_num <- grep("^0.*</a><br>$", page)
+  group_num2 <- c(group_num,length(page))
+
+  list_pathway_num <- lapply(seq(length(group_num)),
+                             function(i)intersect(group_num2[i]:group_num2[i+1],
+                                                  pathway_num))
+
+  pathway_info <- lapply(seq(length(group_num)),function(i){
+    group0 <- substr(page[group_num[i]],4,nchar(page[group_num[i]])-4)
+    pathway_info0 <- lapply(X = list_pathway_num[[i]],
+                            FUN = function(j){
+                              str_sub <- sub(pattern = "[0-9].*pathway\\?",
+                                             replacement = "",x = page[j])
+                              c(substr(str_sub,1,8),
+                                substr(str_sub,11,nchar(str_sub)-8),
+                                group0)
+                            })
+    pathway_info0 <- data.frame(t(data.frame(pathway_info0)))
+    colnames(pathway_info0) <- c("id","name","group")
+    rownames(pathway_info0) <- 1:nrow(pathway_info0)
+    pathway_info0
+  })
+  pathway_info <- do.call(rbind,pathway_info)
+  pathway_info <- cbind(data.frame(index=1:nrow(pathway_info)),pathway_info)
+}
 
 
 
@@ -156,21 +203,22 @@ trans_xml2graph <- function(file_dir){
 #' @param graph_list, a list of \code{\link{graphNEL}}.
 #' @param pathway_info, a data.frame, which contains all kegg pathways "index",
 #' "id","name","group","species"
-#' @details translating all graphs in \code{graph_list} to a
+#' @details, translating all graphs in \code{graph_list} to a
 #' \code{\link{PFPRefnet-class}} object.
 #' The pathway_info can be designed by yourself, but the colnames must be
 #' "index","id","name","group" and "species".
 #' @return a PFPRefnet
 #' @examples
+#' # Load the info of the pathway
 #' data(pathway_info)
 #' pathway_info
 #' @export
 trans_graph2PFPRefnet  <- function(graph_list,pathway_info){
   spec <- substr(names(graph_list)[1],1,3)
   name_len <- nchar(names(graph_list)[1])
-  id_graphlist <- data.frame(id = substr(names(graph_list),4,name_len))
+  id_graphlist <- data.frame(id = names(graph_list))
   pathway_info <- merge(id_graphlist,pathway_info,by="id",all.x=TRUE)
-  pathway_info[["id"]] <- paste0(rep(spec,nrow(pathway_info)),pathway_info$id)
+  pathway_info[["id"]] <- pathway_info$id
   pathway_info[["species"]] <- rep(spec,nrow(pathway_info))
   pathway_info <- pathway_info[order(pathway_info$index,decreasing = FALSE),
                                c("index","id","name","group","species")]
@@ -181,15 +229,25 @@ trans_graph2PFPRefnet  <- function(graph_list,pathway_info){
 }
 
 
-# library(KEGGgraph) # parseKGML2Graph
-# library(graph) # nodes edgeL edgeData
-# #library(igraph)
-# #library(BioNet)
-# test
-# spec <- "mmu"
-# kegg_download(spec,file_root="/home/zx/文档/test")
-# file_dir <- "/home/zx/文档/test/kgml/mmu/"
-# graph_list <- trans_xml2graph(file_dir)
-# load("/home/zx/文档/PFP/RData/pathway_info.RData")
-# PFPRefnet_mmu <- trans_graph2PFPRefnet(graph_list,pathway_info)
-# save(list = c("PFPRefnet_mmu"),file = "/home/zx/文档/kangqichuang/PFP/data/PFPRefnet_mmu.RData")
+# get_PFPRefnet
+#' @title get a PFPRefnet for a species
+#' @description This function helps update the latest PFPRefnet odject for a species
+#' @param spec, a character, refers to the species in KEGG. hsa, mmu...
+#' @param file_root, a character, file dir to download the kgml files.
+#' @details, gupdate the latest PFPRefnet odject for a species in KEGG. It will
+#' return a PFPRefnet object.
+#' @return a PFPRefnet object.
+#' @examples
+#' PFPRefnet1 <- get_PFPRefnet("hsa",".")
+#' @export
+get_PFPRefnet <- function(spec,file_root="."){
+  if (substr(file_root,nchar(file_root),nchar(file_root)) == "/"){
+    file_root <- substr(file_root,1,(nchar(file_root)-1))
+  }
+  kegg_download(spec=spec,file_root=file_root)
+  graph_list <- trans_xml2graph(file_dir=paste0(file_root,"/kgml/",spec))
+  pathway_info <- get_pathway_info(spec = spec)
+  trans_graph2PFPRefnet(graph_list=graph_list,pathway_info=pathway_info)
+}
+
+# PFPRef <- get_PFPRefnet("hsa","~/Desktop")
