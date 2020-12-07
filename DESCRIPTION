@@ -24,7 +24,8 @@ Imports:
 Suggests:
     knitr,
     testthat,
-    rmarkdown
+    rmarkdown,
+    org.Hs.eg.db
 License: GPL-2
 Encoding: UTF-8
 LazyData: FALSE
