@@ -33,7 +33,7 @@ we propose a novel, general and systematic method called Pathway Fingerprint to 
 
 The three main features of *PFP*:
 
-- PFP class，the differential genes were mapped to the KEGG pathway and the PFP score was calculated.
+- PFP class, the differential genes were mapped to the KEGG pathway and the PFP score was calculated.
 - PFPRefnet class, the selected sample in KEGG with network information.
 - visualization, a fingerprint overlay.
 
@@ -107,7 +107,7 @@ it provides six  methods for this S4 class::
 
 1. Input differential gene list
 2. Extract the network information of KEGG base map.
-3，The channel fingerprint score was calculated and converted to PFP format.
+3. The channel fingerprint score was calculated and converted to PFP format.
 
 Then the PFP can be calculated as following:
 ```{r a general-pipline,eval=TRUE, include=TRUE}
