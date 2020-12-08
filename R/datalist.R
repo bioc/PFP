@@ -69,7 +69,7 @@ NULL
 #'@name gene_list_hsa
 NULL
 #'  pathway_info
-#'  pathway_info is dataframe of the information of pathway, 539rows、4columns.
+#'  pathway_info is dataframe of the information of pathway, 539rows, 4columns.
 #'
 #'@format a list
 #'

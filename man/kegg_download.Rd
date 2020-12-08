@@ -25,7 +25,3 @@ Downloading all kegg KGML files assigned by \code{spec} from
 https://www.kegg.jp/kegg/xml/,
 which may take tens of minutes.
 }
-\examples{
-data(pathway_info)
-pathway_info
-}

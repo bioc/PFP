@@ -26,6 +26,6 @@ The pathway_info can be designed by yourself, but the colnames must be
 "index","id","name","group" and "species".
 }
 \examples{
-data(pathway_info)
-pathway_info
+data(PFPRefnet_hsa)
+PFPRefnet_hsa
 }

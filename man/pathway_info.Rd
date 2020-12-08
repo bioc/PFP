@@ -3,13 +3,13 @@
 \name{pathway_info}
 \alias{pathway_info}
 \title{pathway_info
-pathway_info is dataframe of the information of pathway, 539rows、4columns.}
+pathway_info is dataframe of the information of pathway, 539rows, 4columns.}
 \format{
 a list
 }
 \description{
 pathway_info
-pathway_info is dataframe of the information of pathway, 539rows、4columns.
+pathway_info is dataframe of the information of pathway, 539rows, 4columns.
 }
 \examples{
 data(pathway_info)
