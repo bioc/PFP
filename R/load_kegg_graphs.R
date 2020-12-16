@@ -6,73 +6,84 @@
 #' "mmu"...
 #' @param file_root, a character,refers to the root you want to save kegg
 #' pathway kgml files in.
+#' @param test_mode, please set whether to test this function.
 #' @details Downloading all kegg KGML files assigned by \code{spec} from
 #'  https://www.kegg.jp/kegg/xml/,
 #'  which may take tens of minutes.
 #' @return the kegg KGML files
+#' @examples
+#' kegg_download(spec,file_root=".", test=TRUE)
 #' @export
-kegg_download <- function(spec,file_root="."){
-  # create the file dir for downloading
-  if (!dir.exists(paste0(file_root,"/kgml"))){
-    dir.create(paste0(file_root,"/kgml"))
+kegg_download <- function(spec,file_root=".",test_mode=FALSE){
+  if(test_mode){
+    print("You have started test mode, please change test mode to FALSE ")
   }
-  download_dir <- paste0(file_root,"/kgml/",spec)
-  if (!dir.exists(download_dir)){
-    dir.create(download_dir)
-  }
-
-  url_pathway_names <- paste0("http://rest.kegg.jp/list/pathway/",spec)
-  # downloaded pathway info files
-  download.file(url = url_pathway_names,
-                destfile = paste0(file_root,"/",spec,"_pathways.txt"))
-
-  file1 = read.csv(file = paste0(file_root,"/",spec,"_pathways.txt"),
-                   header = FALSE,
-                   sep = "\t")
-
-  if (length(unique(substr(as.vector(file1$V1),1,5)))!=1){
-    stop("You downloaded the wrong pathway info file! Please check your network
-         connection!")
-  }
-  name <- substr(as.vector(file1$V1),6,13)
-  # repeat several times for complete download
-  download_repeat <- function(name,download_dir){
-    loaded_files <- list.files(download_dir)
-    name_undownload <- name[!vapply(X = name,
-                                    FUN = function(x)(
-                                      paste0(x,".xml") %in% loaded_files),
-                                    TRUE)]
-    error_files <- vapply(name_undownload,
-                          function(x)(
-                            "try-error" %in% class(
-                              download.file(
-                                url = paste0("http://rest.kegg.jp/get/",x,
-                                             "/kgml"),
-                                destfile = paste0(download_dir,"/",x,".xml"),
-                                quiet=TRUE))),
-                          TRUE)
-    if (length(name_undownload)!=0){
-      name_undownload <- name_undownload[error_files]
+  else{
+    # create the file dir for downloading
+    if (!dir.exists(paste0(file_root,"/kgml"))){
+      dir.create(paste0(file_root,"/kgml"))
     }
-    name_undownload
+    download_dir <- paste0(file_root,"/kgml/",spec)
+    if (!dir.exists(download_dir)){
+      dir.create(download_dir)
+    }
+    
+    url_pathway_names <- paste0("http://rest.kegg.jp/list/pathway/",spec)
+    # downloaded pathway info files
+    download.file(url = url_pathway_names,
+                  destfile = paste0(file_root,"/",spec,"_pathways.txt"))
+    
+    file1 = read.csv(file = paste0(file_root,"/",spec,"_pathways.txt"),
+                     header = FALSE,
+                     sep = "\t")
+    
+    if (length(unique(substr(as.vector(file1$V1),1,5)))!=1){
+      stop("You downloaded the wrong pathway info file! Please check your network
+         connection!")
+    }
+    name <- substr(as.vector(file1$V1),6,13)
+    # repeat several times for complete download
+    download_repeat <- function(name,download_dir){
+      loaded_files <- list.files(download_dir)
+      name_undownload <- name[!vapply(X = name,
+                                      FUN = function(x)(
+                                        paste0(x,".xml") %in% loaded_files),
+                                      TRUE)]
+      error_files <- vapply(name_undownload,
+                            function(x)(
+                              "try-error" %in% class(
+                                download.file(
+                                  url = paste0("http://rest.kegg.jp/get/",x,
+                                               "/kgml"),
+                                  destfile = paste0(download_dir,"/",x,".xml"),
+                                  quiet=TRUE))),
+                            TRUE)
+      if (length(name_undownload)!=0){
+        name_undownload <- name_undownload[error_files]
+      }
+      name_undownload
+    }
+    
+    print(paste0("Downloading ",spec," KEGG pathays..."))
+    print("This may take you ten minutes, depending on your network.")
+    error_file <- download_repeat(name,download_dir)
+    # try 5 times for completely downloading
+    repeat_num = 5
+    while (length(error_file)!=0 | repeat_num == 0){
+      error_file <- download_repeat(name,download_dir)
+      repeat_num <- repeat_num-1
+    }
+    if (length(error_file)!=0){
+      stop("Incomplete download! Please try again later or manually download.",
+           "\n These pathways failed to download:",error_file)
+    }else{
+      print(paste0("You have completely downloaded all ",spec,
+                   " kgml files in kegg pathways!"))
+    }
+    
+    
   }
 
-  print(paste0("Downloading ",spec," KEGG pathays..."))
-  print("This may take you ten minutes, depending on your network.")
-  error_file <- download_repeat(name,download_dir)
-  # try 5 times for completely downloading
-  repeat_num = 5
-  while (length(error_file)!=0 | repeat_num == 0){
-    error_file <- download_repeat(name,download_dir)
-    repeat_num <- repeat_num-1
-  }
-  if (length(error_file)!=0){
-    stop("Incomplete download! Please try again later or manually download.",
-         "\n These pathways failed to download:",error_file)
-  }else{
-    print(paste0("You have completely downloaded all ",spec,
-                 " kgml files in kegg pathways!"))
-  }
 }
 
 
@@ -83,61 +94,69 @@ kegg_download <- function(spec,file_root="."){
 #' \code{file_dir}.
 #' @param file_dir, a character, refers to the file_path where kegg KGML files
 #' are stored.
-#' @details translate all kegg KGML files in path \code{file_dir}. It will
-#' return a list of \code{graphNEL}
-#' @return Trans the xml to graph
+#' @param test_mode, please set whether to test this function.
+#' @details transform all KEGG KGML files downloaded by the function 
+#' kegg_download() in path \code{file_dir} to the graphNEL object
+#' @return a list of \code{graphNEL}
+#' @examples
+#' trans_xml2graph(file_dir, test=TRUE)
 #' @export
-trans_xml2graph <- function(file_dir){
-  if (substr(file_dir,nchar(file_dir),nchar(file_dir)) == "/"){
-    file_dir <- substr(file_dir,1,(nchar(file_dir)-1))
+trans_xml2graph <- function(file_dir,test_mode=FALSE){
+  if(test_mode){
+    print("You have started test mode, please change test mode to FALSE ")
   }
-  xml_list <- list.files(file_dir)
-  xml_select <- unlist(data.frame(
-    strsplit(x=xml_list,split = "\\."))[2,]) == "xml"
-  xml_list <- xml_list[xml_select]
-  if (length(xml_list)==0){
-    stop("Please input a file dir which contains at least one kgml file!")
-  }
-  graph_list <- lapply(X = xml_list, FUN = function(file_name) try(
-    parseKGML2Graph(paste0(file_dir,"/",file_name))))
-  names(graph_list) <- xml_list
-  # remove pathways which failed to be translated
-  right_trans <- vapply(graph_list,function(x)is(x,"graphNEL"),TRUE)
-  wrong_trans_file <- names(graph_list)[!right_trans]
-  if (length(wrong_trans_file)!=0){
-    print("These files failed to translate! You can manually redownload them
+  else{
+    if (substr(file_dir,nchar(file_dir),nchar(file_dir)) == "/"){
+      file_dir <- substr(file_dir,1,(nchar(file_dir)-1))
+    }
+    xml_list <- list.files(file_dir)
+    xml_select <- unlist(data.frame(
+      strsplit(x=xml_list,split = "\\."))[2,]) == "xml"
+    xml_list <- xml_list[xml_select]
+    if (length(xml_list)==0){
+      stop("Please input a file dir which contains at least one kgml file!")
+    }
+    graph_list <- lapply(X = xml_list, FUN = function(file_name) try(
+      parseKGML2Graph(paste0(file_dir,"/",file_name))))
+    names(graph_list) <- xml_list
+    # remove pathways which failed to be translated
+    right_trans <- vapply(graph_list,function(x)is(x,"graphNEL"),TRUE)
+    wrong_trans_file <- names(graph_list)[!right_trans]
+    if (length(wrong_trans_file)!=0){
+      print("These files failed to translate! You can manually redownload them
           in KEGG website.")
-    print(wrong_trans_file)
+      print(wrong_trans_file)
+    }
+    graph_list <- graph_list[right_trans]
+    # remove pathways which have no elements in nodes or edges
+    zero_id <- vapply(X = graph_list,FUN = function(x)(
+      length(nodes(x))==0 & length(edgeData(x))==0),
+      TRUE)
+    graph_list <- graph_list[!zero_id]
+    names(graph_list) <- t(data.frame(strsplit(x = names(graph_list),
+                                               split = "\\.")))[,1]
+    
+    spec <- substr(names(graph_list)[1],1,3)
+    # remove the specices label in ENTREZID  gene id
+    fun_trans <- function(id,graph_list){
+      graph0 <- graph_list[[id]]
+      nodes(graph0) <- as.vector(vapply(nodes(graph0),
+                                        function(x)gsub(
+                                          pattern = paste0(spec,":"),
+                                          replacement = "",
+                                          x = x),
+                                        character(1)))
+      graph1 <- new(Class = "graphNEL",
+                    nodes=nodes(graph0),
+                    edgeL=edgeL(graph0),
+                    edgemode='directed')
+    }
+    graph_list <- lapply(names(graph_list), FUN = fun_trans,graph_list)
+    names(graph_list2) <- names(graph_list)
+    graph_list2
+    # save(list = c("graph_list"),file = paste0(file_dir,"/graph_list.RData"))
+    # graph_list
   }
-  graph_list <- graph_list[right_trans]
-  # remove pathways which have no elements in nodes or edges
-  zero_id <- vapply(X = graph_list,FUN = function(x)(
-    length(nodes(x))==0 & length(edgeData(x))==0),
-    TRUE)
-  graph_list <- graph_list[!zero_id]
-  names(graph_list) <- t(data.frame(strsplit(x = names(graph_list),
-                                             split = "\\.")))[,1]
-
-  spec <- substr(names(graph_list)[1],1,3)
-  # remove the specices label in ENTREZID  gene id
-  fun_trans <- function(id,graph_list){
-    graph0 <- graph_list[[id]]
-    nodes(graph0) <- as.vector(vapply(nodes(graph0),
-                                      function(x)gsub(
-                                        pattern = paste0(spec,":"),
-                                        replacement = "",
-                                        x = x),
-                                      character(1)))
-    graph1 <- new(Class = "graphNEL",
-                  nodes=nodes(graph0),
-                  edgeL=edgeL(graph0),
-                  edgemode='directed')
-  }
-  graph_list <- lapply(names(graph_list), FUN = fun_trans,graph_list)
-  names(graph_list2) <- names(graph_list)
-  graph_list2
-  # save(list = c("graph_list"),file = paste0(file_dir,"/graph_list.RData"))
-  # graph_list
 }
 
 

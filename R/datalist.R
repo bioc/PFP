@@ -77,3 +77,14 @@ NULL
 #'data(pathway_info)
 #'@name pathway_info
 NULL
+#'  pathway_info
+#'  pathway_info is dataframe of the information of pathway, 539rows, 4columns.
+#'
+#'@format a list
+#'  pathway_info_hsa
+#'  pathway_info_hsa is dataframe of the information of pathway, 539rows, 
+#'  4columns. The main data is about human.
+#'@examples
+#'data(pathway_info_hsa)
+#'@name pathway_info_hsa
+NULL

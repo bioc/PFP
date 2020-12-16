@@ -4,20 +4,25 @@
 \alias{trans_xml2graph}
 \title{translate kgml files to graphNEl}
 \usage{
-trans_xml2graph(file_dir)
+trans_xml2graph(file_dir, test_mode = FALSE)
 }
 \arguments{
 \item{file_dir, }{a character, refers to the file_path where kegg KGML files
 are stored.}
+
+\item{test_mode, }{please set whether to test this function.}
 }
 \value{
-Trans the xml to graph
+a list of \code{graphNEL}
 }
 \description{
 This function will translate all kegg KGML files in path
 \code{file_dir}.
 }
 \details{
-translate all kegg KGML files in path \code{file_dir}. It will
-return a list of \code{graphNEL}
+transform all KEGG KGML files downloaded by the function
+kegg_download() in path \code{file_dir} to the graphNEL object
+}
+\examples{
+trans_xml2graph(file_dir, test=TRUE)
 }

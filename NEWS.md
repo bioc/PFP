@@ -1,3 +1,6 @@
+# PFP 0.99.11
+* We update the package after the first review.
+
 # PFP 0.99.7
 * 1. The error reporting problem of THRESH_slot =NULL in rank_PFP is 
 * solved in PFP-class.R.

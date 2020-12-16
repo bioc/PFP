@@ -4,7 +4,7 @@
 \alias{kegg_download}
 \title{download kegg KGML files}
 \usage{
-kegg_download(spec, file_root = ".")
+kegg_download(spec, file_root = ".", test_mode = FALSE)
 }
 \arguments{
 \item{spec, }{a character, refers to the species names in kegg, such as "hsa",
@@ -12,6 +12,8 @@ kegg_download(spec, file_root = ".")
 
 \item{file_root, }{a character,refers to the root you want to save kegg
 pathway kgml files in.}
+
+\item{test_mode, }{please set whether to test this function.}
 }
 \value{
 the kegg KGML files
@@ -24,4 +26,7 @@ This function will download all kegg KGML files assigned by
 Downloading all kegg KGML files assigned by \code{spec} from
 https://www.kegg.jp/kegg/xml/,
 which may take tens of minutes.
+}
+\examples{
+kegg_download(spec,file_root=".", test=TRUE)
 }
