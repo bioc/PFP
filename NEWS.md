@@ -1,3 +1,6 @@
+# PFP 0.99.12
+* Remove bugs in *.R, date: 2020.12.19.
+
 # PFP 0.99.11
 * We update the package after the first review.
 

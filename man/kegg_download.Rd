@@ -28,5 +28,5 @@ https://www.kegg.jp/kegg/xml/,
 which may take tens of minutes.
 }
 \examples{
-kegg_download(spec,file_root=".", test=TRUE)
+kegg_download(spec,file_root=".", test_mode=TRUE)
 }
